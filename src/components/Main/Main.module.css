@@ -1,0 +1,10 @@
+.Main {
+    /* background-color: rgb(25, 225, 236); */
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 150px;
+}
