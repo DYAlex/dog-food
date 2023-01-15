@@ -5,7 +5,10 @@ function Header() {
   return (
     <div className={headerStyles.Header}>
       <p>Header</p>
-      <Link to="./signup">Зарегистрироваться</Link>
+      <div>
+        <Link to="./signin" className={headerStyles.Link}>Войти</Link>
+        <Link to="./signup" className={headerStyles.Link}>Зарегистрироваться</Link>
+      </div>
     </div>
   )
 }

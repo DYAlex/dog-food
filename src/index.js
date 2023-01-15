@@ -7,6 +7,7 @@ import Main from './components/Main/Main'
 import ProductPage from './components/ProductPage/ProductPage'
 import ProductDetail from './components/ProductDetail/ProductDetail'
 import SignUp from './components/SignUp/SignUp'
+import SignIn from './components/SignIn/SignIn'
 
 const Router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const Router = createBrowserRouter([
       {
         path: 'signup',
         element: <SignUp />,
+      },
+      {
+        path: 'signin',
+        element: <SignIn />,
       },
       {
         path: 'products/',

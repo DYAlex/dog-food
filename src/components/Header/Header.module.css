@@ -8,3 +8,7 @@
     padding: 0 1rem;
     box-sizing: border-box;
 }
+
+.Link:not(:last-child) {
+    margin-right: 1rem;
+}
