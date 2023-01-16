@@ -24,16 +24,53 @@ function SignUp() {
         onSubmit={submitHandler}
       >
         <Form className={SignUpStyles.Form}>
-          <Field name="email" placeholder="Электронная почта" type="email" />
-          <ErrorMessage component="p" className="error" name="email" />
+          <div className={SignUpStyles.Form_Group}>
+            <p className={SignUpStyles.Form_Label}>Электронная почта</p>
+            <Field
+              id="email"
+              name="email"
+              placeholder="Электронная почта"
+              type="email"
+              className={SignUpStyles.Form_Field}
+            />
+            <ErrorMessage
+              component="p"
+              className="error"
+              name="email"
+            />
+          </div>
 
-          <Field name="group" type="text" placeholder="sm9" />
-          <ErrorMessage component="p" className="error" name="group" />
+          <div className={SignUpStyles.Form_Group}>
+            <p className={SignUpStyles.Form_Label}>Группа</p>
+            <Field
+              name="group"
+              type="text"
+              placeholder="sm9"
+              className={SignUpStyles.Form_Field}
+            />
+            <ErrorMessage
+              component="p"
+              className="error"
+              name="group"
+            />
+          </div>
 
-          <Field name="password" placeholder="Пароль" type="password" />
-          <ErrorMessage component="p" className="error" name="password" />
+          <div className={SignUpStyles.Form_Group}>
+            <p className={SignUpStyles.Form_Label}>Пароль</p>
+            <Field
+              name="password"
+              placeholder="Пароль"
+              type="password"
+              className={SignUpStyles.Form_Field}
+            />
+            <ErrorMessage
+              component="p"
+              className="error"
+              name="password"
+            />
+          </div>
 
-          <button type="submit">Зарегистрироваться</button>
+          <button type="submit" className="btn btn-action">Зарегистрироваться</button>
         </Form>
       </Formik>
     </div>

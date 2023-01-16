@@ -1,14 +1,38 @@
 .Header {
     background-color: rgb(236, 208, 25);
     width: 100%;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-height: 150px;
     padding: 0 1rem;
     box-sizing: border-box;
 }
 
-.Link:not(:last-child) {
-    margin-right: 1rem;
+.Buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
 }
+
+.Button {
+    border: 1px solid #333;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0.25rem 1rem;
+}
+
+.Link {
+    text-decoration: none;
+    color: #333;
+}
+
+.Logo img {
+    height: 50px;
+}
+
+/* @media (max-width: 500px) {
+    .Header {
+        background-color: red;
+    }
+} */

@@ -6,4 +6,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.btn {
+  border: none;
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+}
+
+.btn-action {
+  background-color: rgb(236, 208, 25);
+  color: #333;
 }

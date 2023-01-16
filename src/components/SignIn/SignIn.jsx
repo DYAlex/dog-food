@@ -23,13 +23,42 @@ function SignIn() {
         onSubmit={submitHandler}
       >
         <Form className={SignInStyles.Form}>
-          <Field name="email" placeholder="Электронная почта" type="email" />
-          <ErrorMessage component="p" className="error" name="email" />
+          <div className={SignInStyles.Form_Group}>
+            <p className={SignInStyles.Form_Label}>Электронная почта</p>
+            <Field
+              name="email"
+              placeholder="Электронная почта"
+              type="email"
+              className={SignInStyles.Form_Field}
+            />
+            <ErrorMessage
+              component="p"
+              className="error"
+              name="email"
+            />
+          </div>
 
-          <Field name="password" placeholder="Пароль" type="password" />
-          <ErrorMessage component="p" className="error" name="password" />
+          <div className={SignInStyles.Form_Group}>
+            <p className={SignInStyles.Form_Label}>Пароль</p>
+            <Field
+              name="password"
+              placeholder="Пароль"
+              type="password"
+              className={SignInStyles.Form_Field}
+            />
+            <ErrorMessage
+              component="p"
+              className="error"
+              name="password"
+            />
+          </div>
 
-          <button type="submit">Войти</button>
+          <button
+            type="submit"
+            className="btn btn-action"
+          >
+            Войти
+          </button>
         </Form>
       </Formik>
     </div>
