@@ -1,10 +1,46 @@
 .Footer {
-    background-color: rgb(236, 208, 25);
+    background-color: rgb(255, 236, 113);
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 1rem;
+    gap: 1rem;
     box-sizing: border-box;
     height: 150px;
+}
+
+.Link {
+    text-decoration: none;
+    color: #333;
+}
+
+.Logo img {
+    height: 50px;
+}
+
+.Secondary {
+    color: #777;
+}
+
+.column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.2rem;
+}
+
+.smaller {
+    font-size: 0.7rem;
+}
+
+.icon {
+    margin-right: 0.2rem;
+}
+
+.BtnWr {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
 }

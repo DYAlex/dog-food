@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom'
-// import logo from '../../images/logo-husky-black.svg'
+import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 
+const vw = window.innerWidth
 function Header() {
+  console.log(vw)
   return (
     <div className={headerStyles.Header}>
       <div className={headerStyles.Logo}>
         <Link to="/" className={headerStyles.Link}>
-          <img src={logoWithLetters} alt="" />
+          <img src={vw > 768 ? logoWithLetters : logo} alt="" />
         </Link>
       </div>
       <div className={headerStyles.Search}>
