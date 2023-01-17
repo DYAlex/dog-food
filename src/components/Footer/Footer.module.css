@@ -2,12 +2,20 @@
     background-color: rgb(255, 236, 113);
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 1rem;
     gap: 1rem;
     box-sizing: border-box;
     height: 150px;
+}
+
+.wr {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 1rem;
 }
 
 .Link {
