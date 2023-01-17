@@ -1,4 +1,6 @@
 .Search_Field {
     border-radius: 25px;
-    padding: 0.2rem 0.5rem;
+    border: none;
+    padding: 0.5rem 1rem;
+    width: 100%;
 }
