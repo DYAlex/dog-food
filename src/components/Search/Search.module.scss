@@ -1,0 +1,44 @@
+.Search {
+  position: relative;
+}
+
+.Search_Field {
+  border-radius: 25px;
+  border: none;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.Search_Field::placeholder {
+  color: #aaa;
+}
+
+.Search_Field:focus {
+  border: 1px solid #aaa;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.1);
+}
+
+.Search_FieldIcon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  right: 0.875rem;
+  width: 1rem;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.15s ease-in-out;
+}
+
+.Search_FieldIcon:hover {
+  color: #333;
+}
+
+.Search_Field:not(:placeholder-shown) {
+  + .Search_FieldIcon {
+    display: none;
+  }
+}
