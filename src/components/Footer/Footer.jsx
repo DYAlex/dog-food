@@ -99,31 +99,31 @@ function Footer() {
               to="/"
               className={classNames(FooterStyles.Link)}
             >
-              <FontAwesomeIcon icon={faTelegram} />
+              <FontAwesomeIcon icon={faTelegram} className={classNames(FooterStyles.Secondary)} />
             </Link>
             <Link
               to="/"
               className={classNames(FooterStyles.Link)}
             >
-              <FontAwesomeIcon icon={faWhatsapp} />
+              <FontAwesomeIcon icon={faWhatsapp} className={classNames(FooterStyles.Secondary)} />
             </Link>
             <Link
               to="/"
               className={classNames(FooterStyles.Link)}
             >
-              <FontAwesomeIcon icon={faViber} />
+              <FontAwesomeIcon icon={faViber} className={classNames(FooterStyles.Secondary)} />
             </Link>
             <Link
               to="/"
               className={classNames(FooterStyles.Link)}
             >
-              <FontAwesomeIcon icon={faInstagram} />
+              <FontAwesomeIcon icon={faInstagram} className={classNames(FooterStyles.Secondary)} />
             </Link>
             <Link
               to="/"
               className={classNames(FooterStyles.Link)}
             >
-              <FontAwesomeIcon icon={faVk} />
+              <FontAwesomeIcon icon={faVk} className={classNames(FooterStyles.Secondary)} />
             </Link>
           </div>
         </div>
