@@ -1,6 +1,8 @@
+import { useMutation } from '@tanstack/react-query'
 import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import { signUpFormValidationSchema } from '../validator'
 import SignUpStyles from './SignUp.module.css'
 
@@ -11,8 +13,38 @@ const initialValues = {
 }
 
 function SignUp() {
-  const submitHandler = (values) => {
-    console.log({ values })
+  const navigate = useNavigate()
+
+  const { mutateAsync, isLoading } = useMutation({
+    mutationFn: (data) => fetch('https://api.react-learning.ru/signup', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.status >= 400 && res.status < 500) {
+        throw new Error(`Произошла ошибка при создании учетной записи. 
+        Проверьте отправляемые данные. Status: ${res.status}`)
+      }
+
+      if (res.status >= 500) {
+        throw new Error(`Произошла ошибка при получении ответа от сервера. 
+        Попробуйте сделать запрос позже. Status: ${res.status}`)
+      }
+
+      return res.json()
+    }),
+  })
+
+  const submitHandler = async (values) => {
+    // const v = JSON.stringify(values)
+    // console.log({ v })
+
+    const response = await mutateAsync(values)
+    console.log(response)
+
+    navigate('/signin')
   }
 
   return (
@@ -70,7 +102,13 @@ function SignUp() {
             />
           </div>
 
-          <button type="submit" className="btn btn-action">Зарегистрироваться</button>
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="btn btn-action"
+          >
+            Зарегистрироваться
+          </button>
         </Form>
       </Formik>
     </div>

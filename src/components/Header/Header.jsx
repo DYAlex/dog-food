@@ -9,7 +9,7 @@ import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 
 const vw = window.innerWidth
-const auth = true
+const auth = false
 function Header() {
   console.log(vw)
   let btns = (
