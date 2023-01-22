@@ -42,7 +42,7 @@ function SignIn() {
   const submitHandler = async (values) => {
     const response = await mutateAsync(values)
     setToken(response.token)
-    setTimeout(console.log({ token }))
+    setTimeout(console.log({ token }), 10)
     navigate('/')
   }
 

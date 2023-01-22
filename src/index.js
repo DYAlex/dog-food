@@ -9,6 +9,7 @@ import ProductPage from './components/ProductPage/ProductPage'
 import ProductDetail from './components/ProductDetail/ProductDetail'
 import SignUp from './components/SignUp/SignUp'
 import SignIn from './components/SignIn/SignIn'
+import Profile from './components/Profile/Profile'
 import { QueryContextProvider } from './contexts/QueryContextProvider'
 
 const queryClient = new QueryClient()
@@ -29,6 +30,10 @@ const Router = createBrowserRouter([
       {
         path: 'signin',
         element: <SignIn />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
       {
         path: 'products/',

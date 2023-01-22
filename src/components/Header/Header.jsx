@@ -1,17 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
+import { useContext } from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
+import { QueryContext } from '../../contexts/QueryContextProvider'
 
 const vw = window.innerWidth
-const auth = false
 function Header() {
-  console.log(vw)
+  // console.log({ vw })
+  const { token } = useContext(QueryContext)
   let btns = (
     <>
       <button
@@ -38,7 +40,7 @@ function Header() {
       </button>
     </>
   )
-  if (auth) {
+  if (token) {
     btns = (
       <>
         <Link
@@ -54,7 +56,7 @@ function Header() {
           <FontAwesomeIcon icon={faCartShopping} />
         </Link>
         <Link
-          to="/"
+          to="/profile"
           className={classNames(headerStyles.Link)}
         >
           <FontAwesomeIcon icon={faPaw} />
