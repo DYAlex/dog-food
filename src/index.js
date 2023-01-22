@@ -41,7 +41,7 @@ const Router = createBrowserRouter(
       ],
     },
   ],
-  { basename: 'https://dyalex.github.io/dog-food/' },
+  { basename: '/dog-food/' },
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
