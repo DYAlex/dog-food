@@ -1,0 +1,14 @@
+.card {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* min-height: calc(100vh - 250px); */
+    background-color: #00f;
+    color: #fff;
+}
+
+.imageWr {
+    background-color: #f00;
+    width: 100%;
+}
