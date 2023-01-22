@@ -2,7 +2,9 @@ import { useMutation } from '@tanstack/react-query'
 import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { QueryContext } from '../../contexts/QueryContextProvider'
 import { signInFormValidationSchema } from '../validator'
 import SignInStyles from './SignIn.module.css'
 
@@ -13,6 +15,7 @@ const initialValues = {
 
 function SignIn() {
   const navigate = useNavigate()
+  const { token, setToken } = useContext(QueryContext)
 
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: (data) => fetch('https://api.react-learning.ru/signin', {
@@ -37,14 +40,9 @@ function SignIn() {
   })
 
   const submitHandler = async (values) => {
-    // console.log({ values })
-    // const v = JSON.stringify(values)
-    // console.log({ v })
-
     const response = await mutateAsync(values)
-    const { data: resData, token } = response
-    console.log({ resData }, { token })
-
+    setToken(response.token)
+    setTimeout(console.log({ token }))
     navigate('/')
   }
 
