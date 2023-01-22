@@ -12,34 +12,37 @@ import SignIn from './components/SignIn/SignIn'
 
 const queryClient = new QueryClient()
 
-const Router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        index: true,
-        element: <Main />,
-      },
-      {
-        path: 'signup',
-        element: <SignUp />,
-      },
-      {
-        path: 'signin',
-        element: <SignIn />,
-      },
-      {
-        path: 'products/',
-        element: <ProductPage />,
-      },
-      {
-        path: 'products/:productId',
-        element: <ProductDetail />,
-      },
-    ],
-  },
-])
+const Router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      children: [
+        {
+          index: true,
+          element: <Main />,
+        },
+        {
+          path: 'signup',
+          element: <SignUp />,
+        },
+        {
+          path: 'signin',
+          element: <SignIn />,
+        },
+        {
+          path: 'products/',
+          element: <ProductPage />,
+        },
+        {
+          path: 'products/:productId',
+          element: <ProductDetail />,
+        },
+      ],
+    },
+  ],
+  { basename: 'https://dyalex.github.io/dog-food/' },
+)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
