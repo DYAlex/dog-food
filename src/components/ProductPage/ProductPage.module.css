@@ -5,3 +5,16 @@
     align-items: center;
     min-height: calc(100vh - 250px);
 }
+
+.header {
+    padding: 2rem 0;
+}
+
+.container {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: center;
+    justify-content: space-between;
+}

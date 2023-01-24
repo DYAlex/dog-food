@@ -1,30 +1,27 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QueryContext } from '../../contexts/QueryContextProvider'
 import { Loader } from '../Loader/Loader'
-import ProductCard from '../ProductCard/ProductCard'
-import ProductPageStyles from './ProductPage.module.css'
+import ProfileStyles from './Profile.module.css'
 
-function ProductPage() {
-  const { token } = useContext(QueryContext)
+function Profile() {
+  const { token, setToken } = useContext(QueryContext)
   const navigate = useNavigate()
 
   if (!token) {
-    console.log('Redirecting to SignIn page')
-    // navigate('/signin')
+    // console.log('Redirecting to SignIn page')
     useEffect(() => navigate('/signin'))
-    return null
   }
-
   const {
     // data, isLoading, isError, error, refetch,
-    data: products,
+    data: user,
     error,
     isLoading,
   } = useQuery({
     queryKey: ['currentUser', token],
-    queryFn: () => fetch('https://api.react-learning.ru/products', {
+    queryFn: () => fetch('https://api.react-learning.ru/v2/sm9/users/me', {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -38,40 +35,53 @@ function ProductPage() {
         throw new Error(`Произошла ошибка при получении ответа от сервера. 
       Попробуйте сделать запрос позже. Status: ${res.status}`)
       }
+
       return res.json()
-    }).then((d) => d.products),
+    }),
   })
+  // console.log(data)
 
   if (isLoading) {
     return <Loader />
   }
 
-  if (products) {
+  const logoutHandler = () => {
+    // console.log('Logging out')
+    setToken('')
+    navigate('/')
+  }
+  if (user) {
     return (
-      <div className={ProductPageStyles.ProductPage}>
-        <h1 className={ProductPageStyles.header}>Все товары</h1>
-        <div className={ProductPageStyles.container}>
-          {products.map((product) => (
-            <ProductCard
-              key={crypto.randomUUID()}
-              product={product}
+      <div className={ProfileStyles.Profile}>
+        <h1>Личный кабинет</h1>
+        <div className={ProfileStyles.container}>
+          <p>
+            <img
+              src={user.avatar}
+              alt="аватар"
+              width="200"
             />
-          ))}
+          </p>
+          <p>{user.name}</p>
+          <p>{user.email}</p>
+          <button
+            disabled={isLoading}
+            type="button"
+            className="btn btn-action"
+            onClick={logoutHandler}
+          >
+            Выйти
+          </button>
         </div>
       </div>
     )
   }
-
   return (
-    <div className={ProductPageStyles.ProductPage}>
-      <h1>Product Page</h1>
-      <p>
-        Произошла ошибка:
-        {' '}
-        {error}
-      </p>
+    <div className={ProfileStyles.Profile}>
+      <h1>Личный кабинет</h1>
+      <p>Произошла ошибка: {error}</p>
     </div>
   )
 }
 
-export default ProductPage
+export default Profile
