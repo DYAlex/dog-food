@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QueryContext } from '../../contexts/QueryContextProvider'
+import { Loader } from '../Loader/Loader'
 import ProfileStyles from './Profile.module.css'
 
 function Profile() {
@@ -15,7 +16,7 @@ function Profile() {
   }
   const {
     // data, isLoading, isError, error, refetch,
-    data,
+    data: user,
     error,
     isLoading,
   } = useQuery({
@@ -40,25 +41,29 @@ function Profile() {
   })
   // console.log(data)
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   const logoutHandler = () => {
     // console.log('Logging out')
     setToken('')
     navigate('/')
   }
-  if (data) {
+  if (user) {
     return (
       <div className={ProfileStyles.Profile}>
         <h1>Личный кабинет</h1>
         <div className={ProfileStyles.container}>
           <p>
             <img
-              src={data.avatar}
+              src={user.avatar}
               alt="аватар"
               width="200"
             />
           </p>
-          <p>{data.name}</p>
-          <p>{data.email}</p>
+          <p>{user.name}</p>
+          <p>{user.email}</p>
           <button
             disabled={isLoading}
             type="button"

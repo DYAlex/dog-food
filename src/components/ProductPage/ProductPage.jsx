@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QueryContext } from '../../contexts/QueryContextProvider'
+import { Loader } from '../Loader/Loader'
 import ProductCard from '../ProductCard/ProductCard'
 import ProductPageStyles from './ProductPage.module.css'
 
@@ -20,6 +21,7 @@ function ProductPage() {
     // data, isLoading, isError, error, refetch,
     data: products,
     error,
+    isLoading,
   } = useQuery({
     queryKey: ['currentUser', token],
     queryFn: () => fetch('https://api.react-learning.ru/products', {
@@ -36,14 +38,13 @@ function ProductPage() {
         throw new Error(`Произошла ошибка при получении ответа от сервера. 
       Попробуйте сделать запрос позже. Status: ${res.status}`)
       }
-
       return res.json()
     }).then((d) => d.products),
   })
-  // console.log({ data })
-  // const { products } = data
-  // console.log({ products })
-  // products.forEach((product) => console.log({ product }))
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   if (products) {
     return (
@@ -65,10 +66,10 @@ function ProductPage() {
     <div className={ProductPageStyles.ProductPage}>
       <h1>Product Page</h1>
       <p>
-        Произошла ошибка:&nbps;
+        Произошла ошибка:
+        {' '}
         {error}
       </p>
-      {/* <p>{JSON.stringify(products)}</p> */}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import ProductCardStyles from './ProductCard.module.css'
 
 function ProductCard({ product }) {
   if (product) {
+    console.log(JSON.stringify(product))
     const addToCartHandler = () => {
       console.log('Product added to cart')
     }

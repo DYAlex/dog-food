@@ -11,6 +11,7 @@ import SignUp from './components/SignUp/SignUp'
 import SignIn from './components/SignIn/SignIn'
 import Profile from './components/Profile/Profile'
 import { QueryContextProvider } from './contexts/QueryContextProvider'
+import { Loader } from './components/Loader/Loader'
 
 const queryClient = new QueryClient()
 
@@ -42,6 +43,10 @@ const Router = createBrowserRouter([
       {
         path: 'products/:productId',
         element: <ProductDetail />,
+      },
+      {
+        path: 'loader',
+        element: <Loader />,
       },
     ],
   },
