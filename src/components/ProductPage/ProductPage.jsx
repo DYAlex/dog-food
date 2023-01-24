@@ -52,7 +52,7 @@ function ProductPage() {
         <div className={ProductPageStyles.container}>
           {products.map((product) => (
             <ProductCard
-              key={product.id}
+              key={crypto.randomUUID()}
               product={product}
             />
           ))}

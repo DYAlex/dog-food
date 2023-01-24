@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import ProductCardStyles from './ProductCard.module.css'
 
 function ProductCard({ product }) {
@@ -8,6 +10,7 @@ function ProductCard({ product }) {
 
     return (
       <div className={ProductCardStyles.card}>
+        <FontAwesomeIcon icon={faHeart} className={ProductCardStyles.icon} />
         <div className={ProductCardStyles.imageWr}>
           <img
             src={product.pictures}
@@ -15,19 +18,21 @@ function ProductCard({ product }) {
             width="150"
           />
         </div>
-        <p>
-          {product.price}
-          &nbsp;&#8381;
-        </p>
-        <p>{product.wight}</p>
-        <p>{product.name}</p>
-        <button
-          type="button"
-          className="btn btn-action"
-          onClick={addToCartHandler}
-        >
-          В корзину
-        </button>
+        <div className={ProductCardStyles.cardContent}>
+          <p className={ProductCardStyles.price}>
+            {product.price}
+            &nbsp;&#8381;
+          </p>
+          <p className={ProductCardStyles.weight}>{product.wight}</p>
+          <p className={ProductCardStyles.name}>{product.name}</p>
+          <button
+            type="button"
+            className="btn btn-action"
+            onClick={addToCartHandler}
+          >
+            В корзину
+          </button>
+        </div>
       </div>
     )
   }

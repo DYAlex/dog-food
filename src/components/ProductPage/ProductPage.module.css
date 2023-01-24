@@ -14,7 +14,7 @@
     width: 80%;
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
     justify-content: space-between;
 }
