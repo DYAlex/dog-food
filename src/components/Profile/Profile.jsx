@@ -1,19 +1,22 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useQuery } from '@tanstack/react-query'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { QueryContext } from '../../contexts/QueryContextProvider'
+import { useQueryContext } from '../../contexts/QueryContextProvider'
 import { Loader } from '../Loader/Loader'
 import ProfileStyles from './Profile.module.css'
 
 function Profile() {
-  const { token, setToken } = useContext(QueryContext)
+  const { token, setToken } = useQueryContext()
   const navigate = useNavigate()
 
-  if (!token) {
-    // console.log('Redirecting to SignIn page')
-    useEffect(() => navigate('/signin'))
-  }
+  useEffect(() => {
+    if (!token) {
+      // console.log('Redirecting to SignIn page')
+      navigate('/signin')
+    }
+  })
+
   const {
     // data, isLoading, isError, error, refetch,
     data: user,

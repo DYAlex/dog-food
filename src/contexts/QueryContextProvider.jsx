@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext, useState, useEffect } from 'react'
+import {
+  createContext, useState, useEffect, useContext,
+} from 'react'
 
 export const QueryContext = createContext()
 
@@ -14,3 +16,5 @@ export function QueryContextProvider({ children }) {
   }, [token])
   return <QueryContext.Provider value={{ token, setToken }}>{children}</QueryContext.Provider>
 }
+
+export const useQueryContext = () => useContext(QueryContext)
