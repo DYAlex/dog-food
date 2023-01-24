@@ -15,43 +15,44 @@ import { Loader } from './components/Loader/Loader'
 
 const queryClient = new QueryClient()
 
-const Router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        index: true,
-        element: <Main />,
-      },
-      {
-        path: 'signup',
-        element: <SignUp />,
-      },
-      {
-        path: 'signin',
-        element: <SignIn />,
-      },
-      {
-        path: 'profile',
-        element: <Profile />,
-      },
-      {
-        path: 'products/',
-        element: <ProductPage />,
-      },
-      {
-        path: 'products/:productId',
-        element: <ProductDetail />,
-      },
-      {
-        path: 'loader',
-        element: <Loader />,
-      },
-    ],
-  },
-],
-{ basename: '/dog-food' },
+const Router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      children: [
+        {
+          index: true,
+          element: <Main />,
+        },
+        {
+          path: 'signup',
+          element: <SignUp />,
+        },
+        {
+          path: 'signin',
+          element: <SignIn />,
+        },
+        {
+          path: 'profile',
+          element: <Profile />,
+        },
+        {
+          path: 'products/',
+          element: <ProductPage />,
+        },
+        {
+          path: 'products/:productId',
+          element: <ProductDetail />,
+        },
+        {
+          path: 'loader',
+          element: <Loader />,
+        },
+      ],
+    },
+  ],
+  { basename: '/dog-food' },
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

@@ -21,6 +21,10 @@ body {
   padding: 0.5rem 1rem;
 }
 
+.btn:hover {
+  cursor: pointer;
+}
+
 .btn-action {
   background-color: rgb(255, 236, 113);
   color: #333;
