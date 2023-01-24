@@ -38,9 +38,6 @@ function SignUp() {
   })
 
   const submitHandler = async (values) => {
-    // const v = JSON.stringify(values)
-    // console.log({ v })
-
     const response = await mutateAsync(values)
     console.log(response)
 

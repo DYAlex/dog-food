@@ -3,16 +3,17 @@ import { faCartShopping, faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { useContext } from 'react'
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 import { QueryContext } from '../../contexts/QueryContextProvider'
 
-const vw = window.innerWidth
+// const vw = window.innerWidth
+// const auth = false
 function Header() {
-  // console.log({ vw })
+  console.log(vw)
   const { token } = useContext(QueryContext)
   let btns = (
     <>
@@ -43,24 +44,24 @@ function Header() {
   if (token) {
     btns = (
       <>
-        <Link
+        <NavLink
           to="/"
           className={classNames(headerStyles.Link)}
         >
           <FontAwesomeIcon icon={faHeart} />
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/"
           className={classNames(headerStyles.Link)}
         >
           <FontAwesomeIcon icon={faCartShopping} />
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/profile"
           className={classNames(headerStyles.Link)}
         >
           <FontAwesomeIcon icon={faPaw} />
-        </Link>
+        </NavLink>
       </>
     )
   }
