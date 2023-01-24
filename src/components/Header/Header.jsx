@@ -10,7 +10,7 @@ import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 import { QueryContext } from '../../contexts/QueryContextProvider'
 
-// const vw = window.innerWidth
+const vw = window.innerWidth
 // const auth = false
 function Header() {
   console.log(vw)
