@@ -12,8 +12,22 @@ class DogFoodApi {
     this.token = token
   }
 
-  checkToken() {
+  async checkToken() {
     if (!this.token) throw new Error('Отсутствует токен')
+
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: this.getAuthorizationHeader(),
+      },
+    })
+
+    if (res.status === 400) {
+      throw new Error('Токен не передан или передан не в том формате')
+    }
+    if (res.status === 401) {
+      throw new Error('Переданный токен некорректен')
+    }
   }
 
   async signIn(values) {
@@ -46,6 +60,10 @@ class DogFoodApi {
       },
       body: JSON.stringify(values),
     })
+
+    if (res.status === 400) {
+      throw new Error('Некорректно заполнено одно из полей')
+    }
 
     if (res.status === 409) {
       throw new Error('Пользователь с указанным email уже существует')

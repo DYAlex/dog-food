@@ -4,10 +4,10 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
-import { Loader } from '../Loader/Loader'
+import { withQuery } from '../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
 
-function Profile() {
+function ProfileInner({ user, isLoading }) {
   const { token, setToken } = useQueryContext()
   const navigate = useNavigate()
 
@@ -17,20 +17,6 @@ function Profile() {
       navigate('/signin')
     }
   })
-
-  const {
-    // data, isLoading, isError, error, refetch,
-    data: user,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['currentUser', token],
-    queryFn: () => dogFoodApi.getUser(),
-  })
-
-  if (isLoading) {
-    return <Loader />
-  }
 
   const logoutHandler = () => {
     // console.log('Logging out')
@@ -64,11 +50,31 @@ function Profile() {
       </div>
     )
   }
+}
+
+const ProfileInnerWithQuery = withQuery(ProfileInner)
+
+function Profile() {
+  const { token } = useQueryContext()
+  const {
+    data: user,
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['currentUser', token],
+    queryFn: () => dogFoodApi.getUser(),
+  })
+
   return (
-    <div className={ProfileStyles.Profile}>
-      <h1>Личный кабинет</h1>
-      <p>Произошла ошибка: {error}</p>
-    </div>
+    <ProfileInnerWithQuery
+      user={user}
+      refetch={refetch}
+      isError={isError}
+      isLoading={isLoading}
+      error={error}
+    />
   )
 }
 

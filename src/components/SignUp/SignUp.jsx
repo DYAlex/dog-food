@@ -4,6 +4,7 @@ import {
 } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
+import { withQuery } from '../HOCs/withQuery'
 import { signUpFormValidationSchema } from '../validator'
 import SignUpStyles from './SignUp.module.css'
 
@@ -13,13 +14,8 @@ const initialValues = {
   password: '',
 }
 
-function SignUp() {
+function SignUpInner({ mutateAsync, isLoading }) {
   const navigate = useNavigate()
-
-  const { mutateAsync, isLoading } = useMutation({
-    mutationFn: (values) => dogFoodApi.signUp(values).then(),
-  })
-
   const submitHandler = async (values) => {
     await mutateAsync(values)
     navigate('/signin')
@@ -93,4 +89,25 @@ function SignUp() {
   )
 }
 
-export default SignUp
+const SignUpInnerWithQuery = withQuery(SignUpInner)
+export function SignUp() {
+  const {
+    mutateAsync,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.signUp(values).then(),
+  })
+
+  return (
+    <SignUpInnerWithQuery
+      mutateAsync={mutateAsync}
+      isError={isError}
+      error={error}
+      isLoading={isLoading}
+      refetch={refetch}
+    />
+  )
+}

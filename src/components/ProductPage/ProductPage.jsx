@@ -3,11 +3,11 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
-import { Loader } from '../Loader/Loader'
+import { withQuery } from '../HOCs/withQuery'
 import ProductCard from '../ProductCard/ProductCard'
 import ProductPageStyles from './ProductPage.module.css'
 
-function ProductPage() {
+function ProductPageInner({ products }) {
   const { token } = useQueryContext()
   const navigate = useNavigate()
 
@@ -18,22 +18,7 @@ function ProductPage() {
     }
   })
 
-  const {
-    // data, isLoading, isError, error, refetch,
-    data: products,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['currentUser', token],
-    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
-  })
-
-  if (isLoading) {
-    return <Loader />
-  }
-
   if (products) {
-    // console.log('This is products from ProductPage', { products })
     return (
       <div className={ProductPageStyles.ProductPage}>
         <h1 className={ProductPageStyles.header}>Все товары</h1>
@@ -49,16 +34,31 @@ function ProductPage() {
       </div>
     )
   }
+}
+
+const ProductPageInnerWithQuery = withQuery(ProductPageInner)
+function ProductPage() {
+  const { token } = useQueryContext()
+
+  const {
+    data: products,
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['products', token],
+    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
+  })
 
   return (
-    <div className={ProductPageStyles.ProductPage}>
-      <h1>Product Page</h1>
-      <p>
-        Произошла ошибка:
-        {' '}
-        {error}
-      </p>
-    </div>
+    <ProductPageInnerWithQuery
+      products={products}
+      isError={isError}
+      isLoading={isLoading}
+      error={error}
+      refetch={refetch}
+    />
   )
 }
 

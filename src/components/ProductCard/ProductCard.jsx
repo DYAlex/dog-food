@@ -1,4 +1,3 @@
-// import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
@@ -6,15 +5,12 @@ import ProductCardStyles from './ProductCard.module.css'
 
 function ProductCard({ id, product }) {
   if (product) {
-    // console.log(JSON.stringify(product))
-    // const navigate = useNavigate()
     const addToCartHandler = () => {
       console.log('Product added to cart')
     }
 
     const productDetailHandler = () => {
       console.log('Card clicked', id)
-      // navigate(`products/${id}`)
     }
 
     const addToFavsHandler = () => {

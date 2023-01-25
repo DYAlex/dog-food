@@ -3,11 +3,11 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
+import { withQuery } from '../HOCs/withQuery'
 import ProductDetailStyles from './ProductDetail.module.css'
 
-function ProductDetail() {
+function ProductDetailInner({ product }) {
   const { token } = useQueryContext()
-  const { productId } = useParams()
   const navigate = useNavigate()
   useEffect(() => {
     if (!token) {
@@ -15,15 +15,6 @@ function ProductDetail() {
       navigate('/signin')
     }
   })
-
-  const {
-    // data, isLoading, isError, error, refetch,
-    data: product,
-  } = useQuery({
-    queryKey: ['productId', productId],
-    queryFn: () => dogFoodApi.getProductById(productId),
-  })
-  console.log({ product })
 
   const addToCartHandler = () => {
     console.log('Product added to cart')
@@ -69,6 +60,33 @@ function ProductDetail() {
       </div>
     )
   }
+}
+
+const ProductDetailInnerWithQuery = withQuery(ProductDetailInner)
+
+function ProductDetail() {
+  // const { token } = useQueryContext()
+  const { productId } = useParams()
+  const {
+    data: product,
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['productId', productId],
+    queryFn: () => dogFoodApi.getProductById(productId),
+  })
+
+  return (
+    <ProductDetailInnerWithQuery
+      product={product}
+      isError={isError}
+      isLoading={isLoading}
+      error={error}
+      refetch={refetch}
+    />
+  )
 }
 
 export default ProductDetail
