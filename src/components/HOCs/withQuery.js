@@ -8,11 +8,11 @@ export const withQuery = (WrappedComponent) => function ({
 }) {
   const navigate = useNavigate()
   const goBackHandler = () => {
-    navigate(-1 ?? '/')
+    navigate(0 ?? '/')
   }
   if (isError) {
     return (
-      <div className={withQueryStyles.container}>
+      <div className={withQueryStyles.error}>
         <p>
           Произошла ошибка:
           {' '}
