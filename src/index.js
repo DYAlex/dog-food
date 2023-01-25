@@ -12,6 +12,7 @@ import SignIn from './components/SignIn/SignIn'
 import Profile from './components/Profile/Profile'
 import { QueryContextProvider } from './contexts/QueryContextProvider'
 import { Loader } from './components/Loader/Loader'
+import ErrorPage from './components/Error/ErrorPage'
 
 const queryClient = new QueryClient()
 
@@ -20,6 +21,7 @@ const Router = createBrowserRouter(
     {
       path: '/',
       element: <App />,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,

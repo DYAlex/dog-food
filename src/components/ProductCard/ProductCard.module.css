@@ -13,6 +13,10 @@
     color: #777;
 }
 
+.icon:hover {
+    cursor: pointer;
+}
+
 .imageWr {
     width: 100%;
     display: flex;
@@ -26,10 +30,16 @@
     aspect-ratio: 3 / 3;
 }
 
+.btnWr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .cardContent {
     padding: 0.7rem;
     display: grid;
-    grid-template-rows: 0.5fr 0.5fr 2fr 0.5fr;
+    grid-template-rows: 0.3fr 0.2fr 0.7fr 0.5fr;
 }
 
 .price {
@@ -43,4 +53,9 @@
 
 .name {
     font-size: 0.8rem;
+}
+
+.Link {
+    text-decoration: none;
+    color: #333;
 }

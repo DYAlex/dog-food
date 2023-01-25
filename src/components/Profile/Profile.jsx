@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
 import { Loader } from '../Loader/Loader'
 import ProfileStyles from './Profile.module.css'
@@ -24,25 +25,8 @@ function Profile() {
     isLoading,
   } = useQuery({
     queryKey: ['currentUser', token],
-    queryFn: () => fetch('https://api.react-learning.ru/v2/sm9/users/me', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при входе в Личный кабинет. 
-      Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-      Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-
-      return res.json()
-    }),
+    queryFn: () => dogFoodApi.getUser(),
   })
-  // console.log(data)
 
   if (isLoading) {
     return <Loader />
@@ -51,7 +35,8 @@ function Profile() {
   const logoutHandler = () => {
     // console.log('Logging out')
     setToken('')
-    navigate('/')
+    dogFoodApi.setToken('')
+    setTimeout(navigate('/'))
   }
   if (user) {
     return (

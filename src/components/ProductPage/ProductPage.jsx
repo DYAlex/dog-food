@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
 import { Loader } from '../Loader/Loader'
 import ProductCard from '../ProductCard/ProductCard'
@@ -12,7 +13,7 @@ function ProductPage() {
 
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
+      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   })
@@ -24,22 +25,7 @@ function ProductPage() {
     isLoading,
   } = useQuery({
     queryKey: ['currentUser', token],
-    queryFn: () => fetch('https://api.react-learning.ru/products', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при входе в Личный кабинет. 
-      Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-      Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-      return res.json()
-    }).then((d) => d.products),
+    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
   })
 
   if (isLoading) {
@@ -47,6 +33,7 @@ function ProductPage() {
   }
 
   if (products) {
+    // console.log('This is products from ProductPage', { products })
     return (
       <div className={ProductPageStyles.ProductPage}>
         <h1 className={ProductPageStyles.header}>Все товары</h1>

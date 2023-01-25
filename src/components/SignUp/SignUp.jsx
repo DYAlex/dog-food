@@ -3,6 +3,7 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { signUpFormValidationSchema } from '../validator'
 import SignUpStyles from './SignUp.module.css'
 
@@ -16,31 +17,11 @@ function SignUp() {
   const navigate = useNavigate()
 
   const { mutateAsync, isLoading } = useMutation({
-    mutationFn: (data) => fetch('https://api.react-learning.ru/signup', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при создании учетной записи. 
-        Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-        Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-
-      return res.json()
-    }),
+    mutationFn: (values) => dogFoodApi.signUp(values).then(),
   })
 
   const submitHandler = async (values) => {
-    const response = await mutateAsync(values)
-    console.log(response)
-
+    await mutateAsync(values)
     navigate('/signin')
   }
 
