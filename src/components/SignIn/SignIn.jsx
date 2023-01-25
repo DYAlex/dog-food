@@ -3,7 +3,9 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
+import { withQuery } from '../HOCs/withQuery'
 import { signInFormValidationSchema } from '../validator'
 import SignInStyles from './SignIn.module.css'
 
@@ -12,39 +14,12 @@ const initialValues = {
   password: '',
 }
 
-function SignIn() {
+function SignInInner({ mutateAsync, isLoading }) {
   const navigate = useNavigate()
-  const { setToken } = useQueryContext()
-
-  const { mutateAsync, isLoading } = useMutation({
-    mutationFn: (data) => fetch('https://api.react-learning.ru/signin', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при входе в Личный кабинет. 
-        Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-        Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-
-      return res.json()
-    }),
-  })
-
   const submitHandler = async (values) => {
-    const response = await mutateAsync(values)
-    setToken(response.token)
-    // setTimeout(console.log({ token }), 10)
-    navigate('/')
+    await mutateAsync(values)
+    navigate(-1 ?? '/')
   }
-
   return (
     <div className={SignInStyles.SignIn}>
       <h2>Войти в личный кабинет</h2>
@@ -97,4 +72,30 @@ function SignIn() {
   )
 }
 
-export default SignIn
+const SignInInnerWithQuery = withQuery(SignInInner)
+
+export function SignIn() {
+  const { setToken } = useQueryContext()
+
+  const {
+    mutateAsync,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.signIn(values).then((result) => {
+      setToken(result.token)
+    }),
+  })
+
+  return (
+    <SignInInnerWithQuery
+      mutateAsync={mutateAsync}
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
+      refetch={refetch}
+    />
+  )
+}

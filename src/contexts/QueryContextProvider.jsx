@@ -2,6 +2,7 @@
 import {
   createContext, useState, useEffect, useContext,
 } from 'react'
+import { dogFoodApi } from '../api/DogFoodApi'
 
 export const QueryContext = createContext()
 
@@ -13,8 +14,17 @@ export function QueryContextProvider({ children }) {
   )
   useEffect(() => {
     localStorage.setItem(DF_TOKEN_KEY, token)
+    dogFoodApi.setToken(token)
+    // console.log('Token from DogFoodApi in Context', dogFoodApi.token)
   }, [token])
-  return <QueryContext.Provider value={{ token, setToken }}>{children}</QueryContext.Provider>
+
+  return (
+    <QueryContext.Provider
+      value={{ token, setToken }}
+    >
+      {children}
+    </QueryContext.Provider>
+  )
 }
 
 export const useQueryContext = () => useContext(QueryContext)

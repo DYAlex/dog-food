@@ -2,11 +2,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
-import { Loader } from '../Loader/Loader'
+import { withQuery } from '../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
 
-function Profile() {
+function ProfileInner({ user, isLoading }) {
   const { token, setToken } = useQueryContext()
   const navigate = useNavigate()
 
@@ -17,41 +18,11 @@ function Profile() {
     }
   })
 
-  const {
-    // data, isLoading, isError, error, refetch,
-    data: user,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['currentUser', token],
-    queryFn: () => fetch('https://api.react-learning.ru/v2/sm9/users/me', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при входе в Личный кабинет. 
-      Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-      Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-
-      return res.json()
-    }),
-  })
-  // console.log(data)
-
-  if (isLoading) {
-    return <Loader />
-  }
-
   const logoutHandler = () => {
     // console.log('Logging out')
     setToken('')
-    navigate('/')
+    dogFoodApi.setToken('')
+    setTimeout(navigate('/'))
   }
   if (user) {
     return (
@@ -79,11 +50,31 @@ function Profile() {
       </div>
     )
   }
+}
+
+const ProfileInnerWithQuery = withQuery(ProfileInner)
+
+function Profile() {
+  const { token } = useQueryContext()
+  const {
+    data: user,
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['currentUser', token],
+    queryFn: () => dogFoodApi.getUser(),
+  })
+
   return (
-    <div className={ProfileStyles.Profile}>
-      <h1>Личный кабинет</h1>
-      <p>Произошла ошибка: {error}</p>
-    </div>
+    <ProfileInnerWithQuery
+      user={user}
+      refetch={refetch}
+      isError={isError}
+      isLoading={isLoading}
+      error={error}
+    />
   )
 }
 

@@ -1,50 +1,22 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
 import { useQueryContext } from '../../contexts/QueryContextProvider'
-import { Loader } from '../Loader/Loader'
+import { withQuery } from '../HOCs/withQuery'
 import ProductCard from '../ProductCard/ProductCard'
 import ProductPageStyles from './ProductPage.module.css'
 
-function ProductPage() {
+function ProductPageInner({ products }) {
   const { token } = useQueryContext()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
+      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   })
-
-  const {
-    // data, isLoading, isError, error, refetch,
-    data: products,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['currentUser', token],
-    queryFn: () => fetch('https://api.react-learning.ru/products', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при входе в Личный кабинет. 
-      Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-      Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-      return res.json()
-    }).then((d) => d.products),
-  })
-
-  if (isLoading) {
-    return <Loader />
-  }
 
   if (products) {
     return (
@@ -62,16 +34,31 @@ function ProductPage() {
       </div>
     )
   }
+}
+
+const ProductPageInnerWithQuery = withQuery(ProductPageInner)
+function ProductPage() {
+  const { token } = useQueryContext()
+
+  const {
+    data: products,
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['products', token],
+    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
+  })
 
   return (
-    <div className={ProductPageStyles.ProductPage}>
-      <h1>Product Page</h1>
-      <p>
-        Произошла ошибка:
-        {' '}
-        {error}
-      </p>
-    </div>
+    <ProductPageInnerWithQuery
+      products={products}
+      isError={isError}
+      isLoading={isLoading}
+      error={error}
+      refetch={refetch}
+    />
   )
 }
 

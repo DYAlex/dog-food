@@ -3,6 +3,8 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import { dogFoodApi } from '../../api/DogFoodApi'
+import { withQuery } from '../HOCs/withQuery'
 import { signUpFormValidationSchema } from '../validator'
 import SignUpStyles from './SignUp.module.css'
 
@@ -12,35 +14,10 @@ const initialValues = {
   password: '',
 }
 
-function SignUp() {
+function SignUpInner({ mutateAsync, isLoading }) {
   const navigate = useNavigate()
-
-  const { mutateAsync, isLoading } = useMutation({
-    mutationFn: (data) => fetch('https://api.react-learning.ru/signup', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status >= 400 && res.status < 500) {
-        throw new Error(`Произошла ошибка при создании учетной записи. 
-        Проверьте отправляемые данные. Status: ${res.status}`)
-      }
-
-      if (res.status >= 500) {
-        throw new Error(`Произошла ошибка при получении ответа от сервера. 
-        Попробуйте сделать запрос позже. Status: ${res.status}`)
-      }
-
-      return res.json()
-    }),
-  })
-
   const submitHandler = async (values) => {
-    const response = await mutateAsync(values)
-    console.log(response)
-
+    await mutateAsync(values)
     navigate('/signin')
   }
 
@@ -112,4 +89,25 @@ function SignUp() {
   )
 }
 
-export default SignUp
+const SignUpInnerWithQuery = withQuery(SignUpInner)
+export function SignUp() {
+  const {
+    mutateAsync,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.signUp(values).then(),
+  })
+
+  return (
+    <SignUpInnerWithQuery
+      mutateAsync={mutateAsync}
+      isError={isError}
+      error={error}
+      isLoading={isLoading}
+      refetch={refetch}
+    />
+  )
+}
