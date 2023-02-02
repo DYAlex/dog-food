@@ -13,6 +13,7 @@ class DogFoodApi {
   }
 
   async checkToken() {
+    // if (!this.token) console.log('Отсутствует токен')
     if (!this.token) throw new Error('Отсутствует токен')
 
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
@@ -108,6 +109,10 @@ class DogFoodApi {
         authorization: this.getAuthorizationHeader(),
       },
     })
+
+    if (res.status === 401) {
+      throw new Error('Ошибка авторизации')
+    }
 
     if (res.status >= 400 && res.status < 500) {
       throw new Error(`Произошла ошибка при входе в Личный кабинет. 

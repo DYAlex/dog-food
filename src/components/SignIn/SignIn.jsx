@@ -18,7 +18,7 @@ function SignInInner({ mutateAsync, isLoading }) {
   const navigate = useNavigate()
   const submitHandler = async (values) => {
     await mutateAsync(values)
-    navigate(-1 ?? '/')
+    navigate('/')
   }
   return (
     <div className={SignInStyles.SignIn}>
