@@ -10,9 +10,9 @@ function ProductCard({ id, product }) {
   // if (product) {
   const addToCartHandler = () => {
     console.log('Product sent to cart', id)
-
-    dispatch(addCartItem(id))
-    // console.log('After dispatch', id)
+    const { stock } = product
+    console.log('Product stock', stock)
+    dispatch(addCartItem({ id, stock }))
   }
 
   const productDetailHandler = () => {

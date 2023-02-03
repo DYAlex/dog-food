@@ -1,16 +1,26 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
+import { useDispatch, useSelector } from 'react-redux'
 import CartItemStyles from './CartItem.module.css'
+import { addCartItem, getCartSelector, removeItemFromCart } from '../../../redux/slices/cartSlice'
 
 function CartItem({ id, product }) {
+  const cart = useSelector(getCartSelector)
+  // console.log({ cart, id })
+  // console.log(cart[id].count)
+  const dispatch = useDispatch()
   if (product) {
     const addToCartHandler = () => {
-      console.log('Product added to cart', id)
+      console.log('Product sent to cart', id)
+      const { stock } = product
+      console.log('Product stock', stock)
+      dispatch(addCartItem({ id, stock }))
     }
 
     const removeFromCartHandler = () => {
       console.log('Product removed from cart', id)
+      dispatch(removeItemFromCart(id))
     }
 
     const productDetailHandler = () => {
@@ -46,14 +56,16 @@ function CartItem({ id, product }) {
               type="button"
               className={CartItemStyles.btn}
               onClick={removeFromCartHandler}
+              disabled={cart[id].count === 1}
             >
               -
             </button>
-            <p>1</p>
+            <p>{cart[id].count}</p>
             <button
               type="button"
               className={CartItemStyles.btn}
               onClick={addToCartHandler}
+              disabled={cart[id].count === product.stock}
             >
               +
             </button>

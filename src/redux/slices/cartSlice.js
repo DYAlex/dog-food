@@ -6,27 +6,43 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initState.cart,
   reducers: {
-    // addCartItem: {
-    //   reducer(state, action) {
-    //     console.log(state, action.payload)
-    //     // state[action.payload] = 'test string'
-    //     // console.log(state[action.payload])
-    //   },
-    //   prepare(id) {
-    //     console.log({ id })
-    //     return {
-    //       payload: {},
-    //     }
-    //   },
-    // },
     addCartItem(state, action) {
-      // console.log(state, action.payload)
-      state[action.payload] = {}
-      // console.log(state[action.payload])
+      console.log(state, action.payload)
+      if (action.payload.id in state) {
+        // eslint-disable-next-line max-len
+        // console.log(`${action.payload} есть в Корзине в количестве ${state[action.payload].count}`)
+        if (state[action.payload.id].count < action.payload.stock) {
+          state[action.payload.id].count += 1
+        }
+        // eslint-disable-next-line max-len
+        console.log(`${action.payload.id} теперь есть в Корзине в количестве ${state[action.payload.id].count}`)
+      } else {
+        const newItem = {
+          [action.payload.id]: {
+            count: 1,
+            isChecked: false,
+          },
+        }
+        // console.log({ newItem })
+        Object.assign(state, newItem)
+        // console.log(state)
+        // console.log(state[action.payload])
+      }
+    },
+    removeItemFromCart(state, action) {
+      if (action.payload in state) {
+        // eslint-disable-next-line max-len
+        // console.log(`${action.payload} есть в Корзине в количестве ${state[action.payload].count}`)
+        if (state[action.payload].count > 1) {
+          state[action.payload].count -= 1
+        }
+        // eslint-disable-next-line max-len
+        console.log(`${action.payload} теперь в Корзине в количестве ${state[action.payload].count}`)
+      }
     },
   },
 })
 
-export const { addCartItem } = cartSlice.actions
+export const { addCartItem, removeItemFromCart } = cartSlice.actions
 export const getCartSelector = (state) => state.cart
 export const cartReducer = cartSlice.reducer
