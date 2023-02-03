@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { getUserSelector } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
-import ProductCard from '../ProductCard/ProductCard'
-import ProductPageStyles from './ProductPage.module.css'
+import CartItem from './CartItem/CartItem'
+import CartPageStyles from './Cart.module.css'
 
-function ProductPageInner({ products }) {
+function CartPageInner({ products }) {
   const { token } = useSelector(getUserSelector)
   const navigate = useNavigate()
 
@@ -21,11 +21,11 @@ function ProductPageInner({ products }) {
 
   if (products) {
     return (
-      <div className={ProductPageStyles.ProductPage}>
-        <h1 className={ProductPageStyles.header}>Все товары</h1>
-        <div className={ProductPageStyles.container}>
+      <div className={CartPageStyles.ProductPage}>
+        <h1 className={CartPageStyles.header}>Все товары</h1>
+        <div className={CartPageStyles.container}>
           {products.map(({ _id: id, ...restProduct }) => (
-            <ProductCard
+            <CartItem
               key={id}
               id={id}
               product={restProduct}
@@ -37,9 +37,11 @@ function ProductPageInner({ products }) {
   }
 }
 
-const ProductPageInnerWithQuery = withQuery(ProductPageInner)
-function ProductPage() {
+const CartPageInnerWithQuery = withQuery(CartPageInner)
+function CartPage() {
   const { token } = useSelector(getUserSelector)
+  const ids = []
+
   const {
     data: products,
     isError,
@@ -48,11 +50,11 @@ function ProductPage() {
     refetch,
   } = useQuery({
     queryKey: ['products', token],
-    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
+    queryFn: () => dogFoodApi.getProductsByIds(ids).then((d) => d.products),
   })
 
   return (
-    <ProductPageInnerWithQuery
+    <CartPageInnerWithQuery
       products={products}
       isError={isError}
       isLoading={isLoading}
@@ -62,4 +64,4 @@ function ProductPage() {
   )
 }
 
-export default ProductPage
+export default CartPage

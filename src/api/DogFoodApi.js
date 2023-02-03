@@ -13,7 +13,6 @@ class DogFoodApi {
   }
 
   async checkToken() {
-    // if (!this.token) console.log('Отсутствует токен')
     if (!this.token) throw new Error('Отсутствует токен')
 
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
@@ -147,6 +146,18 @@ class DogFoodApi {
     }
 
     return res.json()
+  }
+
+  async getProductsByIds(ids) {
+    this.checkToken()
+    return Promise.all(ids.map(
+      (id) => fetch(`${this.baseUrl}/products/${id}`, {
+        headers: {
+          authorization: this.getAuthorizationHeader(),
+        },
+      })
+        .then((res) => res.json()),
+    ))
   }
 }
 

@@ -2,11 +2,10 @@
 import {
   createContext, useState, useEffect, useContext,
 } from 'react'
-import { dogFoodApi } from '../api/DogFoodApi'
+// import { dogFoodApi } from '../api/DogFoodApi'
+import { DF_TOKEN_KEY } from '../redux/constants'
 
 export const QueryContext = createContext()
-
-const DF_TOKEN_KEY = 'DF_TOKEN_KEY'
 
 export function QueryContextProvider({ children }) {
   const [token, setToken] = useState(
@@ -14,7 +13,7 @@ export function QueryContextProvider({ children }) {
   )
   useEffect(() => {
     localStorage.setItem(DF_TOKEN_KEY, token)
-    dogFoodApi.setToken(token)
+    // dogFoodApi.setToken(token)
     // console.log('Token from DogFoodApi in Context', dogFoodApi.token)
   }, [token])
 
