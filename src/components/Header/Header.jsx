@@ -12,7 +12,7 @@ import { getUserSelector } from '../../redux/slices/userSlice'
 
 const vw = window.innerWidth
 function Header() {
-  console.log(vw)
+  // console.log(vw)
   const { token } = useSelector(getUserSelector)
   console.log('from header', { token })
   let btns = (

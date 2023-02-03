@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { getUserSelector } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
 import CartItem from './CartItem/CartItem'
 import CartPageStyles from './Cart.module.css'
+import { getCartSelector } from '../../redux/slices/cartSlice'
 
-function CartPageInner({ products }) {
+function CartPageInner({ products, isError }) {
   const { token } = useSelector(getUserSelector)
   const navigate = useNavigate()
 
@@ -18,11 +19,13 @@ function CartPageInner({ products }) {
       navigate('/signin')
     }
   })
+  // console.log(products.length)
 
-  if (products) {
+  if (products.length > 0) {
+    // console.log({ products })
     return (
-      <div className={CartPageStyles.ProductPage}>
-        <h1 className={CartPageStyles.header}>Все товары</h1>
+      <div className={CartPageStyles.CartPage}>
+        <h1 className={CartPageStyles.header}>Корзина</h1>
         <div className={CartPageStyles.container}>
           {products.map(({ _id: id, ...restProduct }) => (
             <CartItem
@@ -35,12 +38,32 @@ function CartPageInner({ products }) {
       </div>
     )
   }
+
+  if (isError) {
+    return <p>Что-то пошло не так</p>
+  }
+
+  return (
+    <div className={CartPageStyles.CartPage}>
+      <h1 className={CartPageStyles.header}>Корзина</h1>
+      <div className={CartPageStyles.containerEmpty}>
+        <h3>Здесь пока ничего нет</h3>
+        <Link to="/products">Наши товары</Link>
+        <Link to="/profile">Личный кабинет</Link>
+      </div>
+    </div>
+  )
 }
 
 const CartPageInnerWithQuery = withQuery(CartPageInner)
+
 function CartPage() {
   const { token } = useSelector(getUserSelector)
-  const ids = []
+  const cart = useSelector(getCartSelector)
+  console.log({ cart })
+  // console.log(Object.keys(cart))
+  const ids = Object.keys(cart)
+  // console.log({ ids })
 
   const {
     data: products,
@@ -49,8 +72,8 @@ function CartPage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ['products', token],
-    queryFn: () => dogFoodApi.getProductsByIds(ids).then((d) => d.products),
+    queryKey: ['cart', token],
+    queryFn: () => dogFoodApi.getProductsByIds(ids),
   })
 
   return (

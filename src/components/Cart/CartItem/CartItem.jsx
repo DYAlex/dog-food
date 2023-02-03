@@ -6,7 +6,11 @@ import CartItemStyles from './CartItem.module.css'
 function CartItem({ id, product }) {
   if (product) {
     const addToCartHandler = () => {
-      console.log('Product added to cart')
+      console.log('Product added to cart', id)
+    }
+
+    const removeFromCartHandler = () => {
+      console.log('Product removed from cart', id)
     }
 
     const productDetailHandler = () => {
@@ -40,17 +44,32 @@ function CartItem({ id, product }) {
           <div className={CartItemStyles.btnWr}>
             <button
               type="button"
-              className="btn btn-action"
+              className={CartItemStyles.btn}
+              onClick={removeFromCartHandler}
+            >
+              -
+            </button>
+            <p>1</p>
+            <button
+              type="button"
+              className={CartItemStyles.btn}
               onClick={addToCartHandler}
             >
-              В корзину
+              +
             </button>
+          </div>
+          <div className={CartItemStyles.btnWr}>
             <button
               type="button"
               className="btn"
               onClick={productDetailHandler}
             >
-              <Link to={id} className={CartItemStyles.Link}>Подробнее</Link>
+              <Link
+                to={`/products/${id}`}
+                className={CartItemStyles.Link}
+              >
+                Подробнее&nbsp;&gt;&gt;
+              </Link>
             </button>
           </div>
         </div>

@@ -1,9 +1,10 @@
 .card {
-    width: 200px;
+    width: 600px;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 1rem;
     position: relative;
+    margin: 2rem auto;
 }
 
 .icon {
@@ -18,7 +19,7 @@
 }
 
 .imageWr {
-    width: 100%;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,14 +33,18 @@
 
 .btnWr {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
     gap: 0.5rem;
 }
 
 .cardContent {
+    /* background-color: aqua; */
     padding: 0.7rem;
     display: grid;
-    grid-template-rows: 0.3fr 0.2fr 0.7fr 0.5fr;
+    grid-template-rows: 0.3fr 0.2fr 0.7fr 0.5fr 0.5fr;
+    gap: 0.5rem;
 }
 
 .price {
@@ -58,4 +63,14 @@
 .Link {
     text-decoration: none;
     color: #333;
+}
+
+.btn {
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn:hover {
+    cursor: pointer;
 }
