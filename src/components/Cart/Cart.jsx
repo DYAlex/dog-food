@@ -61,9 +61,11 @@ function CartPage() {
   const { token } = useSelector(getUserSelector)
   const cart = useSelector(getCartSelector)
   console.log({ cart })
+  // console.log(cart.length)
   // console.log(Object.keys(cart))
   const ids = Object.keys(cart)
-  // console.log({ ids })
+  console.log({ ids })
+  console.log(ids.length)
 
   const {
     data: products,

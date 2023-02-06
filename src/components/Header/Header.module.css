@@ -20,7 +20,7 @@
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .Button {

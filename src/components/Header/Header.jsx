@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping, faPaw } from '@fortawesome/free-solid-svg-icons'
+import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import classNames from 'classnames'
 import { Link, NavLink } from 'react-router-dom'
@@ -9,15 +9,13 @@ import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 import { getUserSelector } from '../../redux/slices/userSlice'
-// import { dogFoodApi } from '../../api/DogFoodApi'
+import CartBtn from '../Cart/CartBtn/CartBtn'
 
 const vw = window.innerWidth
 function Header() {
   // console.log(vw)
   const { token } = useSelector(getUserSelector)
-  // const APItoken = dogFoodApi.getAuthorizationHeader()
   // console.log('from header using store', { token })
-  // console.log('from header using API', { APItoken })
   let btns = (
     <>
       <button
@@ -57,7 +55,7 @@ function Header() {
           to="/cart"
           className={classNames(headerStyles.Link)}
         >
-          <FontAwesomeIcon icon={faCartShopping} />
+          <CartBtn />
         </NavLink>
         <NavLink
           to="/profile"
