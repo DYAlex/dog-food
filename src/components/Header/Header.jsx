@@ -9,12 +9,15 @@ import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 import { getUserSelector } from '../../redux/slices/userSlice'
+// import { dogFoodApi } from '../../api/DogFoodApi'
 
 const vw = window.innerWidth
 function Header() {
   // console.log(vw)
   const { token } = useSelector(getUserSelector)
-  console.log('from header', { token })
+  // const APItoken = dogFoodApi.getAuthorizationHeader()
+  // console.log('from header using store', { token })
+  // console.log('from header using API', { APItoken })
   let btns = (
     <>
       <button

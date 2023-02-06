@@ -22,8 +22,9 @@ function ProfileInner({ user, isLoading }) {
   const logoutHandler = () => {
     console.log('Logging out')
     dispatch(setUserToken(''))
-    dogFoodApi.setToken('')
-    setTimeout(navigate('/'))
+    // dogFoodApi.setToken('')
+    // setTimeout(navigate('/'))
+    navigate('/')
   }
   // if (user) {
   return (
