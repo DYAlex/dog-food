@@ -7,7 +7,7 @@ const cartSlice = createSlice({
   initialState: getInitState(),
   reducers: {
     addCartItem(state, action) {
-      console.log(state, action.payload)
+      // console.log(state, action.payload)
       if (action.payload.id in state) {
         if (state[action.payload.id].count < action.payload.stock) {
           state[action.payload.id].count += 1
@@ -36,9 +36,39 @@ const cartSlice = createSlice({
     deleteItemFromCart(state, action) {
       delete state[action.payload]
     },
+    changeIsChecked(state, action) {
+      // console.log(state, action.payload)
+      if (action.payload in state) {
+        // console.log('Object found in cart', action.payload)
+        state[action.payload].isChecked = !state[action.payload].isChecked
+      }
+    },
+    checkAll(state, action) {
+      // console.log(state, action.payload)
+      action.payload.forEach((id) => {
+        state[id].isChecked = true
+      })
+    },
+    uncheckAll(state, action) {
+      // console.log(state, action.payload)
+      action.payload.forEach((id) => {
+        state[id].isChecked = false
+      })
+    },
+    deleteCheckedFromCart(state, action) {
+      console.log(state, action)
+    },
   },
 })
 
-export const { addCartItem, removeItemFromCart, deleteItemFromCart } = cartSlice.actions
+export const {
+  addCartItem,
+  removeItemFromCart,
+  deleteItemFromCart,
+  changeIsChecked,
+  checkAll,
+  uncheckAll,
+  deleteCheckedFromCart,
+} = cartSlice.actions
 export const getCartSelector = (state) => state.cart
 export const cartReducer = cartSlice.reducer

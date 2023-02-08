@@ -1,36 +1,22 @@
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { useDispatch, useSelector } from 'react-redux'
 import CartItemStyles from './CartItem.module.css'
 import {
-  addCartItem,
+  changeIsChecked,
   deleteItemFromCart,
   getCartSelector,
-  removeItemFromCart,
 } from '../../../redux/slices/cartSlice'
+import { QuantityController } from '../../commonUI/QuantityController/QuantityController'
 
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
-  // console.log({ cart, id })
-  // console.log(cart[id].count)
   const dispatch = useDispatch()
+  // console.log({ cart, id })
+  // console.log(cart[id].isChecked, id)
   // const navigate = useNavigate()
   if (product) {
-    const addToCartHandler = () => {
-      // console.log('Product sent to cart', id)
-      const { stock } = product
-      // console.log('Product stock', stock)
-      dispatch(addCartItem({ id, stock }))
-    }
-
-    const removeFromCartHandler = () => {
-      console.log('Product removed from cart', id)
-      dispatch(removeItemFromCart(id))
-    }
-
     const productDetailHandler = () => {
-      console.log('Card clicked', id)
+      console.log('More product info from cartItem.name', id)
     }
 
     const addToFavsHandler = () => {
@@ -38,18 +24,27 @@ function CartItem({ id, product }) {
     }
 
     const deleteProductHandler = () => {
-      console.log('Product deleted from cart', id)
+      // console.log('Product deleted from cart', id)
       dispatch(deleteItemFromCart(id))
       // setTimeout(navigate('/cart'))
     }
 
+    const isCheckedHandler = () => {
+      // console.log('Product is checked in cart', id)
+      dispatch(changeIsChecked(id))
+    }
+
     return (
       <div className={CartItemStyles.card}>
-        <FontAwesomeIcon
-          icon={faHeart}
-          className={CartItemStyles.icon}
-          onClick={addToFavsHandler}
-        />
+        <div className={CartItemStyles.selectWr}>
+          <input
+            type="checkbox"
+            name="select"
+            id=""
+            checked={cart[id].isChecked}
+            onChange={isCheckedHandler}
+          />
+        </div>
         <div className={CartItemStyles.imageWr}>
           <img
             src={product.pictures}
@@ -57,43 +52,29 @@ function CartItem({ id, product }) {
           />
         </div>
         <div className={CartItemStyles.cardContent}>
+          <p
+            className={CartItemStyles.name}
+          >
+            <Link
+              to={`/products/${id}`}
+              className={CartItemStyles.Link}
+              onClick={productDetailHandler}
+            >
+              {product.name}
+            </Link>
+          </p>
           <p className={CartItemStyles.price}>
             {product.price}
             &nbsp;&#8381;
           </p>
           <p className={CartItemStyles.weight}>{product.wight}</p>
-          <p className={CartItemStyles.name}>{product.name}</p>
-          <div className={CartItemStyles.btnWr}>
-            <button
-              type="button"
-              className={CartItemStyles.btn}
-              onClick={removeFromCartHandler}
-              disabled={cart[id]?.count === 1}
-            >
-              -
-            </button>
-            <p>{cart[id]?.count}</p>
-            <button
-              type="button"
-              className={CartItemStyles.btn}
-              onClick={addToCartHandler}
-              disabled={cart[id]?.count === product.stock}
-            >
-              +
-            </button>
-          </div>
           <div className={CartItemStyles.btnWr}>
             <button
               type="button"
               className="btn"
-              onClick={productDetailHandler}
+              onClick={addToFavsHandler}
             >
-              <Link
-                to={`/products/${id}`}
-                className={CartItemStyles.Link}
-              >
-                Подробнее&nbsp;&gt;&gt;
-              </Link>
+              В избранное
             </button>
             <button
               type="button"
@@ -104,6 +85,10 @@ function CartItem({ id, product }) {
             </button>
           </div>
         </div>
+        <QuantityController
+          id={id}
+          stock={product.stock}
+        />
       </div>
     )
   }
