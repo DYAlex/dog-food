@@ -10,12 +10,15 @@ import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
 import { getUserSelector } from '../../redux/slices/userSlice'
 import CartBtn from '../Cart/CartBtn/CartBtn'
+// import { dogFoodApi } from '../../api/DogFoodApi'
 
 const vw = window.innerWidth
 function Header() {
   // console.log(vw)
   const { token } = useSelector(getUserSelector)
+  // const APItoken = dogFoodApi.getAuthorizationHeader()
   // console.log('from header using store', { token })
+  // console.log('from header using API', { APItoken })
   let btns = (
     <>
       <button

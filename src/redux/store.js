@@ -15,13 +15,12 @@ export const store = configureStore({
   preloadedState: getInitState(),
 })
 
-const getTokenFromStore = store.getState().user.token
-dogFoodApi.setToken(getTokenFromStore)
+dogFoodApi.setToken(store.getState().user.token)
 
 store.subscribe(() => {
   window.localStorage.setItem(DF_TOKEN_KEY, JSON.stringify(store.getState()))
 })
 
 store.subscribe(() => {
-  dogFoodApi.setToken(getTokenFromStore)
+  dogFoodApi.setToken(store.getState().user.token)
 })

@@ -3,18 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { useDispatch, useSelector } from 'react-redux'
 import CartItemStyles from './CartItem.module.css'
-import { addCartItem, getCartSelector, removeItemFromCart } from '../../../redux/slices/cartSlice'
+import {
+  addCartItem,
+  deleteItemFromCart,
+  getCartSelector,
+  removeItemFromCart,
+} from '../../../redux/slices/cartSlice'
 
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
   // console.log({ cart, id })
   // console.log(cart[id].count)
   const dispatch = useDispatch()
+  // const navigate = useNavigate()
   if (product) {
     const addToCartHandler = () => {
-      console.log('Product sent to cart', id)
+      // console.log('Product sent to cart', id)
       const { stock } = product
-      console.log('Product stock', stock)
+      // console.log('Product stock', stock)
       dispatch(addCartItem({ id, stock }))
     }
 
@@ -29,6 +35,12 @@ function CartItem({ id, product }) {
 
     const addToFavsHandler = () => {
       console.log('Product added to favorites', id)
+    }
+
+    const deleteProductHandler = () => {
+      console.log('Product deleted from cart', id)
+      dispatch(deleteItemFromCart(id))
+      // setTimeout(navigate('/cart'))
     }
 
     return (
@@ -56,16 +68,16 @@ function CartItem({ id, product }) {
               type="button"
               className={CartItemStyles.btn}
               onClick={removeFromCartHandler}
-              disabled={cart[id].count === 1}
+              disabled={cart[id]?.count === 1}
             >
               -
             </button>
-            <p>{cart[id].count}</p>
+            <p>{cart[id]?.count}</p>
             <button
               type="button"
               className={CartItemStyles.btn}
               onClick={addToCartHandler}
-              disabled={cart[id].count === product.stock}
+              disabled={cart[id]?.count === product.stock}
             >
               +
             </button>
@@ -82,6 +94,13 @@ function CartItem({ id, product }) {
               >
                 Подробнее&nbsp;&gt;&gt;
               </Link>
+            </button>
+            <button
+              type="button"
+              className="btn"
+              onClick={deleteProductHandler}
+            >
+              Удалить
             </button>
           </div>
         </div>

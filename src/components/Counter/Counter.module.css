@@ -1,0 +1,21 @@
+.container {
+  position: relative;
+}
+
+.wr {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0.6rem;
+  border: 1px solid #333;
+  border-radius: 50px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+}
+
+.counter {
+  font-size: 0.7rem;
+}
