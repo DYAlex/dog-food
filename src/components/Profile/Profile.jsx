@@ -1,61 +1,60 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
-import { useQueryContext } from '../../contexts/QueryContextProvider'
+import { getUserSelector, setUserToken } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
 
 function ProfileInner({ user, isLoading }) {
-  const { token, setToken } = useQueryContext()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!token) {
-      // console.log('Redirecting to SignIn page')
-      navigate('/signin')
-    }
-  })
+  const dispatch = useDispatch()
 
   const logoutHandler = () => {
-    // console.log('Logging out')
-    setToken('')
-    dogFoodApi.setToken('')
-    setTimeout(navigate('/'))
+    console.log('Logging out')
+    dispatch(setUserToken(''))
+    navigate('/')
   }
-  if (user) {
-    return (
-      <div className={ProfileStyles.Profile}>
-        <h1>Личный кабинет</h1>
-        <div className={ProfileStyles.container}>
-          <p>
-            <img
-              src={user.avatar}
-              alt="аватар"
-              width="200"
-            />
-          </p>
-          <p>{user.name}</p>
-          <p>{user.email}</p>
-          <button
-            disabled={isLoading}
-            type="button"
-            className="btn btn-action"
-            onClick={logoutHandler}
-          >
-            Выйти
-          </button>
-        </div>
+  // if (user) {
+  return (
+    <div className={ProfileStyles.Profile}>
+      <h1>Личный кабинет</h1>
+      <div className={ProfileStyles.container}>
+        <p>
+          <img
+            src={user.avatar}
+            alt="аватар"
+            width="200"
+          />
+        </p>
+        <p>{user.name}</p>
+        <p>{user.email}</p>
+        <button
+          disabled={isLoading}
+          type="button"
+          className="btn btn-action"
+          onClick={logoutHandler}
+        >
+          Выйти
+        </button>
       </div>
-    )
-  }
+    </div>
+  )
+  // }
 }
 
 const ProfileInnerWithQuery = withQuery(ProfileInner)
 
 function Profile() {
-  const { token } = useQueryContext()
+  const { token } = useSelector(getUserSelector)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!token) {
+      console.log('Redirecting to SignIn page')
+      navigate('/signin')
+    }
+  }, [token])
   const {
     data: user,
     isError,
@@ -64,7 +63,7 @@ function Profile() {
     refetch,
   } = useQuery({
     queryKey: ['currentUser', token],
-    queryFn: () => dogFoodApi.getUser(),
+    queryFn: () => dogFoodApi.getUser(token),
   })
 
   return (

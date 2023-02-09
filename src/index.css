@@ -19,10 +19,13 @@ body {
   border: none;
   border-radius: 25px;
   padding: 0.5rem 1rem;
+  border: 1px solid transparent;
 }
 
 .btn:hover {
   cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #999;
 }
 
 .btn-action {

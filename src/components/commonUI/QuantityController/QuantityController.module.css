@@ -1,0 +1,32 @@
+.container {
+  /* background-color: #f0f; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnWr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  /* padding: 0.5rem; */
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  width: 2rem;
+  height: 2rem;
+  background-color: transparent;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #e3e3e3;
+}
+
+.count {
+  margin: 0 0.5rem;
+}

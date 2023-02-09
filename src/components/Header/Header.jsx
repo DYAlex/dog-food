@@ -1,19 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping, faPaw } from '@fortawesome/free-solid-svg-icons'
+import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import classNames from 'classnames'
 import { Link, NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
-import Search from '../Search/Search'
 import headerStyles from './Header.module.css'
-import { useQueryContext } from '../../contexts/QueryContextProvider'
+import { getUserSelector } from '../../redux/slices/userSlice'
+import CartBtn from '../Cart/CartBtn/CartBtn'
 
 const vw = window.innerWidth
-// const auth = false
 function Header() {
-  console.log(vw)
-  const { token } = useQueryContext()
+  // console.log(vw)
+  const { token } = useSelector(getUserSelector)
+  // console.log('from header using store', { token })
   let btns = (
     <>
       <button
@@ -50,10 +51,10 @@ function Header() {
           <FontAwesomeIcon icon={faHeart} />
         </NavLink>
         <NavLink
-          to="/"
+          to="/cart"
           className={classNames(headerStyles.Link)}
         >
-          <FontAwesomeIcon icon={faCartShopping} />
+          <CartBtn />
         </NavLink>
         <NavLink
           to="/profile"
@@ -77,9 +78,6 @@ function Header() {
               alt=""
             />
           </Link>
-        </div>
-        <div className={headerStyles.Search}>
-          <Search />
         </div>
         <div className={headerStyles.Buttons}>{btns}</div>
       </div>

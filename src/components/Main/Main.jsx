@@ -6,6 +6,7 @@ function Main() {
     <div className={MainStyles.Main}>
       <h1>Добро пожаловать в наш магазин</h1>
       <Link to="./products">Наши товары</Link>
+      <Link to="./profile">Личный кабинет</Link>
       <Outlet />
     </div>
   )
