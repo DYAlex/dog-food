@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/dog-food/static/css/main.5be87806.css",
-    "main.js": "/dog-food/static/js/main.44862e24.js",
+    "main.css": "/dog-food/static/css/main.2fd5515a.css",
+    "main.js": "/dog-food/static/js/main.9aea8efe.js",
     "static/media/logo-with-letters-black.svg": "/dog-food/static/media/logo-with-letters-black.b2e8c2b3f7efda0e44c51eb7fe1ab004.svg",
     "static/media/logo-husky-black.svg": "/dog-food/static/media/logo-husky-black.f3ca53f171f6711f7c61e018c71873fb.svg",
     "index.html": "/dog-food/index.html",
-    "main.5be87806.css.map": "/dog-food/static/css/main.5be87806.css.map",
-    "main.44862e24.js.map": "/dog-food/static/js/main.44862e24.js.map"
+    "main.2fd5515a.css.map": "/dog-food/static/css/main.2fd5515a.css.map",
+    "main.9aea8efe.js.map": "/dog-food/static/js/main.9aea8efe.js.map"
   },
   "entrypoints": [
-    "static/css/main.5be87806.css",
-    "static/js/main.44862e24.js"
+    "static/css/main.2fd5515a.css",
+    "static/js/main.9aea8efe.js"
   ]
 }
