@@ -39,11 +39,6 @@
     height: 50px;
 }
 
-.Search {
-    flex-grow: 1;
-    max-width: 600px;
-}
-
 /* @media (max-width: 500px) {
     .Header {
         background-color: red;

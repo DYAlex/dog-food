@@ -8,22 +8,12 @@ import { withQuery } from '../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
 
 function ProfileInner({ user, isLoading }) {
-  const { token } = useSelector(getUserSelector)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (!token) {
-      console.log('Redirecting to SignIn page')
-      navigate('/signin')
-    }
-  }, [token])
 
   const logoutHandler = () => {
     console.log('Logging out')
     dispatch(setUserToken(''))
-    // dogFoodApi.setToken('')
-    // setTimeout(navigate('/'))
     navigate('/')
   }
   // if (user) {
@@ -58,6 +48,13 @@ const ProfileInnerWithQuery = withQuery(ProfileInner)
 
 function Profile() {
   const { token } = useSelector(getUserSelector)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!token) {
+      console.log('Redirecting to SignIn page')
+      navigate('/signin')
+    }
+  }, [token])
   const {
     data: user,
     isError,
@@ -66,7 +63,7 @@ function Profile() {
     refetch,
   } = useQuery({
     queryKey: ['currentUser', token],
-    queryFn: () => dogFoodApi.getUser(),
+    queryFn: () => dogFoodApi.getUser(token),
   })
 
   return (

@@ -3,12 +3,14 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
+import { getSearchSelector } from '../../redux/slices/filterSlice'
 import { getUserSelector } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
 import ProductCard from '../ProductCard/ProductCard'
+import Search from '../Search/Search'
 import ProductPageStyles from './ProductPage.module.css'
 
-function ProductPageInner({ products }) {
+function ProductPageInner({ products, search }) {
   const { token } = useSelector(getUserSelector)
   const navigate = useNavigate()
 
@@ -22,7 +24,12 @@ function ProductPageInner({ products }) {
   if (products) {
     return (
       <div className={ProductPageStyles.ProductPage}>
-        <h1 className={ProductPageStyles.header}>Все товары</h1>
+        <div className={ProductPageStyles.search}><Search /></div>
+        <h2 className={ProductPageStyles.header}>
+          {search
+            ? ('Товары по запросу')
+            : ('Все товары')}
+        </h2>
         <div className={ProductPageStyles.container}>
           {products.map(({ _id: id, ...restProduct }) => (
             <ProductCard
@@ -40,6 +47,8 @@ function ProductPageInner({ products }) {
 const ProductPageInnerWithQuery = withQuery(ProductPageInner)
 function ProductPage() {
   const { token } = useSelector(getUserSelector)
+  const search = useSelector(getSearchSelector)
+
   const {
     data: products,
     isError,
@@ -47,8 +56,9 @@ function ProductPage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ['products', token],
-    queryFn: () => dogFoodApi.getAllProducts().then((d) => d.products),
+    queryKey: [search, token],
+    queryFn: () => dogFoodApi.getAllProducts(search, token),
+    enabled: !!token,
   })
 
   return (
@@ -58,6 +68,7 @@ function ProductPage() {
       isLoading={isLoading}
       error={error}
       refetch={refetch}
+      search={search}
     />
   )
 }

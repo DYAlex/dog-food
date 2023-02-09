@@ -1,24 +1,25 @@
+/* eslint-disable class-methods-use-this */
 class DogFoodApi {
   constructor({ baseUrl }) {
     this.baseUrl = baseUrl
-    this.token = ''
+    // this.token = ''
   }
 
-  getAuthorizationHeader() {
-    return `Bearer ${this.token}`
+  getAuthorizationHeader(token) {
+    return `Bearer ${token}`
   }
 
-  setToken(token) {
-    this.token = token
-  }
+  // setToken(token) {
+  //   this.token = token
+  // }
 
-  async checkToken() {
-    if (!this.token) throw new Error('Отсутствует токен')
+  async checkToken(token) {
+    if (!token) throw new Error('Отсутствует токен')
 
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: this.getAuthorizationHeader(),
+        authorization: this.getAuthorizationHeader(token),
       },
     })
 
@@ -75,11 +76,11 @@ class DogFoodApi {
     return res.json()
   }
 
-  async getUser() {
-    this.checkToken()
+  async getUser(token) {
+    this.checkToken(token)
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
       headers: {
-        authorization: this.getAuthorizationHeader(),
+        authorization: this.getAuthorizationHeader(token),
       },
     })
 
@@ -100,12 +101,12 @@ class DogFoodApi {
     return res.json()
   }
 
-  async getAllProducts() {
-    this.checkToken()
+  async getAllProducts(search, token) {
+    this.checkToken(token)
 
-    const res = await fetch(`${this.baseUrl}/products`, {
+    const res = await fetch(`${this.baseUrl}/products/search?query=${search}`, {
       headers: {
-        authorization: this.getAuthorizationHeader(),
+        authorization: this.getAuthorizationHeader(token),
       },
     })
 
@@ -126,12 +127,12 @@ class DogFoodApi {
     return res.json()
   }
 
-  async getProductById(productId) {
-    this.checkToken()
+  async getProductById(productId, token) {
+    this.checkToken(token)
 
     const res = await fetch(`${this.baseUrl}/products/${productId}`, {
       headers: {
-        authorization: this.getAuthorizationHeader(),
+        authorization: this.getAuthorizationHeader(token),
       },
     })
 
@@ -148,13 +149,13 @@ class DogFoodApi {
     return res.json()
   }
 
-  async getProductsByIds(ids) {
-    this.checkToken()
+  async getProductsByIds(ids, token) {
+    this.checkToken(token)
     // console.log({ ids })
     return Promise.all(ids.map(
       (id) => fetch(`${this.baseUrl}/products/${id}`, {
         headers: {
-          authorization: this.getAuthorizationHeader(),
+          authorization: this.getAuthorizationHeader(token),
         },
       })
         .then((res) => res.json()),

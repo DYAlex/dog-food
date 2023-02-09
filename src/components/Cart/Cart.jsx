@@ -15,79 +15,70 @@ import {
 } from '../../redux/slices/cartSlice'
 
 function CartPageInner({
-  token, cart, ids, products, isError,
+  cart, ids, products, isError,
 }) {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (!token) {
-      console.log('Redirecting to SignIn page')
-      navigate('/signin')
-    }
-  }, [token])
-  const totalItems = Object.keys(cart).reduce((acc, cartItem) => {
-    if (cart[cartItem].isChecked) {
-      // console.log(`${cartItem} ${cart[cartItem].count}`)
-      const sum = acc + cart[cartItem].count
-      return sum
-    }
-    return acc
-  }, 0)
-  // console.log('Cart length', Object.keys(cart).length)
-  // console.log('totalItems', totalItems)
-  // console.log('products.length ', products.length)
-  // console.log('products ', products)
-  const allChecked = Object.keys(cart).reduce((acc, cartItem) => {
-    // console.log(cart[cartItem].isChecked)
-    if (!cart[cartItem].isChecked) {
-      return false
-    }
-    return acc
-  }, true)
-  // console.log({ allChecked })
-
-  const getAllCheckedItems = () => {
-    const allCheckedItems = []
-    Object.keys(cart).forEach((item) => {
-      if (cart[item].isChecked) allCheckedItems.push(item)
-    })
-    return allCheckedItems
-  }
-  // eslint-disable-next-line no-underscore-dangle
-  const getItemById = (itemId) => (products.find((item) => item._id === itemId))
-
-  const priceFullTotal = () => (
-    getAllCheckedItems().reduce((total, item) => {
-      const product = getItemById(item)
-      const sum = total + cart[item].count * product.price
-      return sum
-    }, 0)
-  )
-  const discountTotal = () => (
-    getAllCheckedItems().reduce((total, item) => {
-      const product = getItemById(item)
-      const sum = total + cart[item].count * ((product.price * product.discount) / 100)
-      return sum
-    }, 0)
-  )
-
-  const checkAllHandler = () => {
-    if (!allChecked) {
-      // console.log('All checked now')
-      dispatch(checkAll(ids))
-    } else {
-      // console.log('All UNchecked')
-      dispatch(uncheckAll(ids))
-    }
-  }
-
-  const deleteCheckedFromCartHandler = () => {
-    // console.log('deleteCheckedFromCartHandler clicked')
-    dispatch(deleteCheckedFromCart(getAllCheckedItems()))
-  }
-
   if (products.length > 0) {
+    const totalItems = Object.keys(cart).reduce((acc, cartItem) => {
+      if (cart[cartItem].isChecked) {
+        // console.log(`${cartItem} ${cart[cartItem].count}`)
+        const sum = acc + cart[cartItem].count
+        return sum
+      }
+      return acc
+    }, 0)
+    // console.log('Cart length', Object.keys(cart).length)
+    // console.log('totalItems', totalItems)
+    // console.log('products.length ', products.length)
+    // console.log('products ', products)
+    const allChecked = Object.keys(cart).reduce((acc, cartItem) => {
+      if (!cart[cartItem].isChecked) {
+        return false
+      }
+      return acc
+    }, true)
+    // console.log({ allChecked })
+
+    const getAllCheckedItems = () => {
+      const allCheckedItems = []
+      Object.keys(cart).forEach((item) => {
+        if (cart[item].isChecked) allCheckedItems.push(item)
+      })
+      return allCheckedItems
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    const getItemById = (itemId) => (products.find((item) => item._id === itemId))
+
+    const priceFullTotal = () => (
+      getAllCheckedItems().reduce((total, item) => {
+        const product = getItemById(item)
+        const sum = total + cart[item].count * product.price
+        return sum
+      }, 0)
+    )
+    const discountTotal = () => (
+      getAllCheckedItems().reduce((total, item) => {
+        const product = getItemById(item)
+        const sum = total + cart[item].count * ((product.price * product.discount) / 100)
+        return sum
+      }, 0)
+    )
+
+    const checkAllHandler = () => {
+      if (!allChecked) {
+        // console.log('All checked now')
+        dispatch(checkAll(ids))
+      } else {
+        // console.log('All UNchecked')
+        dispatch(uncheckAll(ids))
+      }
+    }
+
+    const deleteCheckedFromCartHandler = () => {
+      // console.log('deleteCheckedFromCartHandler clicked')
+      dispatch(deleteCheckedFromCart(getAllCheckedItems()))
+    }
     return (
       <div className={CartPageStyles.CartPage}>
         <h1 className={CartPageStyles.header}>Корзина</h1>
@@ -189,8 +180,16 @@ const CartPageInnerWithQuery = withQuery(CartPageInner)
 
 function CartPage() {
   const { token } = useSelector(getUserSelector)
+  const navigate = useNavigate()
   const cart = useSelector(getCartSelector)
   const ids = Object.keys(cart)
+
+  useEffect(() => {
+    if (!token) {
+      console.log('Redirecting to SignIn page')
+      navigate('/signin')
+    }
+  }, [token])
 
   const {
     data: products,
@@ -200,7 +199,7 @@ function CartPage() {
     refetch,
   } = useQuery({
     queryKey: ['cart', token],
-    queryFn: () => dogFoodApi.getProductsByIds(ids),
+    queryFn: () => dogFoodApi.getProductsByIds(ids, token),
   })
 
   return (

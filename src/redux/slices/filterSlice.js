@@ -4,11 +4,13 @@ import { initState } from '../initState'
 const filterSlice = createSlice({
   name: 'filter',
   initialState: initState.filter,
-  reducers: {},
+  reducers: {
+    changeSearchFilter(state, action) {
+      state.search = action.payload
+    },
+  },
 })
 
-// export const {
-//   setUserGroup, setUserName, setUserEmail, setUserToken,
-// } = filterSlice.actions
-export const getFilterSelector = (state) => state.filter
+export const { changeSearchFilter } = filterSlice.actions
+export const getSearchSelector = (state) => state.filter.search
 export const filterReducer = filterSlice.reducer

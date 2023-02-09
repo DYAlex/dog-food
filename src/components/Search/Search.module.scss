@@ -1,10 +1,11 @@
 .Search {
+  width: 70%;
   position: relative;
 }
 
 .Search_Field {
   border-radius: 25px;
-  border: none;
+  border: 1px solid #eee;
   padding: 0.5rem 1rem;
   width: 100%;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
