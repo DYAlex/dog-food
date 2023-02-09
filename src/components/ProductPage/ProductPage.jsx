@@ -11,16 +11,6 @@ import Search from '../Search/Search'
 import ProductPageStyles from './ProductPage.module.css'
 
 function ProductPageInner({ products, search }) {
-  const { token } = useSelector(getUserSelector)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!token) {
-      console.log('Redirecting to SignIn page')
-      navigate('/signin')
-    }
-  })
-
   if (products) {
     return (
       <div className={ProductPageStyles.ProductPage}>
@@ -48,6 +38,14 @@ const ProductPageInnerWithQuery = withQuery(ProductPageInner)
 function ProductPage() {
   const { token } = useSelector(getUserSelector)
   const search = useSelector(getSearchSelector)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) {
+      console.log('Redirecting to SignIn page')
+      navigate('/signin')
+    }
+  })
 
   const {
     data: products,

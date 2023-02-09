@@ -87,7 +87,6 @@ export function SignIn() {
   } = useMutation({
     mutationFn: (values) => dogFoodApi.signIn(values).then((result) => {
       dispatch(setUserToken(result.token))
-      // dogFoodApi.setToken(result.token)
     }),
   })
 
