@@ -7,6 +7,7 @@
     background-color: #fff;
     padding: 1rem;
     border-radius: 5px;
+    align-items: flex-start;
 }
 
 .imageWr {
@@ -57,4 +58,23 @@
 
 .Link:hover {
     color: rgb(255, 236, 113);
+}
+
+.priceFull {
+    text-decoration: line-through;
+    color: #777;
+    font-weight: 400;
+}
+
+.quantityControllerWr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.available {
+    font-size: 0.7rem;
+    color: #777;
 }

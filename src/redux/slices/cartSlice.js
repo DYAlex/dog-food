@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { getInitState } from '../initState'
 
@@ -56,7 +55,10 @@ const cartSlice = createSlice({
       })
     },
     deleteCheckedFromCart(state, action) {
-      console.log(state, action)
+      // console.log(state, action)
+      action.payload.forEach((id) => {
+        delete state[id]
+      })
     },
   },
 })

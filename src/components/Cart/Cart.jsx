@@ -15,7 +15,7 @@ import {
 } from '../../redux/slices/cartSlice'
 
 function CartPageInner({
-  token, ids, cart, products, isError,
+  token, cart, ids, products, isError,
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -26,7 +26,6 @@ function CartPageInner({
       navigate('/signin')
     }
   }, [token])
-  // console.log(products.length)
   const totalItems = Object.keys(cart).reduce((acc, cartItem) => {
     if (cart[cartItem].isChecked) {
       // console.log(`${cartItem} ${cart[cartItem].count}`)
@@ -37,6 +36,8 @@ function CartPageInner({
   }, 0)
   // console.log('Cart length', Object.keys(cart).length)
   // console.log('totalItems', totalItems)
+  // console.log('products.length ', products.length)
+  // console.log('products ', products)
   const allChecked = Object.keys(cart).reduce((acc, cartItem) => {
     // console.log(cart[cartItem].isChecked)
     if (!cart[cartItem].isChecked) {
@@ -45,6 +46,31 @@ function CartPageInner({
     return acc
   }, true)
   // console.log({ allChecked })
+
+  const getAllCheckedItems = () => {
+    const allCheckedItems = []
+    Object.keys(cart).forEach((item) => {
+      if (cart[item].isChecked) allCheckedItems.push(item)
+    })
+    return allCheckedItems
+  }
+  // eslint-disable-next-line no-underscore-dangle
+  const getItemById = (itemId) => (products.find((item) => item._id === itemId))
+
+  const priceFullTotal = () => (
+    getAllCheckedItems().reduce((total, item) => {
+      const product = getItemById(item)
+      const sum = total + cart[item].count * product.price
+      return sum
+    }, 0)
+  )
+  const discountTotal = () => (
+    getAllCheckedItems().reduce((total, item) => {
+      const product = getItemById(item)
+      const sum = total + cart[item].count * ((product.price * product.discount) / 100)
+      return sum
+    }, 0)
+  )
 
   const checkAllHandler = () => {
     if (!allChecked) {
@@ -57,8 +83,8 @@ function CartPageInner({
   }
 
   const deleteCheckedFromCartHandler = () => {
-    console.log('deleteCheckedFromCartHandler clicked')
-    dispatch(deleteCheckedFromCart())
+    // console.log('deleteCheckedFromCartHandler clicked')
+    dispatch(deleteCheckedFromCart(getAllCheckedItems()))
   }
 
   if (products.length > 0) {
@@ -98,8 +124,8 @@ function CartPageInner({
             </div>
           </div>
           <div className={CartPageStyles.cartTotals}>
-            <h3>Условия заказа</h3>
-            <div>
+            <h4>Условия заказа</h4>
+            <div className={CartPageStyles.cartTotal}>
               <div>
                 <span className={CartPageStyles.bold}>Итого: </span>
                 {totalItems}
@@ -107,21 +133,36 @@ function CartPageInner({
                 товаров
               </div>
               <div>
-                <span className={CartPageStyles.bold}>Сумма</span>
+                <span className={CartPageStyles.bold}>Сумма без скидки: </span>
+                {String(priceFullTotal()).replace('.', ',')}
+                {' '}
+                рублей
               </div>
-              <div>Скидка</div>
+              <div>
+                <span className={CartPageStyles.bold}>Скидка: </span>
+                {String(discountTotal()).replace('.', ',')}
+                {' '}
+                рублей
+              </div>
+              <div>
+                <span className={CartPageStyles.bold}>Сумма заказа со скидками: </span>
+                {String(priceFullTotal() - discountTotal()).replace('.', ',')}
+                {' '}
+                рублей
+              </div>
             </div>
-            <button
-              type="button"
-              className="btn btn-action"
+            <Link
+              to="/"
+              className={CartPageStyles.link}
             >
-              <Link
-                to="/"
-                className={CartPageStyles.link}
+              <button
+                type="button"
+                className="btn btn-action"
+                disabled={totalItems < 1}
               >
                 Оформить
-              </Link>
-            </button>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

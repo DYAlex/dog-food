@@ -13,7 +13,6 @@ function CartItem({ id, product }) {
   const dispatch = useDispatch()
   // console.log({ cart, id })
   // console.log(cart[id].isChecked, id)
-  // const navigate = useNavigate()
   if (product) {
     const productDetailHandler = () => {
       console.log('More product info from cartItem.name', id)
@@ -26,7 +25,6 @@ function CartItem({ id, product }) {
     const deleteProductHandler = () => {
       // console.log('Product deleted from cart', id)
       dispatch(deleteItemFromCart(id))
-      // setTimeout(navigate('/cart'))
     }
 
     const isCheckedHandler = () => {
@@ -34,63 +32,94 @@ function CartItem({ id, product }) {
       dispatch(changeIsChecked(id))
     }
 
-    return (
-      <div className={CartItemStyles.card}>
-        <div className={CartItemStyles.selectWr}>
-          <input
-            type="checkbox"
-            name="select"
-            id=""
-            checked={cart[id].isChecked}
-            onChange={isCheckedHandler}
-          />
-        </div>
-        <div className={CartItemStyles.imageWr}>
-          <img
-            src={product.pictures}
-            alt="Фото товара"
-          />
-        </div>
-        <div className={CartItemStyles.cardContent}>
-          <p
-            className={CartItemStyles.name}
-          >
-            <Link
-              to={`/products/${id}`}
-              className={CartItemStyles.Link}
-              onClick={productDetailHandler}
-            >
-              {product.name}
-            </Link>
-          </p>
-          <p className={CartItemStyles.price}>
-            {product.price}
+    const getPrice = () => {
+      if (product.discount > 1) {
+        return (
+          <>
+            <span className={CartItemStyles.priceFull}>
+              {String(product.price).replace('.', ',')}
+              &nbsp;&#8381;
+            </span>
+            {' '}
+            {String(product.price - ((product.price * product.discount) / 100)).replace('.', ',')}
             &nbsp;&#8381;
-          </p>
-          <p className={CartItemStyles.weight}>{product.wight}</p>
-          <div className={CartItemStyles.btnWr}>
-            <button
-              type="button"
-              className="btn"
-              onClick={addToFavsHandler}
+          </>
+        )
+      }
+      return (
+        <>
+          {String(product.price).replace('.', ',')}
+          &nbsp;&#8381;
+        </>
+      )
+    }
+    if (cart[id]) {
+      return (
+        <div className={CartItemStyles.card}>
+          <div className={CartItemStyles.selectWr}>
+            <input
+              type="checkbox"
+              name="select"
+              id=""
+              checked={cart[id].isChecked}
+              onChange={isCheckedHandler}
+            />
+          </div>
+          <div className={CartItemStyles.imageWr}>
+            <img
+              src={product.pictures}
+              alt="Фото товара"
+            />
+          </div>
+          <div className={CartItemStyles.cardContent}>
+            <p
+              className={CartItemStyles.name}
             >
-              В избранное
-            </button>
-            <button
-              type="button"
-              className="btn"
-              onClick={deleteProductHandler}
-            >
-              Удалить
-            </button>
+              <Link
+                to={`/products/${id}`}
+                className={CartItemStyles.Link}
+                onClick={productDetailHandler}
+              >
+                {product.name}
+              </Link>
+            </p>
+            <p className={CartItemStyles.price}>
+              {getPrice()}
+            </p>
+            <p className={CartItemStyles.weight}>{product.wight}</p>
+            <div className={CartItemStyles.btnWr}>
+              <button
+                type="button"
+                className="btn"
+                onClick={addToFavsHandler}
+              >
+                В избранное
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={deleteProductHandler}
+              >
+                Удалить
+              </button>
+            </div>
+          </div>
+          <div className={CartItemStyles.quantityControllerWr}>
+            <QuantityController
+              id={id}
+              stock={product.stock}
+            />
+            <div className={CartItemStyles.available}>
+              В наличии
+              {' '}
+              {product.stock}
+              {' '}
+              штук
+            </div>
           </div>
         </div>
-        <QuantityController
-          id={id}
-          stock={product.stock}
-        />
-      </div>
-    )
+      )
+    }
   }
 }
 
