@@ -1,4 +1,5 @@
 import { DF_TOKEN_KEY } from './constants'
+import { validateDataFromLS } from './utils/functions'
 
 export const initState = {
   user: {
@@ -15,6 +16,17 @@ export const initState = {
 
 export const getInitState = () => {
   const dataFromLS = window.localStorage.getItem(DF_TOKEN_KEY)
-
-  return dataFromLS ? JSON.parse(dataFromLS) : initState
+  console.log({ dataFromLS })
+  if (typeof dataFromLS === 'object') {
+    // console.log('dataFromLS is an object')
+    const isDataFromLS = validateDataFromLS(initState, JSON.parse(dataFromLS))
+    // console.log({ isDataFromLS })
+    if (isDataFromLS) {
+      // console.log('dataFromLS', JSON.parse(dataFromLS))
+      return JSON.parse(dataFromLS)
+    }
+    // console.log('dataFromLS is incorrect')
+  }
+  return initState
+  // return dataFromLS ? JSON.parse(dataFromLS) : initState
 }
