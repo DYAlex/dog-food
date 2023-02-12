@@ -16,7 +16,7 @@ export const initState = {
 
 export const getInitState = () => {
   const dataFromLS = window.localStorage.getItem(DF_TOKEN_KEY)
-  if (typeof dataFromLS === 'object') {
+  if (dataFromLS && typeof JSON.parse(dataFromLS) === 'object') {
     const isDataFromLS = validateDataFromLS(initState, JSON.parse(dataFromLS))
     if (isDataFromLS) {
       return JSON.parse(dataFromLS)
