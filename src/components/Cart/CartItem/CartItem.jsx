@@ -11,8 +11,6 @@ import { QuantityController } from '../../commonUI/QuantityController/QuantityCo
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
   const dispatch = useDispatch()
-  // console.log({ cart, id })
-  // console.log(cart[id].isChecked, id)
   if (product) {
     const productDetailHandler = () => {
       console.log('More product info from cartItem.name', id)
@@ -23,7 +21,7 @@ function CartItem({ id, product }) {
     }
 
     const deleteProductHandler = () => {
-      // console.log('Product deleted from cart', id)
+      console.log('Product deleted from cart', id)
       dispatch(deleteItemFromCart(id))
     }
 

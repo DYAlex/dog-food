@@ -15,7 +15,6 @@ const userSlice = createSlice({
       console.log(state, action)
     },
     setUserToken(state, action) {
-      // eslint-disable-next-line no-param-reassign
       state.token = action.payload
       // console.log('This is state.token in userSlice setUserToken', state.token)
     },

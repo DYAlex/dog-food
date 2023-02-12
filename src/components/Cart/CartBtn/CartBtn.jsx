@@ -7,9 +7,8 @@ import CartBtnStyles from './CartBtn.module.css'
 
 function CartBtn() {
   const cart = useSelector(getCartSelector)
-  // console.log(cart)
   const cartLength = Object.keys(cart).length
-  // console.log(cartLength)
+
   return (
     <div className={CartBtnStyles.container}>
       <FontAwesomeIcon icon={faCartShopping} />

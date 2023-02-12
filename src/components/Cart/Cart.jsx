@@ -22,23 +22,17 @@ function CartPageInner({
   if (products.length > 0) {
     const totalItems = Object.keys(cart).reduce((acc, cartItem) => {
       if (cart[cartItem].isChecked) {
-        // console.log(`${cartItem} ${cart[cartItem].count}`)
         const sum = acc + cart[cartItem].count
         return sum
       }
       return acc
     }, 0)
-    // console.log('Cart length', Object.keys(cart).length)
-    // console.log('totalItems', totalItems)
-    // console.log('products.length ', products.length)
-    // console.log('products ', products)
     const allChecked = Object.keys(cart).reduce((acc, cartItem) => {
       if (!cart[cartItem].isChecked) {
         return false
       }
       return acc
     }, true)
-    // console.log({ allChecked })
 
     const getAllCheckedItems = () => {
       const allCheckedItems = []
@@ -209,7 +203,6 @@ function CartPage() {
       isLoading={isLoading}
       error={error}
       refetch={refetch}
-      token={token}
       cart={cart}
       ids={ids}
     />

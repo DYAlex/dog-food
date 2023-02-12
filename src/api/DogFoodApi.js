@@ -2,16 +2,11 @@
 class DogFoodApi {
   constructor({ baseUrl }) {
     this.baseUrl = baseUrl
-    // this.token = ''
   }
 
   getAuthorizationHeader(token) {
     return `Bearer ${token}`
   }
-
-  // setToken(token) {
-  //   this.token = token
-  // }
 
   async checkToken(token) {
     if (!token) throw new Error('Отсутствует токен')
@@ -151,7 +146,6 @@ class DogFoodApi {
 
   async getProductsByIds(ids, token) {
     this.checkToken(token)
-    // console.log({ ids })
     return Promise.all(ids.map(
       (id) => fetch(`${this.baseUrl}/products/${id}`, {
         headers: {
