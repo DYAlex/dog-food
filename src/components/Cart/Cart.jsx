@@ -13,161 +13,135 @@ import {
   getCartSelector,
   deleteCheckedFromCart,
 } from '../../redux/slices/cartSlice'
+import {
+  getAllCheckedItems,
+  getDiscountTotal,
+  getIsAllChecked,
+  getPriceFullTotal,
+  getTotalItems,
+} from './utils/functions'
 
 function CartPageInner({
-  cart, ids, products, isError,
+  cart, products,
 }) {
   const dispatch = useDispatch()
 
-  if (products.length > 0) {
-    const totalItems = Object.keys(cart).reduce((acc, cartItem) => {
-      if (cart[cartItem].isChecked) {
-        const sum = acc + cart[cartItem].count
-        return sum
-      }
-      return acc
-    }, 0)
-    const allChecked = Object.keys(cart).reduce((acc, cartItem) => {
-      if (!cart[cartItem].isChecked) {
-        return false
-      }
-      return acc
-    }, true)
+  // console.log('products.length', products.length)
 
-    const getAllCheckedItems = () => {
-      const allCheckedItems = []
-      Object.keys(cart).forEach((item) => {
-        if (cart[item].isChecked) allCheckedItems.push(item)
-      })
-      return allCheckedItems
-    }
-    // eslint-disable-next-line no-underscore-dangle
-    const getItemById = (itemId) => (products.find((item) => item._id === itemId))
-
-    const priceFullTotal = () => (
-      getAllCheckedItems().reduce((total, item) => {
-        const product = getItemById(item)
-        const sum = total + cart[item].count * product.price
-        return sum
-      }, 0)
-    )
-    const discountTotal = () => (
-      getAllCheckedItems().reduce((total, item) => {
-        const product = getItemById(item)
-        const sum = total + cart[item].count * ((product.price * product.discount) / 100)
-        return sum
-      }, 0)
-    )
-
-    const checkAllHandler = () => {
-      if (!allChecked) {
-        // console.log('All checked now')
-        dispatch(checkAll(ids))
-      } else {
-        // console.log('All UNchecked')
-        dispatch(uncheckAll(ids))
-      }
-    }
-
-    const deleteCheckedFromCartHandler = () => {
-      // console.log('deleteCheckedFromCartHandler clicked')
-      dispatch(deleteCheckedFromCart(getAllCheckedItems()))
-    }
+  if (!products.length) {
+    // console.log('products.length in if (!products.length)', products.length)
     return (
       <div className={CartPageStyles.CartPage}>
         <h1 className={CartPageStyles.header}>Корзина</h1>
-        <div className={CartPageStyles.cartContent}>
-          <div className={CartPageStyles.cartItems}>
-            <div className={CartPageStyles.selectAllWr}>
-              <label htmlFor="checkAll">
-                <input
-                  type="checkbox"
-                  name=""
-                  id="checkAll"
-                  onChange={checkAllHandler}
-                  checked={allChecked}
-                />
-                {' '}
-                {allChecked ? 'Снять выделение' : 'Выбрать все'}
-              </label>
-              <button
-                type="button"
-                className={CartPageStyles.btn}
-                onClick={deleteCheckedFromCartHandler}
-              >
-                Удалить выбранные
-              </button>
-            </div>
-            <div className={CartPageStyles.container}>
-              {products.map(({ _id: id, ...restProduct }) => (
-                <CartItem
-                  key={id}
-                  id={id}
-                  product={restProduct}
-                />
-              ))}
-            </div>
-          </div>
-          <div className={CartPageStyles.cartTotals}>
-            <h4>Условия заказа</h4>
-            <div className={CartPageStyles.cartTotal}>
-              <div>
-                <span className={CartPageStyles.bold}>Итого: </span>
-                {totalItems}
-                {' '}
-                товаров
-              </div>
-              <div>
-                <span className={CartPageStyles.bold}>Сумма без скидки: </span>
-                {String(priceFullTotal()).replace('.', ',')}
-                {' '}
-                рублей
-              </div>
-              <div>
-                <span className={CartPageStyles.bold}>Скидка: </span>
-                {String(discountTotal()).replace('.', ',')}
-                {' '}
-                рублей
-              </div>
-              <div>
-                <span className={CartPageStyles.bold}>Сумма заказа со скидками: </span>
-                {String(priceFullTotal() - discountTotal()).replace('.', ',')}
-                {' '}
-                рублей
-              </div>
-            </div>
-            <Link
-              to="/"
-              className={CartPageStyles.link}
-            >
-              <button
-                type="button"
-                className="btn btn-action"
-                disabled={totalItems < 1}
-              >
-                Оформить
-              </button>
-            </Link>
-          </div>
+        <div className={CartPageStyles.containerEmpty}>
+          <h3>Здесь пока ничего нет</h3>
+          <Link to="/products">Наши товары</Link>
+          <Link to="/profile">Личный кабинет</Link>
         </div>
       </div>
     )
   }
 
-  if (isError) {
-    return <p>Что-то пошло не так</p>
+  // console.log('products.length after if', products.length)
+  const totalItems = getTotalItems(cart)
+  const isAllChecked = getIsAllChecked(cart)
+  const priceFullTotal = getPriceFullTotal(cart, products)
+  const discountTotal = getDiscountTotal(cart, products)
+
+  const checkAllHandler = () => {
+    if (!isAllChecked) {
+      // console.log('All checked now')
+      dispatch(checkAll())
+    } else {
+      // console.log('All UNchecked')
+      dispatch(uncheckAll())
+    }
   }
 
+  const deleteCheckedFromCartHandler = () => {
+    // console.log('deleteCheckedFromCartHandler clicked')
+    dispatch(deleteCheckedFromCart(getAllCheckedItems(cart)))
+  }
   return (
     <div className={CartPageStyles.CartPage}>
       <h1 className={CartPageStyles.header}>Корзина</h1>
-      <div className={CartPageStyles.containerEmpty}>
-        <h3>Здесь пока ничего нет</h3>
-        <Link to="/products">Наши товары</Link>
-        <Link to="/profile">Личный кабинет</Link>
+      <div className={CartPageStyles.cartContent}>
+        <div className={CartPageStyles.cartItems}>
+          <div className={CartPageStyles.selectAllWr}>
+            <label htmlFor="checkAll">
+              <input
+                type="checkbox"
+                name=""
+                id="checkAll"
+                onChange={checkAllHandler}
+                checked={isAllChecked}
+              />
+              {' '}
+              {isAllChecked ? 'Снять выделение' : 'Выбрать все'}
+            </label>
+            <button
+              type="button"
+              className={CartPageStyles.btn}
+              onClick={deleteCheckedFromCartHandler}
+            >
+              Удалить выбранные
+            </button>
+          </div>
+          <div className={CartPageStyles.container}>
+            {products.map(({ _id: id, ...restProduct }) => (
+              <CartItem
+                key={id}
+                id={id}
+                product={restProduct}
+              />
+            ))}
+          </div>
+        </div>
+        <div className={CartPageStyles.cartTotals}>
+          <h4>Условия заказа</h4>
+          <div className={CartPageStyles.cartTotal}>
+            <div>
+              <span className={CartPageStyles.bold}>Итого: </span>
+              {totalItems}
+              {' '}
+              товаров
+            </div>
+            <div>
+              <span className={CartPageStyles.bold}>Сумма без скидки: </span>
+              {String(priceFullTotal).replace('.', ',')}
+              {' '}
+              рублей
+            </div>
+            <div>
+              <span className={CartPageStyles.bold}>Скидка: </span>
+              {String(discountTotal).replace('.', ',')}
+              {' '}
+              рублей
+            </div>
+            <div>
+              <span className={CartPageStyles.bold}>Сумма заказа со скидками: </span>
+              {String(priceFullTotal - discountTotal).replace('.', ',')}
+              {' '}
+              рублей
+            </div>
+          </div>
+          <Link
+            to="/"
+            className={CartPageStyles.link}
+          >
+            <button
+              type="button"
+              className="btn btn-action"
+              disabled={totalItems < 1}
+            >
+              Оформить
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   )
+  // }
 }
 
 const CartPageInnerWithQuery = withQuery(CartPageInner)
@@ -204,7 +178,6 @@ function CartPage() {
       error={error}
       refetch={refetch}
       cart={cart}
-      ids={ids}
     />
   )
 }
