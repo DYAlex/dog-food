@@ -24,25 +24,11 @@ import {
 function CartPageInner({
   cart, products,
 }) {
+  // eslint-disable-next-line max-len
+  // console.log('cart, products', JSON.parse(JSON.stringify(cart)), JSON.parse(JSON.stringify(products)))
+  // console.log('products.length, cart.length', products.length, Object.keys(cart).length)
   const dispatch = useDispatch()
 
-  // console.log('products.length', products.length)
-
-  if (!products.length) {
-    // console.log('products.length in if (!products.length)', products.length)
-    return (
-      <div className={CartPageStyles.CartPage}>
-        <h1 className={CartPageStyles.header}>Корзина</h1>
-        <div className={CartPageStyles.containerEmpty}>
-          <h3>Здесь пока ничего нет</h3>
-          <Link to="/products">Наши товары</Link>
-          <Link to="/profile">Личный кабинет</Link>
-        </div>
-      </div>
-    )
-  }
-
-  // console.log('products.length after if', products.length)
   const totalItems = getTotalItems(cart)
   const isAllChecked = getIsAllChecked(cart)
   const priceFullTotal = getPriceFullTotal(cart, products)
@@ -151,6 +137,9 @@ function CartPage() {
   const navigate = useNavigate()
   const cart = useSelector(getCartSelector)
   const ids = Object.keys(cart)
+  // eslint-disable-next-line max-len
+  // console.log('ids, productIdsInCart', JSON.parse(JSON.stringify(ids)), JSON.parse(JSON.stringify(productIdsInCart)))
+  // console.log('ids', JSON.parse(JSON.stringify(ids)))
 
   useEffect(() => {
     if (!token) {
@@ -170,16 +159,36 @@ function CartPage() {
     queryFn: () => dogFoodApi.getProductsByIds(ids, token),
   })
 
-  return (
-    <CartPageInnerWithQuery
-      products={products}
-      isError={isError}
-      isLoading={isLoading}
-      error={error}
-      refetch={refetch}
-      cart={cart}
-    />
-  )
+  useEffect(() => {
+    refetch(ids)
+  }, [cart])
+
+  if (!products?.length) {
+    // console.log('products.length in if (!products.length)', products.length)
+    return (
+      <div className={CartPageStyles.CartPage}>
+        <h1 className={CartPageStyles.header}>Корзина</h1>
+        <div className={CartPageStyles.containerEmpty}>
+          <h3>Здесь пока ничего нет</h3>
+          <Link to="/products">Наши товары</Link>
+          <Link to="/profile">Личный кабинет</Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (ids.length === products.length) {
+    return (
+      <CartPageInnerWithQuery
+        products={products}
+        isError={isError}
+        isLoading={isLoading}
+        error={error}
+        refetch={refetch}
+        cart={cart}
+      />
+    )
+  }
 }
 
 export default CartPage
