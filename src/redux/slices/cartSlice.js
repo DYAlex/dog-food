@@ -40,16 +40,25 @@ const cartSlice = createSlice({
         state[action.payload].isChecked = !state[action.payload].isChecked
       }
     },
-    checkAll(state, action) {
-      action.payload.forEach((id) => {
-        state[id].isChecked = true
+    checkAll(state) {
+      // console.log('State in checkAll', JSON.parse(JSON.stringify(state)))
+      Object.keys(state).map((key) => {
+        state[key].isChecked = true
+        return state[key].isChecked
       })
+      // action.payload.forEach((id) => {
+      //   state[id].isChecked = true
+      // })
     },
-    uncheckAll(state, action) {
+    uncheckAll(state) {
       // console.log(state, action.payload)
-      action.payload.forEach((id) => {
-        state[id].isChecked = false
+      Object.keys(state).map((key) => {
+        state[key].isChecked = false
+        return state[key].isChecked
       })
+      // action.payload.forEach((id) => {
+      //   state[id].isChecked = false
+      // })
     },
     deleteCheckedFromCart(state, action) {
       action.payload.forEach((id) => {

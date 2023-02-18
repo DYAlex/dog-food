@@ -4,7 +4,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { useDispatch, useSelector } from 'react-redux'
 import { addCartItem, getCartSelector } from '../../redux/slices/cartSlice'
 import ProductCardStyles from './ProductCard.module.css'
-import { QuantityController } from '../commonUI/QuantityController/QuantityController'
+import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
 
 function ProductCard({ id, product }) {
   const dispatch = useDispatch()

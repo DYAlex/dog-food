@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { setUserToken } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
-import { signInFormValidationSchema } from '../validator'
+import { signInFormValidationSchema } from '../utils/validator'
 import SignInStyles from './SignIn.module.css'
 
 const initialValues = {
