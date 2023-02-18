@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Dog Food Проект в рамках курсах обучения Фронтенд разработки в СберУниверситете
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -14,57 +14,80 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## API 
 
-### Code Splitting
+API предоставлен обучающей организацией
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Приоритеты 
 
-### Analyzing the Bundle Size
+[CRITICAL] - Необходимый функционал проекта или блокирующие его баги
+[HIGH] - Второстепенный функционал проекта или баги, которые выявлены в его реализации
+[MIDDLE] - Дополнительный функционал проекта и сопутствующие баги
+[LOW] - Опциональный функционал и сопутствующие баги
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## Основной функционал проекта
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
++ Регистрация на сайте. Страница регистрации «/signup». Форму реализована через Formik (валидация через yup). После успешного ответа сервера перенаправляем пользователя на страницу аутентификации.
 
-### Advanced Configuration
++ Аутентификация на сайте. Страница аутентификации «/signin». Форму реализована через Formik (валидация через yup). После успешного ответа сохраняем токен в состояние Redux и в локальное хранилище данных. Пользователь остается авторизованными до момента нажатия на кнопку "Выйти". 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
++ Настроена синхронизацию Redux с LocalStorage
 
-### Deployment
++ Главная страница-заглушка «/» со ссылками на Каталог и Личный кабинет
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
++ Страница отображения списка товаров «/products». Если пользователь не авторизован, то перенаправляем его на страницу аутентификации. Если пользователь авторизован, то получаем данные с сервера и отрисовываем карточки товаров. Здесь также реализован механизм отображения компонента Loader, Чтобы информировать пользователя о сетевом запросе.
 
-### `npm run build` fails to minify
++ Реализован поиск товаров на главной странице с оптимизацией через debounce.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
++ Реализована страница "Корзина": 
+  1) Добавление товара в корзину происходит путем клика на кнопку "В корзину" в карточке товара на странице списка
+  2) Количество товаров в корзине отображается рядом с иконкой в шапке сайта. Эта цифра отвечает за уникальные товары в корзине.
+  3) В корзине отображается каждый товар на своей строчке (название товара, фото товара, количество, цена). За образец взяли реализацию корзины в сетевом магазине DNS.
+  4) Реализован функционал изменения количества конкретного товара. Минимум 1 шт, максимум берем из поля "stock" у товара. При достижении границ, кнопки убавления/прибавления становятся неактивными.
+  5) Реализована возможность удалить выбранный товар из корзины
+  6) Реализована возможность выбора товаров в корзине, которые пользователь будет оформлять. Логика такая, что в корзине могут находится десятки товаров, но пользователь может выбрать, например, только 2 товара, которые хочет оформить. 
+  7) Реализован подсчет стоимости выбранных товаров (с учетом скидок) и выводим кнопку-пустышку "Оформить".
+  8) Реализована информационная заглушка на детальной корзины, если в корзине нет товаров. "Здесь пока ничего нет" и ссылки на страницы Каталог, Личный кабинет.
+
+
+## План развития проекта
+
+- [HIGH] 0) Добавить модальное окно с подтверждением удаления товара из корзины
+- [CRITICAL] 1) Детальная страница товара
+- [CRITICAL]     1.1) Загружаем информацию о товаре через TanStack. Id товара достаем через useParams
+- [CRITICAL]     1.2) Возможность добавить товар в избранное. Для этого создаем отдельный slice в редаксе.
+- [CRITICAL]     1.3) Возможность добавить товар в корзину. Функционал такой же как на странице списка товаров.
+- [CRITICAL]     1.4) Отображение комментариев
+- [CRITICAL]     1.5) Добавление комментариев (форма создания нового комментария располагается над комментариями)
+- [CRITICAL]     1.6) Редактирование товара (Форма через Formik. Валидация через yup. Запрос через мутации TanStack)
+            Кнопка редактирования есть только у товара, который вы добавили
+- [CRITICAL]     1.7) Удаление товара. Кнопка удаления есть только у товара, который вы добавили
+
+- [CRITICAL] 2) Добавление нового товара (через модалку/отдельная страница). Форма через Formik. Валидация через yup. Запрос через мутации TanStack
+
+- [CRITICAL] 3) Реализация страницы избранных товаров. Отдельная страница.
+При переходе на данную страницу подтягиваем id избранных товаров из redux'a, отправляем запрос на получение товаров по указанным id-шникам.
+
+- [CRITICAL] 4) Сортировка товаров на странице '/products'. Параметры сортировки сохранять в url (По цене, по акции, по дате добавления)
+
+- [CRITICAL] 5) Страница с информацией о пользователе (имя, должность, фото, группа, email)
+
+### Опциональные изменения 
+1. [MIDDLE] Переделать оставшиеся недоделанными кнопки в отдельные компоненты, которые используют модульный css. (кнопки В корзину, Подробнее, Войти, Зарегистрироваться)
+2. [MIDDLE] Создать ещё папку "pages" и перекинуть в неё большие компоненты. Тогда в "common" будут атомы, а в "pages" большие страницы.
+3. [MIDDLE] Реализовать синхронизацию с локальным хранилищем корзин для нескольких пользователей.
+4. [LOW] Реализовать кнопку скрытия/показа пароля в инпутах форм.
+5. [LOW] Добавить анимации переходов между страницами
+6. [LOW] Добавить анимации кнопок при наведении на них указателя.
+7. [LOW] Добавить возможность редактировать профиль пользователя в Личном кабинете. 
+
+## Известные баги
+
+- [LOW] Хедер не реагирует на изменение ширины вьюпорта. Предполагаемые шаги к устранению: завести состояние, чтобы Реакт реагировал на изменение ширины. 
+- [LOW] Футер не реагирует на изменение ширины вьюпорта. Предполагаемые шаги к устранению: завести состояние, чтобы Реакт реагировал на изменение ширины. С учетом того, что у нас уже два компонента, которые этого требуют возможно правильнее использовать контекст для отслеживания ширины вьюпорта, а в компонентах только получать и использовать результат.
+- [CRITICAL] После сохранения в локальном хранилище корзины одного пользователя, при входе на сайт с того же устройства другого пользователя может подгружаться корзина первого пользователя.
