@@ -18,11 +18,14 @@ const userSlice = createSlice({
       state.token = action.payload
       // console.log('This is state.token in userSlice setUserToken', state.token)
     },
+    setUserId(state, action) {
+      state.id = action.payload
+    },
   },
 })
 
 export const {
-  setUserGroup, setUserName, setUserEmail, setUserToken,
+  setUserGroup, setUserName, setUserEmail, setUserToken, setUserId,
 } = userSlice.actions
 export const getUserSelector = (state) => state.user
 export const userReducer = userSlice.reducer

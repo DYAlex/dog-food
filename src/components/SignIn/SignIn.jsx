@@ -5,7 +5,7 @@ import {
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
-import { setUserToken } from '../../redux/slices/userSlice'
+import { setUserId, setUserToken } from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
 import { signInFormValidationSchema } from '../utils/validator'
 import SignInStyles from './SignIn.module.css'
@@ -87,6 +87,8 @@ export function SignIn() {
   } = useMutation({
     mutationFn: (values) => dogFoodApi.signIn(values).then((result) => {
       dispatch(setUserToken(result.token))
+      // eslint-disable-next-line no-underscore-dangle
+      dispatch(setUserId(result.data._id))
     }),
   })
 

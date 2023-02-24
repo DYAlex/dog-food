@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { DF_TOKEN_KEY } from './constants'
+import { LS_KEY } from './constants'
 import { getInitState } from './initState'
 import { cartReducer } from './slices/cartSlice'
 import { filterReducer } from './slices/filterSlice'
@@ -15,5 +15,5 @@ export const store = configureStore({
 })
 
 store.subscribe(() => {
-  window.localStorage.setItem(DF_TOKEN_KEY, JSON.stringify(store.getState()))
+  window.localStorage.setItem(LS_KEY, JSON.stringify(store.getState()))
 })

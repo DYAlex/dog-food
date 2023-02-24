@@ -1,4 +1,4 @@
-import { DF_TOKEN_KEY } from './constants'
+import { LS_KEY } from './constants'
 import { validateDataFromLS } from './utils/functions'
 
 export const initState = {
@@ -7,6 +7,7 @@ export const initState = {
     name: '',
     email: '',
     token: '',
+    id: '',
   },
   cart: {},
   filter: {
@@ -15,7 +16,7 @@ export const initState = {
 }
 
 export const getInitState = () => {
-  const dataFromLS = window.localStorage.getItem(DF_TOKEN_KEY)
+  const dataFromLS = window.localStorage.getItem(LS_KEY)
   if (dataFromLS && typeof JSON.parse(dataFromLS) === 'object') {
     const isDataFromLS = validateDataFromLS(initState, JSON.parse(dataFromLS))
     if (isDataFromLS) {
