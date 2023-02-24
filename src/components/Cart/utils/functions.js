@@ -18,6 +18,7 @@ export const getAllCheckedItems = (cart) => {
   Object.keys(cart).forEach((item) => {
     if (cart[item].isChecked) allCheckedItems.push(item)
   })
+  // console.log({ allCheckedItems })
   return allCheckedItems
 }
 
@@ -39,3 +40,11 @@ export const getDiscountTotal = (cart, products) => (
     return sum
   }, 0)
 )
+
+export const getProductTitles = ([...ids], products) => {
+  const titles = []
+  for (let i = 0, n = ids.length; i < n; i += 1) {
+    titles.push(getItemById(ids[i], products).name)
+  }
+  return titles
+}

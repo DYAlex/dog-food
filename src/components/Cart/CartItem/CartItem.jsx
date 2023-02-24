@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import CartItemStyles from './CartItem.module.css'
 import {
   changeIsChecked,
-  deleteItemFromCart,
+  // deleteItemFromCart,
   getCartSelector,
 } from '../../../redux/slices/cartSlice'
 import { QuantityController } from '../../CommonUI/QuantityController/QuantityController'
+import { DeleteCheckedModal } from '../../Modal/DeleteCheckedModal/DeleteCheckedModal'
 
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
   const dispatch = useDispatch()
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   // if (product) {
   const productDetailHandler = () => {
     console.log('More product info from cartItem.name', id)
@@ -20,9 +23,8 @@ function CartItem({ id, product }) {
     console.log('Product added to favorites', id)
   }
 
-  const deleteProductHandler = () => {
-    console.log('Product deleted from cart', id)
-    dispatch(deleteItemFromCart(id))
+  const openDeleteModalHandler = () => {
+    setIsDeleteModalOpen(true)
   }
 
   const isCheckedHandler = () => {
@@ -96,7 +98,7 @@ function CartItem({ id, product }) {
           <button
             type="button"
             className="btn"
-            onClick={deleteProductHandler}
+            onClick={openDeleteModalHandler}
           >
             Удалить
           </button>
@@ -115,6 +117,12 @@ function CartItem({ id, product }) {
           штук
         </div>
       </div>
+      <DeleteCheckedModal
+        isOpen={isDeleteModalOpen}
+        setIsDeleteCheckedModalOpen={setIsDeleteModalOpen}
+        titles={product.name}
+        ids={id}
+      />
     </div>
   )
   // }

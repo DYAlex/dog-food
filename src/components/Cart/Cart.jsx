@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
@@ -11,15 +11,17 @@ import {
   checkAll,
   uncheckAll,
   getCartSelector,
-  deleteCheckedFromCart,
+  // deleteCheckedFromCart,
 } from '../../redux/slices/cartSlice'
 import {
   getAllCheckedItems,
   getDiscountTotal,
   getIsAllChecked,
   getPriceFullTotal,
+  getProductTitles,
   getTotalItems,
 } from './utils/functions'
+import { DeleteCheckedModal } from '../Modal/DeleteCheckedModal/DeleteCheckedModal'
 
 function CartPageInner({
   cart, products,
@@ -28,6 +30,7 @@ function CartPageInner({
   // console.log('cart, products', JSON.parse(JSON.stringify(cart)), JSON.parse(JSON.stringify(products)))
   // console.log('products.length, cart.length', products.length, Object.keys(cart).length)
   const dispatch = useDispatch()
+  const [isDeleteCheckedModalOpen, setIsDeleteCheckedModalOpen] = useState(false)
 
   const totalItems = getTotalItems(cart)
   const isAllChecked = getIsAllChecked(cart)
@@ -36,18 +39,16 @@ function CartPageInner({
 
   const checkAllHandler = () => {
     if (!isAllChecked) {
-      // console.log('All checked now')
       dispatch(checkAll())
     } else {
-      // console.log('All UNchecked')
       dispatch(uncheckAll())
     }
   }
 
-  const deleteCheckedFromCartHandler = () => {
-    // console.log('deleteCheckedFromCartHandler clicked')
-    dispatch(deleteCheckedFromCart(getAllCheckedItems(cart)))
+  const openDeleteCheckedModalHandler = () => {
+    setIsDeleteCheckedModalOpen(true)
   }
+
   return (
     <div className={CartPageStyles.CartPage}>
       <h1 className={CartPageStyles.header}>Корзина</h1>
@@ -68,7 +69,7 @@ function CartPageInner({
             <button
               type="button"
               className={CartPageStyles.btn}
-              onClick={deleteCheckedFromCartHandler}
+              onClick={openDeleteCheckedModalHandler}
             >
               Удалить выбранные
             </button>
@@ -125,6 +126,12 @@ function CartPageInner({
           </Link>
         </div>
       </div>
+      <DeleteCheckedModal
+        isOpen={isDeleteCheckedModalOpen}
+        setIsDeleteCheckedModalOpen={setIsDeleteCheckedModalOpen}
+        titles={getProductTitles(getAllCheckedItems(cart), products)}
+        ids={getAllCheckedItems(cart)}
+      />
     </div>
   )
   // }
