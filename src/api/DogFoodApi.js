@@ -96,6 +96,32 @@ class DogFoodApi {
     return res.json()
   }
 
+  async getUserById(id, token) {
+    this.checkToken(token)
+    // console.log(`${this.baseUrl}/v2/sm9/users/${id}`)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/${id}`, {
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+      },
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при получении имени пользователя. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
   async getAllProducts(search, token) {
     this.checkToken(token)
 

@@ -23,7 +23,7 @@ export function DeleteCheckedModal({
         Вы точно хотите удалить?
         {' '}
         {isTitlesArray ? titles.map((title) => (
-          <p>
+          <p key={title}>
             <b>
               &quot;
               {title}
