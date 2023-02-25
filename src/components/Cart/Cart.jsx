@@ -11,7 +11,6 @@ import {
   checkAll,
   uncheckAll,
   getCartSelector,
-  // deleteCheckedFromCart,
 } from '../../redux/slices/cartSlice'
 import {
   getAllCheckedItems,
@@ -48,6 +47,8 @@ function CartPageInner({
   const openDeleteCheckedModalHandler = () => {
     setIsDeleteCheckedModalOpen(true)
   }
+
+  const checkedItems = getAllCheckedItems(cart)
 
   return (
     <div className={CartPageStyles.CartPage}>
@@ -129,12 +130,11 @@ function CartPageInner({
       <DeleteCheckedModal
         isOpen={isDeleteCheckedModalOpen}
         setIsDeleteCheckedModalOpen={setIsDeleteCheckedModalOpen}
-        titles={getProductTitles(getAllCheckedItems(cart), products)}
-        ids={getAllCheckedItems(cart)}
+        titles={getProductTitles(checkedItems, products)}
+        ids={checkedItems}
       />
     </div>
   )
-  // }
 }
 
 const CartPageInnerWithQuery = withQuery(CartPageInner)
@@ -144,13 +144,10 @@ function CartPage() {
   const navigate = useNavigate()
   const cart = useSelector(getCartSelector)
   const ids = Object.keys(cart)
-  // eslint-disable-next-line max-len
-  // console.log('ids, productIdsInCart', JSON.parse(JSON.stringify(ids)), JSON.parse(JSON.stringify(productIdsInCart)))
-  // console.log('ids', JSON.parse(JSON.stringify(ids)))
 
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
+      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   }, [token])
@@ -162,16 +159,16 @@ function CartPage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ['cart', token],
+    queryKey: ['cart', ids, token],
     queryFn: () => dogFoodApi.getProductsByIds(ids, token),
+    enabled: !!token,
+    keepPreviousData: true,
   })
 
-  useEffect(() => {
-    refetch(ids)
-  }, [cart])
+  // eslint-disable-next-line max-len, no-underscore-dangle
+  const productsFiltered = products && products.filter((productFromServer) => ids.includes(productFromServer._id))
 
   if (!products?.length) {
-    // console.log('products.length in if (!products.length)', products.length)
     return (
       <div className={CartPageStyles.CartPage}>
         <h1 className={CartPageStyles.header}>Корзина</h1>
@@ -184,7 +181,7 @@ function CartPage() {
     )
   }
 
-  if (ids.length === products.length) {
+  if (ids.length === productsFiltered.length) {
     return (
       <CartPageInnerWithQuery
         products={products}
