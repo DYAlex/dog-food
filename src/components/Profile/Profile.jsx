@@ -28,8 +28,26 @@ function ProfileInner({ user, isLoading }) {
             width="200"
           />
         </p>
-        <p>{user.name}</p>
-        <p>{user.email}</p>
+        <p>
+          Имя:
+          {' '}
+          {user.name}
+        </p>
+        <p>
+          Информация:
+          {' '}
+          {user.about}
+        </p>
+        <p>
+          Группа:
+          {' '}
+          {user.group}
+        </p>
+        <p>
+          Почта:
+          {' '}
+          {user.email}
+        </p>
         <button
           disabled={isLoading}
           type="button"
