@@ -10,6 +10,7 @@ import {
   removeFromFavorites,
 } from '../../redux/slices/favoritesSlice'
 import { getUserSelector } from '../../redux/slices/userSlice'
+import { AddReview } from '../AddReview/AddReview'
 import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
 import { UserName } from '../CommonUI/UserName/UserName'
 import { withQuery } from '../HOCs/withQuery'
@@ -80,7 +81,7 @@ function ProductDetailInner({ product, id }) {
           </button>
         </div>
         <div className={ProductDetailStyles.reviewFormWr}>
-          Здесь должна быть форма для добавления отзыва
+          <AddReview productId={id} />
         </div>
         <div className={ProductDetailStyles.reviewsWr}>
           <hr />
@@ -114,12 +115,13 @@ function ProductDetailInner({ product, id }) {
 const ProductDetailInnerWithQuery = withQuery(ProductDetailInner)
 
 function ProductDetail() {
+  // console.log('Render Product Detail')
   const { token } = useSelector(getUserSelector)
   const { productId } = useParams()
   const navigate = useNavigate()
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
+      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   })

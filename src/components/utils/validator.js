@@ -20,3 +20,14 @@ export const signInFormValidationSchema = Yup.object({
     .max(20, 'Должно быть не более 20-ти символов')
     .required('Не заполнено обязательное поле "Пароль"'),
 })
+
+export const addReviewFormValidationSchema = Yup.object({
+  rating: Yup.number()
+    .min(1, 'Должно быть не менее 1')
+    .max(5, 'Должно быть не более 5')
+    .required('Укажите рейтинг'),
+  text: Yup.string()
+    .min(3, 'Должно быть не менее 3 символов')
+    .max(200, 'Должно быть не более 200 символов')
+    .required(''),
+})

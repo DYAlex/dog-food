@@ -10,6 +10,7 @@ import ProfileStyles from './Profile.module.css'
 function ProfileInner({ user, isLoading }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  console.log({ user })
 
   const logoutHandler = () => {
     console.log('Logging out')

@@ -5,7 +5,9 @@ import {
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
-import { setUserId, setUserToken } from '../../redux/slices/userSlice'
+import {
+  setUserEmail, setUserGroup, setUserId, setUserName, setUserToken,
+} from '../../redux/slices/userSlice'
 import { withQuery } from '../HOCs/withQuery'
 import { signInFormValidationSchema } from '../utils/validator'
 import SignInStyles from './SignIn.module.css'
@@ -89,6 +91,9 @@ export function SignIn() {
       dispatch(setUserToken(result.token))
       // eslint-disable-next-line no-underscore-dangle
       dispatch(setUserId(result.data._id))
+      dispatch(setUserName(result.data.name))
+      dispatch(setUserEmail(result.data.email))
+      dispatch(setUserGroup(result.data.group))
     }),
   })
 
