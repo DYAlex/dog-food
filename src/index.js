@@ -17,6 +17,7 @@ import { Loader } from './components/Loader/Loader'
 import ErrorPage from './components/Error/ErrorPage'
 import CartPage from './components/Cart/Cart'
 import FavoritesPage from './components/Favorites/Favorites'
+import { AddProduct } from './components/AddProduct/AddProduct'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +57,10 @@ const Router = createBrowserRouter(
         {
           path: 'products/:productId',
           element: <ProductDetail />,
+        },
+        {
+          path: 'products/add',
+          element: <AddProduct />,
         },
         {
           path: 'loader',

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { getSearchSelector } from '../../redux/slices/filterSlice'
 import { getUserSelector } from '../../redux/slices/userSlice'
@@ -16,7 +16,12 @@ function ProductPageInner({ products, search }) {
   if (products) {
     return (
       <div className={ProductPageStyles.ProductPage}>
-        <div className={ProductPageStyles.search}><Search /></div>
+        <div className={ProductPageStyles.search}>
+          <Search />
+          <Link to="/products/add">
+            <button type="button" className="btn btn-action">Добавить продукт</button>
+          </Link>
+        </div>
         <div className={ProductPageStyles.filters}><Filters /></div>
         <h2 className={ProductPageStyles.header}>
           {search

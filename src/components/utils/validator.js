@@ -31,3 +31,14 @@ export const addReviewFormValidationSchema = Yup.object({
     .max(200, 'Должно быть не более 200 символов')
     .required(''),
 })
+
+export const addProductFormValidationSchema = Yup.object({
+  name: Yup.string().required('Название продукта - обязательное поле'),
+  price: Yup.number().required('Необходимо указать цену продукта'),
+  description: Yup.string().required('Описание продукта - обязательное поле'),
+  pictures: Yup.string(),
+  wight: Yup.string(),
+  discount: Yup.number(),
+  stock: Yup.number(),
+  available: Yup.boolean(),
+})
