@@ -21,19 +21,21 @@ function ProductDetailInner({ product, id }) {
   const favorites = useSelector(getFavoritesSelector)
   const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
 
+  // console.log({ product })
+
   const addToCartHandler = () => {
-    console.log('Product added to cart', product.name)
+    // console.log('Product added to cart', product.name)
     const { stock } = product
     dispatch(addCartItem({ id, stock }))
   }
 
   const addToFavsHandler = () => {
     if (!isFavorite) {
-      console.log('Product added to favorites', id)
+      // console.log('Product added to favorites', id)
       setIsFavorite(() => !isFavorite)
       return dispatch(addToFavorites(id))
     }
-    console.log('Product removed from favorites', id)
+    // console.log('Product removed from favorites', id)
     setIsFavorite(() => !isFavorite)
     return dispatch(removeFromFavorites(id))
   }

@@ -21,11 +21,11 @@ function FavoritesItem({ id, product }) {
 
   const addToFavsHandler = () => {
     if (!isFavorite) {
-      console.log('Product added to favorites', id)
+      // console.log('Product added to favorites', id)
       setIsFavorite(() => !isFavorite)
       return dispatch(addToFavorites(id))
     }
-    console.log('Product removed from favorites', id)
+    // console.log('Product removed from favorites', id)
     setIsFavorite(() => !isFavorite)
     return dispatch(removeFromFavorites(id))
   }

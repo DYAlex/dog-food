@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { getSearchSelector } from '../../redux/slices/filterSlice'
 import { getUserSelector } from '../../redux/slices/userSlice'
+import { FILTER_QUERY_NAME, getFilteredProducts } from '../Filters/constants'
+import { Filters } from '../Filters/Filters'
 import { withQuery } from '../HOCs/withQuery'
 import ProductCard from '../ProductCard/ProductCard'
 import Search from '../Search/Search'
@@ -15,6 +17,7 @@ function ProductPageInner({ products, search }) {
     return (
       <div className={ProductPageStyles.ProductPage}>
         <div className={ProductPageStyles.search}><Search /></div>
+        <div className={ProductPageStyles.filters}><Filters /></div>
         <h2 className={ProductPageStyles.header}>
           {search
             ? ('Товары по запросу')
@@ -37,18 +40,20 @@ function ProductPageInner({ products, search }) {
 const ProductPageInnerWithQuery = withQuery(ProductPageInner)
 function ProductPage() {
   const { token } = useSelector(getUserSelector)
-  const search = useSelector(getSearchSelector)
   const navigate = useNavigate()
+  const search = useSelector(getSearchSelector)
+  const [searchParams] = useSearchParams()
+  const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
 
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
+      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
-  })
+  }, [token])
 
   const {
-    data: products,
+    data = [],
     isError,
     error,
     isLoading,
@@ -58,6 +63,12 @@ function ProductPage() {
     queryFn: () => dogFoodApi.getAllProducts(search, token),
     enabled: !!token,
   })
+
+  let products = data
+
+  if (currentFilterNameFromQuery) {
+    products = getFilteredProducts(data, currentFilterNameFromQuery)
+  }
 
   return (
     <ProductPageInnerWithQuery

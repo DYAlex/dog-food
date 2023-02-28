@@ -6,7 +6,7 @@ const favoritesSlice = createSlice({
   initialState: getInitState(),
   reducers: {
     addToFavorites(state, action) {
-      console.log('addToFavorites reducer from favoritesSlice', { action })
+      // console.log('addToFavorites reducer from favoritesSlice', { action })
       if (!state[action.payload]) {
         const newItem = {
           [action.payload]: {
@@ -14,11 +14,10 @@ const favoritesSlice = createSlice({
           },
         }
         Object.assign(state, newItem)
-        // console.log(state)
       }
     },
     removeFromFavorites(state, action) {
-      console.log('removeFromFavorites reducer from favoritesSlice', { action })
+      // console.log('removeFromFavorites reducer from favoritesSlice', { action })
       if (action.payload in state) {
         delete state[action.payload]
       }

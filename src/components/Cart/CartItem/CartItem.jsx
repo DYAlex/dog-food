@@ -21,16 +21,16 @@ function CartItem({ id, product }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
   const productDetailHandler = () => {
-    console.log('More product info from cartItem.name', id)
+    // console.log('More product info from cartItem.name', id)
   }
 
   const addToFavsHandler = () => {
     if (!isFavorite) {
-      console.log('Product added to favorites', id)
+      // console.log('Product added to favorites', id)
       setIsFavorite(() => !isFavorite)
       return dispatch(addToFavorites(id))
     }
-    console.log('Product removed from favorites', id)
+    // console.log('Product removed from favorites', id)
     setIsFavorite(() => !isFavorite)
     return dispatch(removeFromFavorites(id))
   }

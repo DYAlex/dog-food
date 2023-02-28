@@ -23,3 +23,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.filters {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
