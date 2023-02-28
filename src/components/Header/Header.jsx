@@ -45,7 +45,7 @@ function Header() {
     btns = (
       <>
         <NavLink
-          to="/"
+          to="/favorites"
           className={classNames(headerStyles.Link)}
         >
           <FontAwesomeIcon icon={faHeart} />

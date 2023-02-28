@@ -16,6 +16,7 @@ import Profile from './components/Profile/Profile'
 import { Loader } from './components/Loader/Loader'
 import ErrorPage from './components/Error/ErrorPage'
 import CartPage from './components/Cart/Cart'
+import FavoritesPage from './components/Favorites/Favorites'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +64,10 @@ const Router = createBrowserRouter(
         {
           path: 'cart',
           element: <CartPage />,
+        },
+        {
+          path: 'favorites',
+          element: <FavoritesPage />,
         },
       ],
     },
