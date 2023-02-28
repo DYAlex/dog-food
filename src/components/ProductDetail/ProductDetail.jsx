@@ -14,29 +14,35 @@ import { AddReview } from '../AddReview/AddReview'
 import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
 import { UserName } from '../CommonUI/UserName/UserName'
 import { withQuery } from '../HOCs/withQuery'
+import { DeleteProductModal } from '../Modal/DeleteProductModal/DeleteProductModal'
 import ProductDetailStyles from './ProductDetail.module.css'
 
-function ProductDetailInner({ product, id }) {
+function ProductDetailInner({ product, id, token }) {
   const dispatch = useDispatch()
   const cart = useSelector(getCartSelector)
+  const user = useSelector(getUserSelector)
   const favorites = useSelector(getFavoritesSelector)
   const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
+  const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] = useState(false)
+  // eslint-disable-next-line no-underscore-dangle
+  const isAuthor = product.author._id === user.id
 
-  // console.log({ product })
+  // console.log({ isAuthor })
+
+  const openDeleteProductModalHandler = () => {
+    setIsDeleteProductModalOpen(true)
+  }
 
   const addToCartHandler = () => {
-    // console.log('Product added to cart', product.name)
     const { stock } = product
     dispatch(addCartItem({ id, stock }))
   }
 
   const addToFavsHandler = () => {
     if (!isFavorite) {
-      // console.log('Product added to favorites', id)
       setIsFavorite(() => !isFavorite)
       return dispatch(addToFavorites(id))
     }
-    // console.log('Product removed from favorites', id)
     setIsFavorite(() => !isFavorite)
     return dispatch(removeFromFavorites(id))
   }
@@ -79,6 +85,18 @@ function ProductDetailInner({ product, id }) {
           >
             {isFavorite ? 'Убрать из избранного' : 'В избранное'}
           </button>
+          {isAuthor
+            ? (
+              <button
+                disabled={!product.available}
+                type="button"
+                className="btn btn-danger"
+                onClick={openDeleteProductModalHandler}
+              >
+                Удалить
+              </button>
+            )
+            : null}
         </div>
         <div className={ProductDetailStyles.reviewFormWr}>
           <AddReview productId={id} />
@@ -107,6 +125,13 @@ function ProductDetailInner({ product, id }) {
             </div>
           ))}
         </div>
+        <DeleteProductModal
+          isOpen={isDeleteProductModalOpen}
+          setIsOpen={setIsDeleteProductModalOpen}
+          title={product.name}
+          id={id}
+          token={token}
+        />
       </div>
     )
   }
@@ -115,7 +140,6 @@ function ProductDetailInner({ product, id }) {
 const ProductDetailInnerWithQuery = withQuery(ProductDetailInner)
 
 function ProductDetail() {
-  // console.log('Render Product Detail')
   const { token } = useSelector(getUserSelector)
   const { productId } = useParams()
   const navigate = useNavigate()
@@ -134,6 +158,7 @@ function ProductDetail() {
   } = useQuery({
     queryKey: ['productId', productId],
     queryFn: () => dogFoodApi.getProductById(productId, token),
+    enabled: !!productId,
   })
 
   return (
@@ -144,6 +169,7 @@ function ProductDetail() {
       error={error}
       refetch={refetch}
       id={productId}
+      token={token}
     />
   )
 }

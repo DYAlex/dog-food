@@ -158,7 +158,7 @@ class DogFoodApi {
     })
 
     if (res.status >= 400 && res.status < 500) {
-      throw new Error(`Произошла ошибка при входе в Личный кабинет. 
+      throw new Error(`Произошла ошибка при получении продукта ${productId}. 
       Проверьте отправляемые данные. Status: ${res.status}`)
     }
 
@@ -219,6 +219,28 @@ class DogFoodApi {
 
     if (res.status >= 400 && res.status < 500) {
       throw new Error(`Произошла ошибка при создании нового продукта.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async deleteProductById(productId, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+      },
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при удалении продукта ${productId}.
       Проверьте отправляемые данные. Status: ${res.status}`)
     }
 
