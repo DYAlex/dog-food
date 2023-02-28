@@ -10,6 +10,7 @@ export const initState = {
     id: '',
   },
   cart: {},
+  favorites: {},
   filter: {
     search: '',
   },

@@ -16,6 +16,11 @@
     color: #777;
 }
 
+.fav {
+    color: crimson;
+    font-weight: 900;
+}
+
 .icon:hover {
     cursor: pointer;
 }

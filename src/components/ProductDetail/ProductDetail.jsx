@@ -1,9 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { dogFoodApi } from '../../api/DogFoodApi'
 import { addCartItem, getCartSelector } from '../../redux/slices/cartSlice'
+import {
+  addToFavorites,
+  getFavoritesSelector,
+  removeFromFavorites,
+} from '../../redux/slices/favoritesSlice'
 import { getUserSelector } from '../../redux/slices/userSlice'
 import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
 import { UserName } from '../CommonUI/UserName/UserName'
@@ -13,11 +18,24 @@ import ProductDetailStyles from './ProductDetail.module.css'
 function ProductDetailInner({ product, id }) {
   const dispatch = useDispatch()
   const cart = useSelector(getCartSelector)
+  const favorites = useSelector(getFavoritesSelector)
+  const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
 
   const addToCartHandler = () => {
     console.log('Product added to cart', product.name)
     const { stock } = product
     dispatch(addCartItem({ id, stock }))
+  }
+
+  const addToFavsHandler = () => {
+    if (!isFavorite) {
+      console.log('Product added to favorites', id)
+      setIsFavorite(() => !isFavorite)
+      return dispatch(addToFavorites(id))
+    }
+    console.log('Product removed from favorites', id)
+    setIsFavorite(() => !isFavorite)
+    return dispatch(removeFromFavorites(id))
   }
 
   if (product) {
@@ -51,6 +69,13 @@ function ProductDetailInner({ product, id }) {
                 В корзину
               </button>
             )}
+          <button
+            type="button"
+            className="btn"
+            onClick={addToFavsHandler}
+          >
+            {isFavorite ? 'Убрать из избранного' : 'В избранное'}
+          </button>
         </div>
         <div className={ProductDetailStyles.reviewFormWr}>
           Здесь должна быть форма для добавления отзыва

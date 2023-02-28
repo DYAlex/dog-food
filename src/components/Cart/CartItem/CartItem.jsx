@@ -8,17 +8,31 @@ import {
 } from '../../../redux/slices/cartSlice'
 import { QuantityController } from '../../CommonUI/QuantityController/QuantityController'
 import { DeleteCheckedModal } from '../../Modal/DeleteCheckedModal/DeleteCheckedModal'
+import {
+  addToFavorites,
+  getFavoritesSelector,
+  removeFromFavorites,
+} from '../../../redux/slices/favoritesSlice'
 
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
+  const favorites = useSelector(getFavoritesSelector)
   const dispatch = useDispatch()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
   const productDetailHandler = () => {
     console.log('More product info from cartItem.name', id)
   }
 
   const addToFavsHandler = () => {
-    console.log('Product added to favorites', id)
+    if (!isFavorite) {
+      console.log('Product added to favorites', id)
+      setIsFavorite(() => !isFavorite)
+      return dispatch(addToFavorites(id))
+    }
+    console.log('Product removed from favorites', id)
+    setIsFavorite(() => !isFavorite)
+    return dispatch(removeFromFavorites(id))
   }
 
   const openDeleteModalHandler = () => {
@@ -90,7 +104,7 @@ function CartItem({ id, product }) {
               className="btn"
               onClick={addToFavsHandler}
             >
-              В избранное
+              {isFavorite ? 'Убрать из избранного' : 'В избранное'}
             </button>
             <button
               type="button"
