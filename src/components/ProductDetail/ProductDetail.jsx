@@ -15,6 +15,7 @@ import { QuantityController } from '../CommonUI/QuantityController/QuantityContr
 import { UserName } from '../CommonUI/UserName/UserName'
 import { withQuery } from '../HOCs/withQuery'
 import { DeleteProductModal } from '../Modal/DeleteProductModal/DeleteProductModal'
+import { EditProductModal } from '../Modal/EditProductModal/EditProductModal'
 import ProductDetailStyles from './ProductDetail.module.css'
 
 function ProductDetailInner({ product, id, token }) {
@@ -24,6 +25,7 @@ function ProductDetailInner({ product, id, token }) {
   const favorites = useSelector(getFavoritesSelector)
   const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
   const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] = useState(false)
+  const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false)
   // eslint-disable-next-line no-underscore-dangle
   const isAuthor = product.author._id === user.id
 
@@ -31,6 +33,10 @@ function ProductDetailInner({ product, id, token }) {
 
   const openDeleteProductModalHandler = () => {
     setIsDeleteProductModalOpen(true)
+  }
+
+  const openEditProductModalHandler = () => {
+    setIsEditProductModalOpen(true)
   }
 
   const addToCartHandler = () => {
@@ -87,14 +93,24 @@ function ProductDetailInner({ product, id, token }) {
           </button>
           {isAuthor
             ? (
-              <button
-                disabled={!product.available}
-                type="button"
-                className="btn btn-danger"
-                onClick={openDeleteProductModalHandler}
-              >
-                Удалить
-              </button>
+              <>
+                <button
+                  disabled={!product.available}
+                  type="button"
+                  className="btn btn-action"
+                  onClick={openEditProductModalHandler}
+                >
+                  Редактировать
+                </button>
+                <button
+                  disabled={!product.available}
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={openDeleteProductModalHandler}
+                >
+                  Удалить
+                </button>
+              </>
             )
             : null}
         </div>
@@ -129,6 +145,13 @@ function ProductDetailInner({ product, id, token }) {
           isOpen={isDeleteProductModalOpen}
           setIsOpen={setIsDeleteProductModalOpen}
           title={product.name}
+          id={id}
+          token={token}
+        />
+        <EditProductModal
+          isOpen={isEditProductModalOpen}
+          setIsOpen={setIsEditProductModalOpen}
+          product={product}
           id={id}
           token={token}
         />

@@ -251,6 +251,30 @@ class DogFoodApi {
 
     return res.json()
   }
+
+  async editProductById(productId, token, values) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/${productId}`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при редактировании продукта ${productId}.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
 }
 
 export const dogFoodApi = new DogFoodApi({ baseUrl: 'https://api.react-learning.ru' })

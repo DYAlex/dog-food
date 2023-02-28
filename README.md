@@ -62,6 +62,7 @@ API предоставлен обучающей организацией
   4) Реализована возможность добавить товар в избранное в Redux.
   5) Реализовано добавление комментариев (форма создания нового комментария располагается над комментариями)
   6) Реализована возможность удаления товара. Кнопка удаления есть только у автора.
+  7) Реализовано редактирование товара (Форма через Formik. Валидация через yup. Запрос через мутации TanStack). Кнопка редактирования есть только у автора товара.
 
 + Реализована страница с информацией о пользователе (имя, доп. информация, фото, группа, email)
 
@@ -73,9 +74,7 @@ API предоставлен обучающей организацией
 
 
 ## План развития проекта
-
-- [CRITICAL] 1) Детальная страница товара
-- [CRITICAL]     1.6) Редактирование товара (Форма через Formik. Валидация через yup. Запрос через мутации TanStack). Кнопка редактирования есть только у товара, который вы добавили
+-------------------------
 
 ### Опциональные изменения 
 1. [MIDDLE] Переделать оставшиеся недоделанными кнопки в отдельные компоненты, которые используют модульный css. (кнопки В корзину, Подробнее, Войти, Зарегистрироваться)
@@ -97,3 +96,5 @@ API предоставлен обучающей организацией
 - [LOW] В формах регистрации и входа плывет верстка при выведении ошибок.
 - [MIDDLE] При удалении товара в консоли появляется предупреждение: Cannot update a component (`RouterProvider`) while rendering a different component (`DeleteProductModal`). To locate the bad setState() call inside `DeleteProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
     at DeleteProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4113:5). Скорее всего, из-за того что модальное окно рендерится через страницу товара, который мы удаляем, и в результате удачного удаления модалка не может поменять свое состояние.
+- [MIDDLE] При редактировании товара в консоли появляется предупреждение: Warning: Cannot update a component (`ProductDetailInner`) while rendering a different component (`EditProductModal`). To locate the bad setState() call inside `EditProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at EditProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4315:5)
