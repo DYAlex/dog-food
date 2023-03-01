@@ -2,20 +2,20 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { addCartItem, getCartSelector } from '../../redux/slices/cartSlice'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { addCartItem, getCartSelector } from '../../../redux/slices/cartSlice'
 import {
   addToFavorites,
   getFavoritesSelector,
   removeFromFavorites,
-} from '../../redux/slices/favoritesSlice'
-import { getUserSelector } from '../../redux/slices/userSlice'
-import { AddReview } from '../AddReview/AddReview'
-import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
-import { UserName } from '../CommonUI/UserName/UserName'
-import { withQuery } from '../HOCs/withQuery'
-import { DeleteProductModal } from '../Modal/DeleteProductModal/DeleteProductModal'
-import { EditProductModal } from '../Modal/EditProductModal/EditProductModal'
+} from '../../../redux/slices/favoritesSlice'
+import { getUserSelector } from '../../../redux/slices/userSlice'
+import { AddReview } from './AddReview/AddReview'
+import { QuantityController } from '../../CommonUI/QuantityController/QuantityController'
+import { UserName } from '../../CommonUI/UserName/UserName'
+import { withQuery } from '../../../HOCs/withQuery'
+import { DeleteProductModal } from '../../Modal/DeleteProductModal/DeleteProductModal'
+import { EditProductModal } from '../../Modal/EditProductModal/EditProductModal'
 import ProductDetailStyles from './ProductDetail.module.css'
 
 function ProductDetailInner({ product, id, token }) {

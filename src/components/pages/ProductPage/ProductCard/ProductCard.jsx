@@ -6,14 +6,14 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons/faHeart'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
-import { addCartItem, getCartSelector } from '../../redux/slices/cartSlice'
+import { addCartItem, getCartSelector } from '../../../../redux/slices/cartSlice'
 import ProductCardStyles from './ProductCard.module.css'
-import { QuantityController } from '../CommonUI/QuantityController/QuantityController'
+import { QuantityController } from '../../../CommonUI/QuantityController/QuantityController'
 import {
   addToFavorites,
   getFavoritesSelector,
   removeFromFavorites,
-} from '../../redux/slices/favoritesSlice'
+} from '../../../../redux/slices/favoritesSlice'
 
 function ProductCard({ id, product }) {
   const dispatch = useDispatch()

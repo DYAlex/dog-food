@@ -3,9 +3,9 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { withQuery } from '../HOCs/withQuery'
-import { signUpFormValidationSchema } from '../utils/validator'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { withQuery } from '../../../HOCs/withQuery'
+import { signUpFormValidationSchema } from '../../utils/validator'
 import SignUpStyles from './SignUp.module.css'
 
 const initialValues = {

@@ -4,10 +4,10 @@ import {
 } from 'formik'
 import { useSelector } from 'react-redux'
 // import { useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { getUserSelector } from '../../redux/slices/userSlice'
-import { withQuery } from '../HOCs/withQuery'
-import { addReviewFormValidationSchema } from '../utils/validator'
+import { dogFoodApi } from '../../../../api/DogFoodApi'
+import { getUserSelector } from '../../../../redux/slices/userSlice'
+import { withQuery } from '../../../../HOCs/withQuery'
+import { addReviewFormValidationSchema } from '../../../utils/validator'
 import AddReviewStyles from './AddReview.module.css'
 
 const initialValues = {

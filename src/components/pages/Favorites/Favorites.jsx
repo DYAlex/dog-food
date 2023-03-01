@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { getUserSelector } from '../../redux/slices/userSlice'
-import { withQuery } from '../HOCs/withQuery'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { getUserSelector } from '../../../redux/slices/userSlice'
+import { withQuery } from '../../../HOCs/withQuery'
 import FavoritesItem from './FavoritesItem/FavoritesItem'
 import FavoritesPageStyles from './Favorites.module.css'
-import { getFavoritesSelector } from '../../redux/slices/favoritesSlice'
+import { getFavoritesSelector } from '../../../redux/slices/favoritesSlice'
 
 function FavoritesPageInner({
   products,

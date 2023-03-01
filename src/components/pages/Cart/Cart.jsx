@@ -2,16 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { getUserSelector } from '../../redux/slices/userSlice'
-import { withQuery } from '../HOCs/withQuery'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { getUserSelector } from '../../../redux/slices/userSlice'
+import { withQuery } from '../../../HOCs/withQuery'
 import CartItem from './CartItem/CartItem'
 import CartPageStyles from './Cart.module.css'
 import {
   checkAll,
   uncheckAll,
   getCartSelector,
-} from '../../redux/slices/cartSlice'
+} from '../../../redux/slices/cartSlice'
 import {
   getAllCheckedItems,
   getDiscountTotal,
@@ -20,7 +20,7 @@ import {
   getProductTitles,
   getTotalItems,
 } from './utils/functions'
-import { DeleteCheckedModal } from '../Modal/DeleteCheckedModal/DeleteCheckedModal'
+import { DeleteCheckedModal } from '../../Modal/DeleteCheckedModal/DeleteCheckedModal'
 
 function CartPageInner({
   cart, products,

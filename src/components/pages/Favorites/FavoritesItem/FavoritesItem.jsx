@@ -6,9 +6,9 @@ import {
   addToFavorites,
   getFavoritesSelector,
   removeFromFavorites,
-} from '../../../redux/slices/favoritesSlice'
-import { addCartItem, getCartSelector } from '../../../redux/slices/cartSlice'
-import { QuantityController } from '../../CommonUI/QuantityController/QuantityController'
+} from '../../../../redux/slices/favoritesSlice'
+import { addCartItem, getCartSelector } from '../../../../redux/slices/cartSlice'
+import { QuantityController } from '../../../CommonUI/QuantityController/QuantityController'
 
 function FavoritesItem({ id, product }) {
   const cart = useSelector(getCartSelector)

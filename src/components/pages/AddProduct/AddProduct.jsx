@@ -5,10 +5,10 @@ import {
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { getUserSelector } from '../../redux/slices/userSlice'
-import { withQuery } from '../HOCs/withQuery'
-import { addProductFormValidationSchema } from '../utils/validator'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { getUserSelector } from '../../../redux/slices/userSlice'
+import { withQuery } from '../../../HOCs/withQuery'
+import { addProductFormValidationSchema } from '../../utils/validator'
 import AddProductStyles from './AddProduct.module.css'
 
 const initialValues = {

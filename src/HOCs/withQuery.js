@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 import { useNavigate } from 'react-router-dom'
-import { Loader } from '../Loader/Loader'
+import { Loader } from '../components/CommonUI/Loader/Loader'
 import withQueryStyles from './withQuery.module.css'
 
 export const withQuery = (WrappedComponent) => function ({

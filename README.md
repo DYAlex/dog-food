@@ -1,12 +1,22 @@
 # Dog Food Проект в рамках курсах обучения Фронтенд разработки в СберУниверситете
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Использованные технологии
 
-## Available Scripts
+1. [Create React App](https://github.com/facebook/create-react-app).
+2. [Classnames] (https://www.npmjs.com/package/classnames).
+1. [React Router] (https://reactrouter.com/en/main).
+1. [Formik] (https://formik.org/).
+1. [TanStack Query v4] (https://tanstack.com/query/latest).
+1. [Redux] (https://redux.js.org/).
+1. [Redux Toolkit] (https://redux-toolkit.js.org/).
+1. [Font Awesome] (https://fontawesome.com/).
+1. [SASS] (https://www.npmjs.com/package/sass).
+
+### Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+#### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,20 +24,17 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
 ## API 
 
 API предоставлен обучающей организацией
 
 ## Приоритеты 
 
-[CRITICAL] - Необходимый функционал проекта или блокирующие его баги
-[HIGH] - Второстепенный функционал проекта или баги, которые выявлены в его реализации
-[MIDDLE] - Дополнительный функционал проекта и сопутствующие баги
-[LOW] - Опциональный функционал и сопутствующие баги
++ [CRITICAL] - Необходимый функционал проекта или блокирующие его баги
++ [HIGH] - Второстепенный функционал проекта или баги, которые выявлены в его реализации
++ [MIDDLE] - Дополнительный функционал проекта и сопутствующие баги
++ [LOW] - Опциональный функционал и сопутствующие баги
++ [DONE] - Работы временно не ведутся
 
 
 ## Основной функционал проекта
@@ -78,7 +85,7 @@ API предоставлен обучающей организацией
 
 ### Опциональные изменения 
 1. [MIDDLE] Переделать оставшиеся недоделанными кнопки в отдельные компоненты, которые используют модульный css. (кнопки В корзину, Подробнее, Войти, Зарегистрироваться)
-2. [MIDDLE] Создать ещё папку "pages" и перекинуть в неё большие компоненты. Тогда в "common" будут атомы, а в "pages" большие страницы.
+2. [DONE] Создать ещё папку "pages" и перекинуть в неё большие компоненты. Тогда в "common" будут атомы, а в "pages" большие страницы.
 3. [MIDDLE] Реализовать синхронизацию с локальным хранилищем корзин для нескольких пользователей.
 4. [LOW] Реализовать кнопку скрытия/показа пароля в инпутах форм.
 5. [LOW] Добавить анимации переходов между страницами
@@ -86,7 +93,7 @@ API предоставлен обучающей организацией
 7. [LOW] Добавить возможность редактировать профиль пользователя в Личном кабинете. 
 
 ## Устраненные баги
-+ [HIGH] Эффект моргания страницы при удалении продукта из корзины. 
++ [DONE] Эффект моргания страницы при удалении продукта из корзины. 
 
 ## Известные баги
 

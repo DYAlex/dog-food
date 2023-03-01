@@ -8,7 +8,7 @@ import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import headerStyles from './Header.module.css'
 import { getUserSelector } from '../../redux/slices/userSlice'
-import CartBtn from '../Cart/CartBtn/CartBtn'
+import CartBtn from './CartBtn/CartBtn'
 
 const vw = window.innerWidth
 function Header() {

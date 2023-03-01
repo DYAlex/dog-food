@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { dogFoodApi } from '../../api/DogFoodApi'
-import { getUserSelector, setUserToken } from '../../redux/slices/userSlice'
-import { withQuery } from '../HOCs/withQuery'
+import { dogFoodApi } from '../../../api/DogFoodApi'
+import { getUserSelector, setUserToken } from '../../../redux/slices/userSlice'
+import { withQuery } from '../../../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
 
 function ProfileInner({ user, isLoading }) {
