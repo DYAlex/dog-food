@@ -3,14 +3,14 @@
 ## Использованные технологии
 
 1. [Create React App](https://github.com/facebook/create-react-app).
-2. [Classnames] (https://www.npmjs.com/package/classnames).
-1. [React Router] (https://reactrouter.com/en/main).
-1. [Formik] (https://formik.org/).
-1. [TanStack Query v4] (https://tanstack.com/query/latest).
-1. [Redux] (https://redux.js.org/).
-1. [Redux Toolkit] (https://redux-toolkit.js.org/).
-1. [Font Awesome] (https://fontawesome.com/).
-1. [SASS] (https://www.npmjs.com/package/sass).
+2. [Classnames](https://www.npmjs.com/package/classnames).
+1. [React Router](https://reactrouter.com/en/main).
+1. [Formik](https://formik.org/).
+1. [TanStack Query v4](https://tanstack.com/query/latest).
+1. [Redux](https://redux.js.org/).
+1. [Redux Toolkit](https://redux-toolkit.js.org/).
+1. [Font Awesome](https://fontawesome.com/).
+1. [SASS](https://www.npmjs.com/package/sass).
 
 ### Available Scripts
 
