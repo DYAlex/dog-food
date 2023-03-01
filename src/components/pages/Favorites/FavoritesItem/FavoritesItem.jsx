@@ -9,15 +9,15 @@ import {
 } from '../../../../redux/slices/favoritesSlice'
 import { addCartItem, getCartSelector } from '../../../../redux/slices/cartSlice'
 import { QuantityController } from '../../../CommonUI/QuantityController/QuantityController'
+import { ActionButton } from '../../../CommonUI/Buttons/ActionButton'
+import { RegularButton } from '../../../CommonUI/Buttons/RegularButton'
+import { DangerButton } from '../../../CommonUI/Buttons/DangerButton'
 
 function FavoritesItem({ id, product }) {
   const cart = useSelector(getCartSelector)
   const favorites = useSelector(getFavoritesSelector)
   const dispatch = useDispatch()
   const [isFavorite, setIsFavorite] = useState(favorites[id]?.isFavorite)
-  const productDetailHandler = () => {
-    console.log('More product info from cartItem.name', id)
-  }
 
   const addToFavsHandler = () => {
     if (!isFavorite) {
@@ -74,7 +74,6 @@ function FavoritesItem({ id, product }) {
           <Link
             to={`/products/${id}`}
             className={FavoritesItemStyles.Link}
-            onClick={productDetailHandler}
           >
             {product.name}
           </Link>
@@ -88,13 +87,10 @@ function FavoritesItem({ id, product }) {
         {cart[id]
           ? (<QuantityController id={id} stock={product.stock} />)
           : (
-            <button
-              type="button"
-              className="btn btn-action"
-              onClick={addToCartHandler}
-            >
-              В корзину
-            </button>
+            <ActionButton
+              btnName="В корзину"
+              clickHandler={addToCartHandler}
+            />
           )}
         <div className={FavoritesItemStyles.available}>
           В наличии
@@ -103,20 +99,15 @@ function FavoritesItem({ id, product }) {
           {' '}
           штук
         </div>
-        <button
-          type="button"
-          className="btn"
-          onClick={productDetailHandler}
-        >
-          <Link to={id} className={FavoritesItemStyles.Link}>Подробнее</Link>
-        </button>
-        <button
-          type="button"
-          className="btn"
-          onClick={addToFavsHandler}
-        >
-          {isFavorite ? 'Убрать из избранного' : 'В избранное'}
-        </button>
+        <Link to={id} className={FavoritesItemStyles.Link}>
+          <RegularButton
+            btnName="Подробнее"
+          />
+        </Link>
+        <DangerButton
+          btnName={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+          clickHandler={addToFavsHandler}
+        />
       </div>
     </div>
   )

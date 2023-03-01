@@ -14,25 +14,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #333;
 }
-
-.btn {
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-}
-
-.btn:hover {
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid #999;
-}
-
-.btn-action {
-  background-color: rgb(255, 236, 113);
-  color: #333;
-}
-
-.btn-action:disabled {
-  background-color: transparent;
-  border: 1px solid rgb(255, 236, 113);
-}

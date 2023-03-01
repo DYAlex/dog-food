@@ -1,13 +1,12 @@
-import classNames from 'classnames'
 import { useSearchParams } from 'react-router-dom'
+import { DangerButton } from '../CommonUI/Buttons/DangerButton'
+import { RegularButton } from '../CommonUI/Buttons/RegularButton'
 import { FILTERS, FILTER_QUERY_NAME } from './constants'
-import FiltersStyles from './Filters.module.css'
 
 export function Filters() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const clickFilterHandler = (filterType, isActive) => {
-    // console.log({ filterType, isActive })
     if (!isActive) searchParams.delete(FILTER_QUERY_NAME)
     else searchParams.set(FILTER_QUERY_NAME, filterType)
     setSearchParams(searchParams)
@@ -33,15 +32,18 @@ export function FilterItem({ filterName, filterType, clickFilterHandler }) {
   const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
   const isActive = currentFilterNameFromQuery === filterType
 
+  if (filterType === currentFilterNameFromQuery) {
+    return (
+      <DangerButton
+        btnName={filterName}
+        clickHandler={() => clickFilterHandler(filterType, !isActive)}
+      />
+    )
+  }
   return (
-    <button
-      type="button"
-      className={filterType === currentFilterNameFromQuery
-        ? classNames(FiltersStyles.active, 'btn')
-        : 'btn'}
-      onClick={() => clickFilterHandler(filterType, !isActive)}
-    >
-      {filterName}
-    </button>
+    <RegularButton
+      btnName={filterName}
+      clickHandler={() => clickFilterHandler(filterType, !isActive)}
+    />
   )
 }

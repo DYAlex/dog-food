@@ -1,5 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { deleteCheckedFromCart, deleteItemFromCart } from '../../../redux/slices/cartSlice'
+import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 import { Modal } from '../Modal'
 
 export function DeleteCheckedModal({
@@ -33,20 +35,8 @@ export function DeleteCheckedModal({
         )) : titles}
       </div>
       <div className="d-flex justify-content-center">
-        <button
-          onClick={closeDeleteCheckedModalHandler}
-          type="button"
-          className="btn"
-        >
-          Закрыть
-        </button>
-        <button
-          onClick={deleteHandler}
-          type="button"
-          className="btn btn-danger"
-        >
-          Удалить
-        </button>
+        <RegularButton btnName="Закрыть" clickHandler={closeDeleteCheckedModalHandler} />
+        <DangerButton btnName="Удалить" clickHandler={deleteHandler} />
       </div>
     </Modal>
   )

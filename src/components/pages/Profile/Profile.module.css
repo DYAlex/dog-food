@@ -11,3 +11,8 @@
     align-self: flex-start;
     margin-bottom: 2rem;
 }
+
+.btnWr {
+    display: flex;
+    gap: 1rem;
+}

@@ -5,6 +5,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { withQuery } from '../../../HOCs/withQuery'
+import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
 import { signUpFormValidationSchema } from '../../utils/validator'
 import SignUpStyles from './SignUp.module.css'
 
@@ -75,14 +76,10 @@ function SignUpInner({ mutateAsync, isLoading }) {
               name="password"
             />
           </div>
-
-          <button
+          <SubmitButton
+            btnName="Зарегистрироваться"
             disabled={isLoading}
-            type="submit"
-            className="btn btn-action"
-          >
-            Зарегистрироваться
-          </button>
+          />
         </Form>
       </Formik>
     </div>

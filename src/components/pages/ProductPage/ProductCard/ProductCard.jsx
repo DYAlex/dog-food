@@ -14,15 +14,14 @@ import {
   getFavoritesSelector,
   removeFromFavorites,
 } from '../../../../redux/slices/favoritesSlice'
+import { ActionButton } from '../../../CommonUI/Buttons/ActionButton'
+import { RegularButton } from '../../../CommonUI/Buttons/RegularButton'
 
 function ProductCard({ id, product }) {
   const dispatch = useDispatch()
   const cart = useSelector(getCartSelector)
   const favorites = useSelector(getFavoritesSelector)
   const [isFavorite, setIsFavorite] = useState(() => (favorites[id]?.isFavorite))
-  // const isFavorite = favorites[id]?.isFavorite
-  // console.log('isFavorite, favorites[id]?.isFavorite', isFavorite, favorites[id]?.isFavorite)
-  // if (product) {
   const addToCartHandler = () => {
     // console.log('Product sent to cart', id)
     const { stock } = product
@@ -30,17 +29,11 @@ function ProductCard({ id, product }) {
     dispatch(addCartItem({ id, stock }))
   }
 
-  const productDetailHandler = () => {
-    console.log('Card clicked', id)
-  }
-
   const addToFavsHandler = () => {
     if (!isFavorite) {
-      // console.log('Product added to favorites', id)
       setIsFavorite(() => !isFavorite)
       return dispatch(addToFavorites(id))
     }
-    // console.log('Product removed from favorites', id)
     setIsFavorite(() => !isFavorite)
     return dispatch(removeFromFavorites(id))
   }
@@ -86,26 +79,18 @@ function ProductCard({ id, product }) {
           {cart[id]
             ? (<QuantityController id={id} stock={product.stock} />)
             : (
-              <button
-                type="button"
-                className="btn btn-action"
-                onClick={addToCartHandler}
-              >
-                В корзину
-              </button>
+              <ActionButton
+                btnName="В корзину"
+                clickHandler={addToCartHandler}
+              />
             )}
-          <button
-            type="button"
-            className="btn"
-            onClick={productDetailHandler}
-          >
-            <Link to={id} className={ProductCardStyles.Link}>Подробнее</Link>
-          </button>
+          <Link to={id} className={ProductCardStyles.Link}>
+            <RegularButton btnName="Подробнее" />
+          </Link>
         </div>
       </div>
     </div>
   )
-  // }
 }
 
 export default ProductCard

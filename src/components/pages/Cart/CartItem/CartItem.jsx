@@ -13,6 +13,8 @@ import {
   getFavoritesSelector,
   removeFromFavorites,
 } from '../../../../redux/slices/favoritesSlice'
+import { RegularButton } from '../../../CommonUI/Buttons/RegularButton'
+import { ActionButton } from '../../../CommonUI/Buttons/ActionButton'
 
 function CartItem({ id, product }) {
   const cart = useSelector(getCartSelector)
@@ -99,20 +101,23 @@ function CartItem({ id, product }) {
           </p>
           <p className={CartItemStyles.weight}>{product.wight}</p>
           <div className={CartItemStyles.btnWr}>
-            <button
-              type="button"
-              className="btn"
-              onClick={addToFavsHandler}
-            >
-              {isFavorite ? 'Убрать из избранного' : 'В избранное'}
-            </button>
-            <button
-              type="button"
-              className="btn"
-              onClick={openDeleteModalHandler}
-            >
-              Удалить
-            </button>
+            {isFavorite
+              ? (
+                <RegularButton
+                  btnName="Убрать из избранного"
+                  clickHandler={addToFavsHandler}
+                />
+              )
+              : (
+                <ActionButton
+                  btnName="В избранное"
+                  clickHandler={addToFavsHandler}
+                />
+              )}
+            <RegularButton
+              btnName="Удалить"
+              clickHandler={openDeleteModalHandler}
+            />
           </div>
         </div>
         <div className={CartItemStyles.quantityControllerWr}>

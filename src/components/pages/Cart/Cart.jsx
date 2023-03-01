@@ -21,6 +21,7 @@ import {
   getTotalItems,
 } from './utils/functions'
 import { DeleteCheckedModal } from '../../Modal/DeleteCheckedModal/DeleteCheckedModal'
+import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
 
 function CartPageInner({
   cart, products,
@@ -117,13 +118,10 @@ function CartPageInner({
             to="/"
             className={CartPageStyles.link}
           >
-            <button
-              type="button"
-              className="btn btn-action"
+            <ActionButton
+              btnName="Оформить"
               disabled={totalItems < 1}
-            >
-              Оформить
-            </button>
+            />
           </Link>
         </div>
       </div>

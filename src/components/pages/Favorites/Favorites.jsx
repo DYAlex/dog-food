@@ -12,12 +12,6 @@ import { getFavoritesSelector } from '../../../redux/slices/favoritesSlice'
 function FavoritesPageInner({
   products,
 }) {
-  // eslint-disable-next-line max-len
-  // console.log('cart, products', JSON.parse(JSON.stringify(cart)), JSON.parse(JSON.stringify(products)))
-  // console.log('products.length, cart.length', products.length, Object.keys(cart).length)
-  // const dispatch = useDispatch()
-  console.log({ products })
-
   return (
     <div className={FavoritesPageStyles.CartPage}>
       <h1 className={FavoritesPageStyles.header}>Избранное</h1>
@@ -45,7 +39,6 @@ function FavoritesPage() {
   const navigate = useNavigate()
   const favorites = useSelector(getFavoritesSelector)
   const ids = Object.keys(favorites)
-  // console.log({ ids })
 
   useEffect(() => {
     if (!token) {

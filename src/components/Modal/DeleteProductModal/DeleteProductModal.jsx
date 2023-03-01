@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
+import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 import { Modal } from '../Modal'
 
 export function DeleteProductModal({
@@ -53,20 +55,8 @@ export function DeleteProductModal({
         </p>
       </div>
       <div className="d-flex justify-content-center">
-        <button
-          onClick={closeDeleteProductModalHandler}
-          type="button"
-          className="btn"
-        >
-          Закрыть
-        </button>
-        <button
-          onClick={deleteHandler}
-          type="button"
-          className="btn btn-danger"
-        >
-          Удалить
-        </button>
+        <RegularButton btnName="Закрыть" clickHandler={closeDeleteProductModalHandler} />
+        <DangerButton btnName="Удалить" clickHandler={deleteHandler} />
       </div>
     </Modal>
   )

@@ -11,6 +11,7 @@ import {
 import { withQuery } from '../../../HOCs/withQuery'
 import { signInFormValidationSchema } from '../../utils/validator'
 import SignInStyles from './SignIn.module.css'
+import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
 
 const initialValues = {
   email: '',
@@ -61,14 +62,10 @@ function SignInInner({ mutateAsync, isLoading }) {
               name="password"
             />
           </div>
-
-          <button
+          <SubmitButton
+            btnName="Войти"
             disabled={isLoading}
-            type="submit"
-            className="btn btn-action"
-          >
-            Войти
-          </button>
+          />
         </Form>
       </Formik>
     </div>

@@ -3,6 +3,8 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { dogFoodApi } from '../../../api/DogFoodApi'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
+import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
 import { addProductFormValidationSchema } from '../../utils/validator'
 import { Modal } from '../Modal'
 import EditProductStyles from './EditProduct.module.css'
@@ -33,7 +35,6 @@ export function EditProductModal({
     isError,
     error,
     isSuccess,
-    // refetch,
   } = useMutation({
     mutationFn: (values) => dogFoodApi.editProductById(id, token, values).then(),
   })
@@ -78,7 +79,6 @@ export function EditProductModal({
                 type="text"
                 placeholder="Название вашего продукта"
                 className={EditProductStyles.Form_Field}
-                // value={product.name}
               />
               <ErrorMessage
                 component="p"
@@ -182,20 +182,8 @@ export function EditProductModal({
             </div>
 
             <div className="d-flex justify-content-center">
-              <button
-                onClick={closeEditProductModalHandler}
-                type="button"
-                className="btn"
-              >
-                Закрыть
-              </button>
-              <button
-                className="btn btn-action"
-                disabled={isLoading}
-                type="submit"
-              >
-                Редактировать
-              </button>
+              <RegularButton btnName="Закрыть" clickHandler={closeEditProductModalHandler} />
+              <SubmitButton btnName="Редактировать" disabled={isLoading} />
             </div>
           </Form>
         </Formik>

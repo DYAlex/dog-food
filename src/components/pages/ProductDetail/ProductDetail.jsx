@@ -17,6 +17,9 @@ import { withQuery } from '../../../HOCs/withQuery'
 import { DeleteProductModal } from '../../Modal/DeleteProductModal/DeleteProductModal'
 import { EditProductModal } from '../../Modal/EditProductModal/EditProductModal'
 import ProductDetailStyles from './ProductDetail.module.css'
+import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
+import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
 
 function ProductDetailInner({ product, id, token }) {
   const dispatch = useDispatch()
@@ -75,41 +78,27 @@ function ProductDetailInner({ product, id, token }) {
           {cart[id]
             ? (<QuantityController id={id} stock={product.stock} />)
             : (
-              <button
+              <ActionButton
+                btnName="В корзину"
+                clickHandler={addToCartHandler}
                 disabled={!product.available}
-                type="button"
-                className="btn btn-action"
-                onClick={addToCartHandler}
-              >
-                В корзину
-              </button>
+              />
             )}
-          <button
-            type="button"
-            className="btn"
-            onClick={addToFavsHandler}
-          >
-            {isFavorite ? 'Убрать из избранного' : 'В избранное'}
-          </button>
+          <RegularButton
+            btnName={isFavorite ? 'Убрать из избранного' : 'В избранное'}
+            clickHandler={addToFavsHandler}
+          />
           {isAuthor
             ? (
               <>
-                <button
-                  disabled={!product.available}
-                  type="button"
-                  className="btn btn-action"
-                  onClick={openEditProductModalHandler}
-                >
-                  Редактировать
-                </button>
-                <button
-                  disabled={!product.available}
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={openDeleteProductModalHandler}
-                >
-                  Удалить
-                </button>
+                <RegularButton
+                  btnName="Редактировать"
+                  clickHandler={openEditProductModalHandler}
+                />
+                <DangerButton
+                  btnName="Удалить"
+                  clickHandler={openDeleteProductModalHandler}
+                />
               </>
             )
             : null}

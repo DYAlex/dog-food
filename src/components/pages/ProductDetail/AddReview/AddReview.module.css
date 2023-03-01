@@ -11,12 +11,14 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    min-width: 80%;
 }
 
 .Form_Group {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+    width: 100%;
 }
 
 .Form_Label {
@@ -26,8 +28,10 @@
 .Form_Field {
     border-radius: 5px;
     padding: 0.2rem 0.5rem;
+    width: 100%;
 }
 
 textarea {
     resize: none;
+    min-height: 100px;
 }

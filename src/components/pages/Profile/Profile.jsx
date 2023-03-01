@@ -6,18 +6,21 @@ import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getUserSelector, setUserToken } from '../../../redux/slices/userSlice'
 import { withQuery } from '../../../HOCs/withQuery'
 import ProfileStyles from './Profile.module.css'
+import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
+import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
 
 function ProfileInner({ user, isLoading }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  console.log({ user })
+  // console.log({ user })
 
   const logoutHandler = () => {
     console.log('Logging out')
     dispatch(setUserToken(''))
     navigate('/')
   }
-  // if (user) {
+
   return (
     <div className={ProfileStyles.Profile}>
       <h1>Личный кабинет</h1>
@@ -49,18 +52,26 @@ function ProfileInner({ user, isLoading }) {
           {' '}
           {user.email}
         </p>
-        <button
-          disabled={isLoading}
-          type="button"
-          className="btn btn-action"
-          onClick={logoutHandler}
-        >
-          Выйти
-        </button>
+        <div className={ProfileStyles.btnWr}>
+          <ActionButton
+            btnName="Выйти"
+            clickHandler={logoutHandler}
+            disabled={isLoading}
+          />
+          <RegularButton
+            btnName="Выйти"
+            clickHandler={logoutHandler}
+            disabled={isLoading}
+          />
+          <DangerButton
+            btnName="Выйти"
+            clickHandler={logoutHandler}
+            disabled={isLoading}
+          />
+        </div>
       </div>
     </div>
   )
-  // }
 }
 
 const ProfileInnerWithQuery = withQuery(ProfileInner)
@@ -70,7 +81,6 @@ function Profile() {
   const navigate = useNavigate()
   useEffect(() => {
     if (!token) {
-      console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   }, [token])

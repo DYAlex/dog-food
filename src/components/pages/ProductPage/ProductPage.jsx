@@ -11,6 +11,7 @@ import { withQuery } from '../../../HOCs/withQuery'
 import ProductCard from './ProductCard/ProductCard'
 import Search from '../../Search/Search'
 import ProductPageStyles from './ProductPage.module.css'
+import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
 
 function ProductPageInner({ products, search }) {
   if (products) {
@@ -19,7 +20,9 @@ function ProductPageInner({ products, search }) {
         <div className={ProductPageStyles.search}>
           <Search />
           <Link to="/products/add">
-            <button type="button" className="btn btn-action">Добавить продукт</button>
+            <ActionButton
+              btnName="Добавить продукт"
+            />
           </Link>
         </div>
         <div className={ProductPageStyles.filters}><Filters /></div>
@@ -52,7 +55,6 @@ function ProductPage() {
 
   useEffect(() => {
     if (!token) {
-      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   }, [token])

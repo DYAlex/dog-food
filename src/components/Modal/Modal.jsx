@@ -16,7 +16,6 @@ function ModalInner({ closeHandler, children }) {
     document.addEventListener('keydown', closeModalByEscape)
 
     return () => {
-      // console.log('UseEffect Return')
       document.removeEventListener('keydown', closeModalByEscape)
       document.body.style.overflow = 'unset'
     }

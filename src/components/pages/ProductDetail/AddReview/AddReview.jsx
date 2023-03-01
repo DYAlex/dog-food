@@ -3,12 +3,12 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
 import { useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../../../api/DogFoodApi'
 import { getUserSelector } from '../../../../redux/slices/userSlice'
 import { withQuery } from '../../../../HOCs/withQuery'
 import { addReviewFormValidationSchema } from '../../../utils/validator'
 import AddReviewStyles from './AddReview.module.css'
+import { SubmitButton } from '../../../CommonUI/Buttons/SubmitButton'
 
 const initialValues = {
   rating: 0,
@@ -18,11 +18,9 @@ const initialValues = {
 function AddReviewInner({ mutateAsync, isLoading }) {
   const queryClient = useQueryClient()
 
-  // const navigate = useNavigate()
   const submitHandler = async (values) => {
     await mutateAsync(values)
     queryClient.invalidateQueries(['productId'])
-    // navigate('/signin')
   }
 
   return (
@@ -54,8 +52,8 @@ function AddReviewInner({ mutateAsync, isLoading }) {
               name="text"
               // type="text"
               as="textarea"
-              rows="10"
-              cols="80"
+              // rows="10"
+              // cols="80"
               placeholder="Текст вашего отзыва..."
               className={AddReviewStyles.Form_Field}
             />
@@ -65,14 +63,7 @@ function AddReviewInner({ mutateAsync, isLoading }) {
               name="text"
             />
           </div>
-
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="btn btn-action"
-          >
-            Отправить отзыв
-          </button>
+          <SubmitButton btnName="Отправить отзыв" disabled={isLoading} />
         </Form>
       </Formik>
     </div>

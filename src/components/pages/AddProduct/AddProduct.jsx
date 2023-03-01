@@ -4,12 +4,13 @@ import {
 } from 'formik'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-// import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getUserSelector } from '../../../redux/slices/userSlice'
 import { withQuery } from '../../../HOCs/withQuery'
 import { addProductFormValidationSchema } from '../../utils/validator'
 import AddProductStyles from './AddProduct.module.css'
+import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
+import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 
 const initialValues = {
   name: '', // string, обязательное
@@ -26,14 +27,15 @@ function AddProductInner({ mutateAsync, isLoading }) {
   const queryClient = useQueryClient()
 
   const navigate = useNavigate()
+  const goBackHandler = () => navigate(-1)
   const submitHandler = async (values) => {
     await mutateAsync(values)
     queryClient.invalidateQueries()
-    navigate('/products')
+    goBackHandler()
   }
 
   return (
-    <div className={AddProductStyles.AddReview}>
+    <div className={AddProductStyles.AddProduct}>
       <h2>Добавить товар</h2>
       <Formik
         initialValues={initialValues}
@@ -149,14 +151,16 @@ function AddProductInner({ mutateAsync, isLoading }) {
               name="available"
             />
           </div>
-
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="btn btn-action"
-          >
-            Добавить товар
-          </button>
+          <div className={AddProductStyles.btnWr}>
+            <SubmitButton
+              btnName="Добавить товар"
+              disabled={isLoading}
+            />
+            <RegularButton
+              btnName="Отмена"
+              clickHandler={goBackHandler}
+            />
+          </div>
         </Form>
       </Formik>
     </div>
