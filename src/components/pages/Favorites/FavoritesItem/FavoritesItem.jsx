@@ -99,7 +99,7 @@ function FavoritesItem({ id, product }) {
           {' '}
           штук
         </div>
-        <Link to={id} className={FavoritesItemStyles.Link}>
+        <Link to={`../products/${id}`} className={FavoritesItemStyles.Link}>
           <RegularButton
             btnName="Подробнее"
           />
