@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -30,9 +30,28 @@ function ProductDetailInner({ product, id, token }) {
   const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] = useState(false)
   const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false)
   // eslint-disable-next-line no-underscore-dangle
-  const isAuthor = product.author._id === user.id
+  const isProductAuthor = product.author._id === user.id
+  const queryClient = useQueryClient()
 
-  // console.log({ isAuthor })
+  console.log('product.reviews', product.reviews)
+
+  const {
+    mutateAsync,
+    isError,
+    error,
+    isSuccess,
+  } = useMutation({
+    mutationFn: (reviewId) => dogFoodApi.deleteReviewById(reviewId, id, token).then(),
+  })
+  if (isError) console.log('Произошла ошибка при удалении отзыва', error)
+  if (isSuccess) {
+    queryClient.invalidateQueries(['productId'])
+  }
+
+  const deleteReviewHandler = async (reviewId) => {
+    console.log(`deleteReviewHandler for ${reviewId} to ${id}`)
+    await mutateAsync(reviewId)
+  }
 
   const openDeleteProductModalHandler = () => {
     setIsDeleteProductModalOpen(true)
@@ -88,7 +107,7 @@ function ProductDetailInner({ product, id, token }) {
             btnName={isFavorite ? 'Убрать из избранного' : 'В избранное'}
             clickHandler={addToFavsHandler}
           />
-          {isAuthor
+          {isProductAuthor
             ? (
               <>
                 <RegularButton
@@ -127,6 +146,14 @@ function ProductDetailInner({ product, id, token }) {
               <p className={ProductDetailStyles.reviewText}>
                 {review.text}
               </p>
+              {review.author === user.id
+                ? (
+                  <DangerButton
+                    btnName="Удалить отзыв"
+                    clickHandler={() => deleteReviewHandler(reviewId)}
+                  />
+                )
+                : null}
             </div>
           ))}
         </div>

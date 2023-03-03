@@ -50,10 +50,7 @@ function AddReviewInner({ mutateAsync, isLoading }) {
             <p className={AddReviewStyles.Form_Label}>Текст</p>
             <Field
               name="text"
-              // type="text"
               as="textarea"
-              // rows="10"
-              // cols="80"
               placeholder="Текст вашего отзыва..."
               className={AddReviewStyles.Form_Field}
             />
