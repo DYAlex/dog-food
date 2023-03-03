@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
@@ -9,16 +9,28 @@ import ProfileStyles from './Profile.module.css'
 import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
 import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
+import { EditUserInfoModal } from '../../Modal/EditUserInfoModal/EditUserInfoModal'
+import { EditUserAvatarModal } from '../../Modal/EditUserAvatarModal/EditUserAvatarModal'
 
-function ProfileInner({ user, isLoading }) {
+function ProfileInner({ user, isLoading, token }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [isEditUserInfoModalOpen, setIsEditUserInfoModalOpen] = useState(false)
+  const [isEditUserAvatarModalOpen, setIsEditUserAvatarModalOpen] = useState(false)
   // console.log({ user })
 
   const logoutHandler = () => {
     // console.log('Logging out')
     dispatch(setUserToken(''))
     navigate('/')
+  }
+
+  const editUserInfoModalHandler = () => {
+    setIsEditUserInfoModalOpen(true)
+  }
+
+  const editUserAvatarModalHandler = () => {
+    setIsEditUserAvatarModalOpen(true)
   }
 
   return (
@@ -54,13 +66,13 @@ function ProfileInner({ user, isLoading }) {
         </p>
         <div className={ProfileStyles.btnWr}>
           <ActionButton
-            btnName="Выйти"
-            clickHandler={logoutHandler}
+            btnName="Изменить фото"
+            clickHandler={editUserAvatarModalHandler}
             disabled={isLoading}
           />
           <RegularButton
-            btnName="Выйти"
-            clickHandler={logoutHandler}
+            btnName="Редактировать"
+            clickHandler={editUserInfoModalHandler}
             disabled={isLoading}
           />
           <DangerButton
@@ -70,6 +82,18 @@ function ProfileInner({ user, isLoading }) {
           />
         </div>
       </div>
+      <EditUserInfoModal
+        isOpen={isEditUserInfoModalOpen}
+        setIsOpen={setIsEditUserInfoModalOpen}
+        token={token}
+        user={user}
+      />
+      <EditUserAvatarModal
+        isOpen={isEditUserAvatarModalOpen}
+        setIsOpen={setIsEditUserAvatarModalOpen}
+        token={token}
+        user={user}
+      />
     </div>
   )
 }
@@ -102,6 +126,7 @@ function Profile() {
       isError={isError}
       isLoading={isLoading}
       error={error}
+      token={token}
     />
   )
 }

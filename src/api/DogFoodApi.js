@@ -96,6 +96,62 @@ class DogFoodApi {
     return res.json()
   }
 
+  async editUserInfo(values, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при редактировании информации пользователя. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async editUserAvatar(values, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при изменении аватара. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
   async getUserById(id, token) {
     this.checkToken(token)
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/${id}`, {

@@ -42,3 +42,12 @@ export const addProductFormValidationSchema = Yup.object({
   stock: Yup.number(),
   available: Yup.boolean(),
 })
+
+export const editUserInfoFormValidationSchema = Yup.object({
+  name: Yup.string(),
+  about: Yup.string(),
+})
+
+export const editUserAvatarFormValidationSchema = Yup.object({
+  avatar: Yup.string(),
+})

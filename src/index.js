@@ -13,7 +13,7 @@ import { SignUp } from './components/pages/SignUp/SignUp'
 import { SignIn } from './components/pages/SignIn/SignIn'
 import Profile from './components/pages/Profile/Profile'
 // import { QueryContextProvider } from './contexts/QueryContextProvider'
-// import { Loader } from './components/Loader/Loader'
+// import { Loader } from './components/CommonUI/Loader/Loader'
 import ErrorPage from './components/pages/Error/ErrorPage'
 import CartPage from './components/pages/Cart/Cart'
 import FavoritesPage from './components/pages/Favorites/Favorites'
@@ -70,6 +70,10 @@ const Router = createBrowserRouter(
           path: 'favorites',
           element: <FavoritesPage />,
         },
+        // {
+        //   path: 'loader',
+        //   element: <Loader />,
+        // },
       ],
     },
   ],
