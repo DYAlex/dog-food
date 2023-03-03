@@ -16,7 +16,7 @@ function ProfileInner({ user, isLoading }) {
   // console.log({ user })
 
   const logoutHandler = () => {
-    console.log('Logging out')
+    // console.log('Logging out')
     dispatch(setUserToken(''))
     navigate('/')
   }

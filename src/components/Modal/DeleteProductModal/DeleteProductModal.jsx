@@ -34,7 +34,7 @@ export function DeleteProductModal({
   }
 
   const deleteHandler = () => {
-    console.log('Deleting product', { id, title })
+    // console.log('Deleting product', { id, title })
     setDeleteConfirmed(true)
     // closeDeleteProductModalHandler()
     // queryClient.invalidateQueries()

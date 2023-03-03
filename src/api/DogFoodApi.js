@@ -98,7 +98,6 @@ class DogFoodApi {
 
   async getUserById(id, token) {
     this.checkToken(token)
-    // console.log(`${this.baseUrl}/v2/sm9/users/${id}`)
     const res = await fetch(`${this.baseUrl}/v2/sm9/users/${id}`, {
       headers: {
         authorization: this.getAuthorizationHeader(token),
@@ -278,14 +277,12 @@ class DogFoodApi {
 
   async deleteReviewById(reviewId, productId, token) {
     this.checkToken(token)
-    console.log(`${this.baseUrl}/products/review/${productId}/${reviewId}`)
     const res = await fetch(`${this.baseUrl}/products/review/${productId}/${reviewId}`, {
       method: 'DELETE',
       headers: {
         authorization: this.getAuthorizationHeader(token),
       },
     })
-    // console.log(res.json())
     if (res.status >= 400 && res.status < 500) {
       throw new Error(`Произошла ошибка при удалении отзыва ${reviewId}.
       Проверьте отправляемые данные. Status: ${res.status}`)
