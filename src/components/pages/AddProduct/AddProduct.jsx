@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
@@ -24,14 +24,13 @@ const initialValues = {
 }
 
 function AddProductInner({ mutateAsync, isLoading }) {
-  const queryClient = useQueryClient()
-
   const navigate = useNavigate()
   const goBackHandler = () => navigate(-1)
+  let newProductId = null
   const submitHandler = async (values) => {
-    await mutateAsync(values)
-    queryClient.invalidateQueries()
-    goBackHandler()
+    // eslint-disable-next-line no-underscore-dangle, no-return-assign
+    await mutateAsync(values).then((data) => (newProductId = data._id))
+    navigate(`/products/${newProductId}`)
   }
 
   return (
