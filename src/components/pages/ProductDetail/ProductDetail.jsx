@@ -33,6 +33,7 @@ function ProductDetailInner({ product, id, token }) {
   const isProductAuthor = product.author._id === user.id
   const queryClient = useQueryClient()
 
+  console.log('product', product)
   console.log('product.reviews', product.reviews)
 
   const {

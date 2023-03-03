@@ -23,9 +23,33 @@ export const OLD = {
   name: 'Сначала старые',
 }
 
-export const FILTERS = [LOW_PRICE, HIGH_PRICE, SALES, NEW, OLD]
+export const MOST_POPULAR = {
+  type: 'MOST_POPULAR',
+  name: 'Самые популярные',
+}
+
+export const LEAST_POPULAR = {
+  type: 'LEAST_POPULAR',
+  name: 'Наименее популярные',
+}
+
+export const FILTERS = [LOW_PRICE, HIGH_PRICE, SALES, NEW, OLD, MOST_POPULAR, LEAST_POPULAR]
 
 export const FILTER_QUERY_NAME = 'filterType'
+
+const averageRating = (reviews) => {
+  if (reviews.length) {
+    const sum = reviews.reduce((a, b) => {
+      if (b.rating) {
+        return a + b.rating
+      }
+      return a
+    }, 0)
+    // console.log(`averageRating of ${name} is `, sum / reviews.length)
+    return sum / reviews.length
+  }
+  return 0
+}
 
 export const getFilteredProducts = ([...products], filterType) => {
   // console.log('from getFilteredProducts', { filterType })
@@ -45,6 +69,12 @@ export const getFilteredProducts = ([...products], filterType) => {
     case OLD.type:
       // console.log('Sort by oldest')
       return products.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at))
+    case MOST_POPULAR.type:
+      // console.log('Sort by most popular')
+      return products.sort((a, b) => averageRating(b.reviews) - averageRating(a.reviews))
+    case LEAST_POPULAR.type:
+      // console.log('Sort by least popular')
+      return products.sort((a, b) => averageRating(a.reviews) - averageRating(b.reviews))
     default:
       return products
   }
