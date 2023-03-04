@@ -19,7 +19,7 @@ function ModalInner({ closeHandler, children }) {
       document.removeEventListener('keydown', closeModalByEscape)
       document.body.style.overflow = 'unset'
     }
-  }, [])
+  }, [closeHandler])
 
   const closeModalByClickX = () => closeHandler()
 
@@ -39,7 +39,7 @@ function ModalInner({ closeHandler, children }) {
   )
 }
 
-export function Modal({ isOpen, closeHandler, children }) {
+export function Modal({ isOpen = false, closeHandler, children }) {
   if (!isOpen) return null
 
   const closeModalByClickWrapper = (e) => {

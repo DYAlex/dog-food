@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -15,22 +15,78 @@ import { EditUserAvatarModal } from '../../Modal/EditUserAvatarModal/EditUserAva
 function ProfileInner({ user, isLoading, token }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const [isEditUserInfoModalOpen, setIsEditUserInfoModalOpen] = useState(false)
   const [isEditUserAvatarModalOpen, setIsEditUserAvatarModalOpen] = useState(false)
   // console.log({ user })
 
+  const {
+    mutateAsync: editUserInfoMutateAsync,
+    isError: editUserInfoIsError,
+    error: editUserInfoError,
+    isSuccess: editUserInfoIsSuccess,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.editUserInfo(values, token).then(),
+  })
+
+  const openEditUserInfoModalHandler = () => {
+    if (!isEditUserInfoModalOpen) {
+      setIsEditUserInfoModalOpen(true)
+    }
+  }
+
+  const closeEditUserInfoModalHandler = () => {
+    if (isEditUserInfoModalOpen) {
+      setIsEditUserInfoModalOpen(false)
+    }
+  }
+
+  // eslint-disable-next-line max-len
+  if (editUserInfoIsError) console.log('Произошла ошибка при редактировании информации о пользователе', editUserInfoError)
+  if (editUserInfoIsSuccess) {
+    queryClient.invalidateQueries(['currentUser'])
+  }
+
+  const editUserInfoHandler = async (values) => {
+    await editUserInfoMutateAsync(values)
+    closeEditUserInfoModalHandler()
+  }
+
+  const {
+    mutateAsync: editUserAvatarMutateAsync,
+    isError: editUserAvatarIsError,
+    error: editUserAvatarError,
+    isSuccess: editUserAvatarIsSuccess,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.editUserAvatar(values, token).then(),
+  })
+
+  // eslint-disable-next-line max-len
+  if (editUserAvatarIsError) console.log('Произошла ошибка при редактировании информации о пользователе', editUserAvatarError)
+  if (editUserAvatarIsSuccess) {
+    queryClient.invalidateQueries(['currentUser'])
+    closeEditUserInfoModalHandler()
+  }
+
+  const openEditUserAvatarModalHandler = () => {
+    if (!isEditUserAvatarModalOpen) {
+      setIsEditUserAvatarModalOpen(true)
+    }
+  }
+  const closeEditUserAvatarModalHandler = () => {
+    if (isEditUserAvatarModalOpen) {
+      setIsEditUserAvatarModalOpen(false)
+    }
+  }
+
+  const editUserAvatarHandler = async (values) => {
+    await editUserAvatarMutateAsync(values)
+    setIsEditUserAvatarModalOpen(false)
+  }
+
   const logoutHandler = () => {
-    // console.log('Logging out')
     dispatch(setUserToken(''))
     navigate('/')
-  }
-
-  const editUserInfoModalHandler = () => {
-    setIsEditUserInfoModalOpen(true)
-  }
-
-  const editUserAvatarModalHandler = () => {
-    setIsEditUserAvatarModalOpen(true)
   }
 
   return (
@@ -67,12 +123,12 @@ function ProfileInner({ user, isLoading, token }) {
         <div className={ProfileStyles.btnWr}>
           <ActionButton
             btnName="Изменить фото"
-            clickHandler={editUserAvatarModalHandler}
+            clickHandler={openEditUserAvatarModalHandler}
             disabled={isLoading}
           />
           <RegularButton
             btnName="Редактировать"
-            clickHandler={editUserInfoModalHandler}
+            clickHandler={openEditUserInfoModalHandler}
             disabled={isLoading}
           />
           <DangerButton
@@ -84,14 +140,14 @@ function ProfileInner({ user, isLoading, token }) {
       </div>
       <EditUserInfoModal
         isOpen={isEditUserInfoModalOpen}
-        setIsOpen={setIsEditUserInfoModalOpen}
-        token={token}
+        closeModalHandler={closeEditUserInfoModalHandler}
         user={user}
+        editUserInfoHadler={editUserInfoHandler}
       />
       <EditUserAvatarModal
         isOpen={isEditUserAvatarModalOpen}
-        setIsOpen={setIsEditUserAvatarModalOpen}
-        token={token}
+        closeModalHandler={closeEditUserAvatarModalHandler}
+        editUserAvatarHadler={editUserAvatarHandler}
         user={user}
       />
     </div>

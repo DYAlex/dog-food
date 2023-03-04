@@ -99,7 +99,12 @@ API предоставлен обучающей организацией
 9. [LOW] Добавить в Личный кабинет список созданных товаров и написанных отзывов. 
 
 ## Устраненные баги
-+ [DONE] Эффект моргания страницы при удалении продукта из корзины. 
++ [DONE] Эффект моргания страницы при удалении продукта из корзины.
++ [DONE] При удалении товара в консоли появляется предупреждение: Cannot update a component (`RouterProvider`) while rendering a different component (`DeleteProductModal`). To locate the bad setState() call inside `DeleteProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at DeleteProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4113:5). Скорее всего, из-за того что модальное окно рендерится через страницу товара, который мы удаляем, и в результате удачного удаления модалка не может поменять свое состояние.
++ [DONE] При редактировании товара в консоли появляется предупреждение: Warning: Cannot update a component (`ProductDetailInner`) while rendering a different component (`EditProductModal`). To locate the bad setState() call inside `EditProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at EditProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4315:5)
++ [DONE] При редактировании информации и аватара в консоли появляется предупреждение: Warning: Cannot update a component... В лучших традициях закрытия модального окна по действию.  
 
 ## Известные баги
 
@@ -107,8 +112,3 @@ API предоставлен обучающей организацией
 - [LOW] Футер не реагирует на изменение ширины вьюпорта. Предполагаемые шаги к устранению: завести состояние, чтобы Реакт реагировал на изменение ширины. С учетом того, что у нас уже два компонента, которые этого требуют возможно правильнее использовать контекст для отслеживания ширины вьюпорта, а в компонентах только получать и использовать результат.
 - [HIGH] После сохранения в локальном хранилище корзины одного пользователя, при входе на сайт с того же устройства другого пользователя может подгружаться корзина первого пользователя.
 - [LOW] В формах регистрации и входа плывет верстка при выведении ошибок.
-- [MIDDLE] При удалении товара в консоли появляется предупреждение: Cannot update a component (`RouterProvider`) while rendering a different component (`DeleteProductModal`). To locate the bad setState() call inside `DeleteProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
-    at DeleteProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4113:5). Скорее всего, из-за того что модальное окно рендерится через страницу товара, который мы удаляем, и в результате удачного удаления модалка не может поменять свое состояние.
-- [MIDDLE] При редактировании товара в консоли появляется предупреждение: Warning: Cannot update a component (`ProductDetailInner`) while rendering a different component (`EditProductModal`). To locate the bad setState() call inside `EditProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
-    at EditProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4315:5)
-- [MIDDLE] При редактировании информации и аватара в консоли появляется предупреждение: Warning: Cannot update a component... В лучших традициях закрытия модального окна по действию. 

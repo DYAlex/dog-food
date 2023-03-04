@@ -11,6 +11,8 @@ import {
   checkAll,
   uncheckAll,
   getCartSelector,
+  deleteCheckedFromCart,
+  deleteItemFromCart,
 } from '../../../redux/slices/cartSlice'
 import {
   getAllCheckedItems,
@@ -46,10 +48,26 @@ function CartPageInner({
   }
 
   const openDeleteCheckedModalHandler = () => {
-    setIsDeleteCheckedModalOpen(true)
+    if (!isDeleteCheckedModalOpen) {
+      setIsDeleteCheckedModalOpen(true)
+    }
+  }
+  const closeDeleteCheckedModalHandler = () => {
+    if (isDeleteCheckedModalOpen) {
+      setIsDeleteCheckedModalOpen(false)
+    }
   }
 
   const checkedItems = getAllCheckedItems(cart)
+
+  const deleteCheckedHandler = () => {
+    if (Array.isArray(checkedItems)) {
+      dispatch(deleteCheckedFromCart(checkedItems))
+      closeDeleteCheckedModalHandler()
+    }
+    dispatch(deleteItemFromCart(checkedItems))
+    closeDeleteCheckedModalHandler()
+  }
 
   return (
     <div className={CartPageStyles.CartPage}>
@@ -127,9 +145,9 @@ function CartPageInner({
       </div>
       <DeleteCheckedModal
         isOpen={isDeleteCheckedModalOpen}
-        setIsDeleteCheckedModalOpen={setIsDeleteCheckedModalOpen}
+        closeHandler={closeDeleteCheckedModalHandler}
         titles={getProductTitles(checkedItems, products)}
-        ids={checkedItems}
+        deleteCheckedHandler={deleteCheckedHandler}
       />
     </div>
   )

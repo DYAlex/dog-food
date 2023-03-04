@@ -23,6 +23,7 @@ import { DangerButton } from '../../CommonUI/Buttons/DangerButton'
 
 function ProductDetailInner({ product, id, token }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const cart = useSelector(getCartSelector)
   const user = useSelector(getUserSelector)
   const favorites = useSelector(getFavoritesSelector)
@@ -33,33 +34,87 @@ function ProductDetailInner({ product, id, token }) {
   const isProductAuthor = product.author._id === user.id
   const queryClient = useQueryClient()
 
-  // console.log('product', product)
-  // console.log('product.reviews', product.reviews)
-
   const {
-    mutateAsync,
-    isError,
-    error,
-    isSuccess,
+    mutateAsync: deleteReviewByIdMutateAsync,
+    isError: deleteReviewByIdIsError,
+    error: deleteReviewByIdError,
+    isSuccess: deleteReviewByIdIsSuccess,
   } = useMutation({
     mutationFn: (reviewId) => dogFoodApi.deleteReviewById(reviewId, id, token).then(),
   })
-  if (isError) console.log('Произошла ошибка при удалении отзыва', error)
-  if (isSuccess) {
+  // eslint-disable-next-line max-len
+  if (deleteReviewByIdIsError) console.log('Произошла ошибка при удалении отзыва', deleteReviewByIdError)
+  if (deleteReviewByIdIsSuccess) {
     queryClient.invalidateQueries(['productId'])
   }
 
   const deleteReviewHandler = async (reviewId) => {
-    // console.log(`deleteReviewHandler for ${reviewId} to ${id}`)
-    await mutateAsync(reviewId)
+    await deleteReviewByIdMutateAsync(reviewId)
   }
 
   const openDeleteProductModalHandler = () => {
-    setIsDeleteProductModalOpen(true)
+    if (!isDeleteProductModalOpen) {
+      setIsDeleteProductModalOpen(true)
+    }
+  }
+
+  const closeDeleteProductModalHandler = () => {
+    if (isDeleteProductModalOpen) {
+      setIsDeleteProductModalOpen(false)
+    }
+  }
+
+  const {
+    mutateAsync: deleteProductByIdMutateAsync,
+    isError: deleteProductByIdIsError,
+    error: deleteProductByIdError,
+    isSuccess: deleteProductByIdIsSuccess,
+  } = useMutation({
+    mutationFn: (productId) => dogFoodApi.deleteProductById(productId, token),
+  })
+  // eslint-disable-next-line max-len
+  if (deleteProductByIdIsError) console.log('Произошла ошибка при удалении товара', deleteProductByIdError)
+  if (deleteProductByIdIsSuccess) {
+    queryClient.invalidateQueries()
+  }
+
+  const deleteProductByIdHandler = () => {
+    deleteProductByIdMutateAsync(id)
+    closeDeleteProductModalHandler()
+    navigate('/products')
   }
 
   const openEditProductModalHandler = () => {
-    setIsEditProductModalOpen(true)
+    if (!isEditProductModalOpen) {
+      setIsEditProductModalOpen(true)
+    }
+  }
+
+  const closeEditProductModalHandler = () => {
+    if (isEditProductModalOpen) {
+      setIsEditProductModalOpen(false)
+    }
+  }
+
+  const {
+    mutateAsync: editProductByIdMutateAsync,
+    isError: editProductByIdIsError,
+    error: editProductByIdError,
+    isSuccess: editProductByIdIsSuccess,
+  } = useMutation({
+    mutationFn: (values) => dogFoodApi.editProductById(id, token, values).then(),
+  })
+
+  // eslint-disable-next-line max-len
+  if (editProductByIdIsError) console.log('Произошла ошибка при редактировании товара', editProductByIdError)
+  if (editProductByIdIsSuccess) {
+    queryClient.invalidateQueries(['productId'])
+  }
+
+  const editProductHandler = async (values) => {
+    await editProductByIdMutateAsync(values)
+    queryClient.invalidateQueries(['productId'])
+    closeEditProductModalHandler()
   }
 
   const addToCartHandler = () => {
@@ -160,17 +215,15 @@ function ProductDetailInner({ product, id, token }) {
         </div>
         <DeleteProductModal
           isOpen={isDeleteProductModalOpen}
-          setIsOpen={setIsDeleteProductModalOpen}
+          closeHandler={closeDeleteProductModalHandler}
           title={product.name}
-          id={id}
-          token={token}
+          deleteProductHandler={deleteProductByIdHandler}
         />
         <EditProductModal
           isOpen={isEditProductModalOpen}
-          setIsOpen={setIsEditProductModalOpen}
+          closeHandler={closeEditProductModalHandler}
+          editProductHandler={editProductHandler}
           product={product}
-          id={id}
-          token={token}
         />
       </div>
     )

@@ -1,51 +1,20 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
-import { dogFoodApi } from '../../../api/DogFoodApi'
 import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
 import { addProductFormValidationSchema } from '../../utils/validator'
 import { Modal } from '../Modal'
 import EditProductStyles from './EditProduct.module.css'
 
-let initialValues = {
-  name: '', // string, обязательное
-  price: 0, // number, обязательное
-  description: '', // string, обязательное
-  pictures: '', // string
-  wight: '', // string
-  discount: 0, // number
-  stock: 0, // number
-  available: true,
-}
-
 export function EditProductModal({
-  isOpen, setIsOpen, product, id, token,
+  isOpen, closeHandler, product, editProductHandler,
 }) {
-  const queryClient = useQueryClient()
-
   const closeEditProductModalHandler = () => {
-    setIsOpen(false)
+    closeHandler()
   }
 
-  const {
-    mutateAsync,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (values) => dogFoodApi.editProductById(id, token, values).then(),
-  })
-
-  if (isError) console.log('Произошла ошибка при редактировании товара', error)
-  if (isSuccess) {
-    queryClient.invalidateQueries(['productId'])
-    closeEditProductModalHandler()
-  }
-
-  initialValues = {
+  const initialValues = {
     name: product.name, // string
     price: product.price, // number
     description: product.description, // string
@@ -56,12 +25,6 @@ export function EditProductModal({
     available: product.available,
   }
 
-  const submitHandler = async (values) => {
-    await mutateAsync(values)
-    queryClient.invalidateQueries(['productId'])
-    setIsOpen(false)
-  }
-
   return (
     <Modal isOpen={isOpen} closeHandler={closeEditProductModalHandler}>
       <div>
@@ -69,7 +32,7 @@ export function EditProductModal({
         <Formik
           initialValues={initialValues}
           validationSchema={addProductFormValidationSchema}
-          onSubmit={submitHandler}
+          onSubmit={editProductHandler}
         >
           <Form className={EditProductStyles.Form}>
             <div className={EditProductStyles.Form_Group}>
@@ -183,7 +146,7 @@ export function EditProductModal({
 
             <div className="d-flex justify-content-center">
               <RegularButton btnName="Закрыть" clickHandler={closeEditProductModalHandler} />
-              <SubmitButton btnName="Редактировать" disabled={isLoading} />
+              <SubmitButton btnName="Редактировать" />
             </div>
           </Form>
         </Formik>

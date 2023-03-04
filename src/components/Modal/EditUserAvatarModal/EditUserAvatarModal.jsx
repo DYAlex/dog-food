@@ -1,50 +1,21 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik'
-import { dogFoodApi } from '../../../api/DogFoodApi'
 import { RegularButton } from '../../CommonUI/Buttons/RegularButton'
 import { SubmitButton } from '../../CommonUI/Buttons/SubmitButton'
 import { editUserAvatarFormValidationSchema } from '../../utils/validator'
 import { Modal } from '../Modal'
 import EditUserAvatarStyles from './EditUserAvatar.module.css'
 
-let initialValues = {
-  avatar: '',
-}
-
 export function EditUserAvatarModal({
-  isOpen, setIsOpen, user, token,
+  isOpen, closeModalHandler, user, editUserAvatarHadler,
 }) {
-  const queryClient = useQueryClient()
-
   const closeEditUserInfoModalHandler = () => {
-    setIsOpen(false)
+    closeModalHandler(false)
   }
 
-  const {
-    mutateAsync,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (values) => dogFoodApi.editUserAvatar(values, token).then(),
-  })
-
-  if (isError) console.log('Произошла ошибка при редактировании информации о пользователе', error)
-  if (isSuccess) {
-    queryClient.invalidateQueries(['currentUser'])
-    closeEditUserInfoModalHandler()
-  }
-
-  initialValues = {
+  const initialValues = {
     avatar: user.avatar,
-  }
-
-  const submitHandler = async (values) => {
-    await mutateAsync(values)
-    setIsOpen(false)
   }
 
   return (
@@ -54,7 +25,7 @@ export function EditUserAvatarModal({
         <Formik
           initialValues={initialValues}
           validationSchema={editUserAvatarFormValidationSchema}
-          onSubmit={submitHandler}
+          onSubmit={editUserAvatarHadler}
         >
           <Form className={EditUserAvatarStyles.Form}>
             <div className={EditUserAvatarStyles.Form_Group}>
@@ -74,7 +45,7 @@ export function EditUserAvatarModal({
 
             <div className="d-flex justify-content-center">
               <RegularButton btnName="Закрыть" clickHandler={closeEditUserInfoModalHandler} />
-              <SubmitButton btnName="Изменить" disabled={isLoading} />
+              <SubmitButton btnName="Изменить" />
             </div>
           </Form>
         </Formik>

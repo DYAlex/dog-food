@@ -4,6 +4,7 @@ import { useState } from 'react'
 import CartItemStyles from './CartItem.module.css'
 import {
   changeIsChecked,
+  deleteItemFromCart,
   getCartSelector,
 } from '../../../../redux/slices/cartSlice'
 import { QuantityController } from '../../../CommonUI/QuantityController/QuantityController'
@@ -38,7 +39,19 @@ function CartItem({ id, product }) {
   }
 
   const openDeleteModalHandler = () => {
-    setIsDeleteModalOpen(true)
+    if (!isDeleteModalOpen) {
+      setIsDeleteModalOpen(true)
+    }
+  }
+  const closeDeleteModalHandler = () => {
+    if (isDeleteModalOpen) {
+      setIsDeleteModalOpen(false)
+    }
+  }
+
+  const deleteHandler = () => {
+    dispatch(deleteItemFromCart(id))
+    closeDeleteModalHandler()
   }
 
   const isCheckedHandler = () => {
@@ -135,9 +148,9 @@ function CartItem({ id, product }) {
         </div>
         <DeleteCheckedModal
           isOpen={isDeleteModalOpen}
-          setIsDeleteCheckedModalOpen={setIsDeleteModalOpen}
+          closeHandler={closeDeleteModalHandler}
+          deleteCheckedHandler={deleteHandler}
           titles={product.name}
-          ids={id}
         />
       </div>
     )
