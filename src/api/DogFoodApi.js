@@ -96,6 +96,87 @@ class DogFoodApi {
     return res.json()
   }
 
+  async editUserInfo(values, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при редактировании информации пользователя. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async editUserAvatar(values, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при изменении аватара. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async getUserById(id, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/v2/sm9/users/${id}`, {
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+      },
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при получении имени пользователя. 
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    if (res.status >= 300) {
+      throw new Error(`Ошибка, код ${res.status}`)
+    }
+
+    return res.json()
+  }
+
   async getAllProducts(search, token) {
     this.checkToken(token)
 
@@ -132,7 +213,7 @@ class DogFoodApi {
     })
 
     if (res.status >= 400 && res.status < 500) {
-      throw new Error(`Произошла ошибка при входе в Личный кабинет. 
+      throw new Error(`Произошла ошибка при получении продукта ${productId}. 
       Проверьте отправляемые данные. Status: ${res.status}`)
     }
 
@@ -154,6 +235,121 @@ class DogFoodApi {
       })
         .then((res) => res.json()),
     ))
+  }
+
+  async addReviewToProductById(productId, token, values) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/review/${productId}`, {
+      method: 'POST',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при добавлении отзыва к продукту ${productId}.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async addNewProduct(token, values) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/`, {
+      method: 'POST',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при создании нового продукта.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async deleteProductById(productId, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+      },
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при удалении продукта ${productId}.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async editProductById(productId, token, values) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/${productId}`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при редактировании продукта ${productId}.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
+  }
+
+  async deleteReviewById(reviewId, productId, token) {
+    this.checkToken(token)
+    const res = await fetch(`${this.baseUrl}/products/review/${productId}/${reviewId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.getAuthorizationHeader(token),
+      },
+    })
+    if (res.status >= 400 && res.status < 500) {
+      throw new Error(`Произошла ошибка при удалении отзыва ${reviewId}.
+      Проверьте отправляемые данные. Status: ${res.status}`)
+    }
+
+    if (res.status >= 500) {
+      throw new Error(`Произошла ошибка при получении ответа от сервера. 
+      Попробуйте сделать запрос позже. Status: ${res.status}`)
+    }
+
+    return res.json()
   }
 }
 

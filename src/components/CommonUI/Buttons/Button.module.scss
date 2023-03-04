@@ -1,0 +1,31 @@
+.btn {
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+
+  &Action {
+    background-color: rgb(255, 236, 113);
+    color: #333;
+  }
+  &Danger {
+    background-color: crimson;
+    color: #ededed;
+  }
+}
+
+
+.btn:not(:disabled):hover {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #999;
+}
+
+.btnAction:disabled {
+  background-color: transparent;
+  border: 1px solid rgb(255, 236, 113);
+}
+
+.btnDanger:hover {
+  color: crimson;
+  border-color: crimson;
+}

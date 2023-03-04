@@ -1,0 +1,33 @@
+.EditProduct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 250px);
+}
+
+.Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.Form_Group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.Form_Label {
+    margin: 0.2rem 0;
+}
+
+.Form_Field {
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+}
+
+textarea {
+    resize: none;
+}

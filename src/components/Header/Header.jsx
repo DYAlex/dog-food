@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
-import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import classNames from 'classnames'
 import { Link, NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -8,7 +7,8 @@ import logo from '../../images/logo-husky-black.svg'
 import logoWithLetters from '../../images/logo-with-letters-black.svg'
 import headerStyles from './Header.module.css'
 import { getUserSelector } from '../../redux/slices/userSlice'
-import CartBtn from '../Cart/CartBtn/CartBtn'
+import CartBtn from './CartBtn/CartBtn'
+import FavsBtn from './FavsBtn/FavsBtn'
 
 const vw = window.innerWidth
 function Header() {
@@ -45,10 +45,10 @@ function Header() {
     btns = (
       <>
         <NavLink
-          to="/"
+          to="/favorites"
           className={classNames(headerStyles.Link)}
         >
-          <FontAwesomeIcon icon={faHeart} />
+          <FavsBtn />
         </NavLink>
         <NavLink
           to="/cart"
