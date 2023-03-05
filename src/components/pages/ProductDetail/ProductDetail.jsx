@@ -1,10 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
-// eslint-disable-next-line max-len
-// import { addCartItem, getCartSelector, deleteItemFromCart } from '../../../redux/slices/cartSlice'
 import { addCartItem, getCartSelector } from '../../../redux/slices/cartSlice'
 import {
   addToFavorites,
@@ -14,7 +13,7 @@ import {
 import { getUserSelector } from '../../../redux/slices/userSlice'
 import { AddReview } from './AddReview/AddReview'
 import { QuantityController } from '../../CommonUI/QuantityController/QuantityController'
-import { UserName } from '../../CommonUI/UserName/UserName'
+// import { UserName } from '../../CommonUI/UserName/UserName'
 import { withQuery } from '../../../HOCs/withQuery'
 import { DeleteProductModal } from '../../Modal/DeleteProductModal/DeleteProductModal'
 import { EditProductModal } from '../../Modal/EditProductModal/EditProductModal'
@@ -37,6 +36,18 @@ function ProductDetailInner({ product, id, token }) {
   const queryClient = useQueryClient()
 
   const {
+    data: reviews,
+    isError: reviewsIsError,
+    error: reviewsError,
+  } = useQuery({
+    queryKey: ['reviews', id],
+    queryFn: () => dogFoodApi.getReviewByProductId(id, token),
+    enabled: !!id,
+  })
+  if (reviewsIsError) console.log('Произошла ошибка при загрузке отзывов ', reviewsError)
+  console.log({ reviews })
+
+  const {
     mutateAsync: deleteReviewByIdMutateAsync,
     isError: deleteReviewByIdIsError,
     error: deleteReviewByIdError,
@@ -47,7 +58,7 @@ function ProductDetailInner({ product, id, token }) {
   // eslint-disable-next-line max-len
   if (deleteReviewByIdIsError) console.log('Произошла ошибка при удалении отзыва', deleteReviewByIdError)
   if (deleteReviewByIdIsSuccess) {
-    queryClient.invalidateQueries(['productId'])
+    queryClient.invalidateQueries(['reviews'])
   }
 
   const deleteReviewHandler = async (reviewId) => {
@@ -195,10 +206,10 @@ function ProductDetailInner({ product, id, token }) {
         <div className={ProductDetailStyles.reviewsWr}>
           <hr />
           <h3>Все отзывы</h3>
-          {product.reviews.map(({ _id: reviewId, ...review }) => (
+          {reviews && reviews.map(({ _id: reviewId, ...review }) => (
             <div key={reviewId} className={ProductDetailStyles.review}>
               <p className={ProductDetailStyles.reviewAuthor}>
-                <UserName id={review.author} />
+                {review.author.name}
               </p>
               <div className={ProductDetailStyles.reviewInfo}>
                 <p className={ProductDetailStyles.reviewDate}>
@@ -213,7 +224,7 @@ function ProductDetailInner({ product, id, token }) {
               <p className={ProductDetailStyles.reviewText}>
                 {review.text}
               </p>
-              {review.author === user.id
+              {review.author._id === user.id
                 ? (
                   <DangerButton
                     btnName="Удалить отзыв"
@@ -249,7 +260,6 @@ function ProductDetail() {
   const navigate = useNavigate()
   useEffect(() => {
     if (!token) {
-      // console.log('Redirecting to SignIn page')
       navigate('/signin')
     }
   })

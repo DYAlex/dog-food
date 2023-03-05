@@ -20,7 +20,7 @@ function AddReviewInner({ mutateAsync, isLoading }) {
 
   const submitHandler = async (values) => {
     await mutateAsync(values)
-    queryClient.invalidateQueries(['productId'])
+    queryClient.invalidateQueries(['reviews'])
   }
 
   return (
