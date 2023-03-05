@@ -24,9 +24,10 @@ import {
 } from './utils/functions'
 import { DeleteCheckedModal } from '../../Modal/DeleteCheckedModal/DeleteCheckedModal'
 import { ActionButton } from '../../CommonUI/Buttons/ActionButton'
+import { ErrorItem } from '../../CommonUI/ErrorItem/ErrorItem'
 
 function CartPageInner({
-  cart, products,
+  cart, products, notFoundIds = null,
 }) {
   // eslint-disable-next-line max-len
   // console.log('cart, products', JSON.parse(JSON.stringify(cart)), JSON.parse(JSON.stringify(products)))
@@ -102,6 +103,16 @@ function CartPageInner({
                 product={restProduct}
               />
             ))}
+            {notFoundIds?.length
+              ? notFoundIds.map((id) => (
+                <ErrorItem
+                  key={id}
+                  id={id}
+                  // eslint-disable-next-line react/jsx-boolean-value
+                  isCartItem={true}
+                />
+              ))
+              : null}
           </div>
         </div>
         <div className={CartPageStyles.cartTotals}>
@@ -173,6 +184,7 @@ function CartPage() {
     isError,
     error,
     isLoading,
+    isSuccess,
     refetch,
   } = useQuery({
     queryKey: ['cart', ids, token],
@@ -184,7 +196,7 @@ function CartPage() {
   // eslint-disable-next-line max-len, no-underscore-dangle
   const productsFiltered = products && products.filter((productFromServer) => ids.includes(productFromServer._id))
 
-  if (!products?.length) {
+  if (!ids?.length) {
     return (
       <div className={CartPageStyles.CartPage}>
         <h1 className={CartPageStyles.header}>Корзина</h1>
@@ -197,10 +209,34 @@ function CartPage() {
     )
   }
 
-  if (ids.length === productsFiltered.length) {
+  if (isSuccess && ids.length > productsFiltered.length) {
+    // eslint-disable-next-line max-len, no-underscore-dangle
+    const notFoundIds = ids.filter((cartId) => !productsFiltered.find((product) => cartId === product._id))
+    const cartFiltered = {}
+    ids.map((id) => {
+      if (!notFoundIds.includes(id)) {
+        return Object.assign(cartFiltered, { [id]: cart[id] })
+      }
+      return null
+    })
+
     return (
       <CartPageInnerWithQuery
-        products={products}
+        products={productsFiltered}
+        isError={isError}
+        isLoading={isLoading}
+        error={error}
+        refetch={refetch}
+        cart={cartFiltered}
+        notFoundIds={notFoundIds}
+      />
+    )
+  }
+
+  if (isSuccess && ids.length === productsFiltered.length) {
+    return (
+      <CartPageInnerWithQuery
+        products={productsFiltered}
         isError={isError}
         isLoading={isLoading}
         error={error}

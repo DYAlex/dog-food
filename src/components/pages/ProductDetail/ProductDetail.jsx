@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { dogFoodApi } from '../../../api/DogFoodApi'
+// eslint-disable-next-line max-len
+// import { addCartItem, getCartSelector, deleteItemFromCart } from '../../../redux/slices/cartSlice'
 import { addCartItem, getCartSelector } from '../../../redux/slices/cartSlice'
 import {
   addToFavorites,
@@ -79,6 +81,15 @@ function ProductDetailInner({ product, id, token }) {
   }
 
   const deleteProductByIdHandler = () => {
+    // if (isFavorite) {
+    //   console.log('Removing from favs before deleting product')
+    //   setIsFavorite(() => !isFavorite)
+    //   dispatch(removeFromFavorites(id))
+    // }
+    // if (cart[id]) {
+    //   console.log('Removing from cart before deleting product')
+    //   dispatch(deleteItemFromCart(id))
+    // }
     deleteProductByIdMutateAsync(id)
     closeDeleteProductModalHandler()
     navigate('/products')

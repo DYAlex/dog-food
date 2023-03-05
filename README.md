@@ -105,6 +105,7 @@ API предоставлен обучающей организацией
 + [DONE] При редактировании товара в консоли появляется предупреждение: Warning: Cannot update a component (`ProductDetailInner`) while rendering a different component (`EditProductModal`). To locate the bad setState() call inside `EditProductModal`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
     at EditProductModal (http://localhost:3000/dog-food/static/js/bundle.js:4315:5)
 + [DONE] При редактировании информации и аватара в консоли появляется предупреждение: Warning: Cannot update a component... В лучших традициях закрытия модального окна по действию.  
++ [DONE] При удалении карточки товара, находящегося у пользователя в корзине или в избранном, страницы корзины и избранного перестают отображаться. Для решения проблемы был переработан механизм рендеринга в компонентах Cart и Favorites, в них добавлены дополнительные проверки и введен новый компонент ErrorItem, который рендерит карточку удаленного товара и отображает кнопки, дающие возможность пользователям удалить такой товар из своих корзин и избранного. 
 
 ## Известные баги
 

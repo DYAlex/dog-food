@@ -62,3 +62,12 @@
     cursor: pointer;
     color: #333;
 }
+
+.errorItems {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #eeeeee;
+    height: fit-content;
+}

@@ -1,0 +1,80 @@
+.card {
+    /* width: 80%; */
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    margin: 2rem auto;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    align-items: flex-start;
+}
+
+.imageWr {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageWr img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 3 / 3;
+}
+
+.btnWr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cardContent {
+    padding: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.weight {
+    font-size: 0.5rem;
+    color: #777;
+}
+
+.name {
+    /* font-size: 0.8rem; */
+    font-weight: 600;
+}
+
+.Link {
+    text-decoration: none;
+    color: #333;
+}
+
+.Link:hover {
+    color: rgb(255, 236, 113);
+}
+
+.priceFull {
+    text-decoration: line-through;
+    color: #777;
+    font-weight: 400;
+}
+
+.quantityControllerWr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.id {
+    font-size: 0.7rem;
+    color: #777;
+}

@@ -8,9 +8,10 @@ import { withQuery } from '../../../HOCs/withQuery'
 import FavoritesItem from './FavoritesItem/FavoritesItem'
 import FavoritesPageStyles from './Favorites.module.css'
 import { getFavoritesSelector } from '../../../redux/slices/favoritesSlice'
+import { ErrorItem } from '../../CommonUI/ErrorItem/ErrorItem'
 
 function FavoritesPageInner({
-  products,
+  products, notFoundIds = null,
 }) {
   return (
     <div className={FavoritesPageStyles.CartPage}>
@@ -25,6 +26,16 @@ function FavoritesPageInner({
                 product={restProduct}
               />
             ))}
+            {notFoundIds?.length
+              ? notFoundIds.map((id) => (
+                <ErrorItem
+                  key={id}
+                  id={id}
+                  // eslint-disable-next-line react/jsx-boolean-value
+                  isFavorite={true}
+                />
+              ))
+              : null}
           </div>
         </div>
       </div>
@@ -51,6 +62,7 @@ function FavoritesPage() {
     isError,
     error,
     isLoading,
+    isSuccess,
     refetch,
   } = useQuery({
     queryKey: ['favorites', ids, token],
@@ -59,10 +71,7 @@ function FavoritesPage() {
     keepPreviousData: true,
   })
 
-  // eslint-disable-next-line max-len, no-underscore-dangle
-  const productsFiltered = products && products.filter((productFromServer) => ids.includes(productFromServer._id))
-
-  if (!products?.length) {
+  if (!ids?.length) {
     return (
       <div className={FavoritesPageStyles.CartPage}>
         <h1 className={FavoritesPageStyles.header}>Избранное</h1>
@@ -75,10 +84,29 @@ function FavoritesPage() {
     )
   }
 
-  if (ids.length === productsFiltered.length) {
+  // eslint-disable-next-line max-len, no-underscore-dangle
+  const productsFiltered = products && products.filter((productFromServer) => ids.includes(productFromServer._id))
+
+  if (isSuccess && ids.length > productsFiltered.length) {
+    // eslint-disable-next-line max-len, no-underscore-dangle
+    const notFoundIds = ids.filter((favoriteId) => !productsFiltered.find((product) => favoriteId === product._id))
     return (
       <FavoritesPageInnerWithQuery
-        products={products}
+        products={productsFiltered}
+        isError={isError}
+        isLoading={isLoading}
+        error={error}
+        refetch={refetch}
+        favorites={favorites}
+        notFoundIds={notFoundIds}
+      />
+    )
+  }
+
+  if (isSuccess && ids.length === productsFiltered.length) {
+    return (
+      <FavoritesPageInnerWithQuery
+        products={productsFiltered}
         isError={isError}
         isLoading={isLoading}
         error={error}

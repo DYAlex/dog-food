@@ -10,20 +10,6 @@ class DogFoodApi {
 
   async checkToken(token) {
     if (!token) throw new Error('Отсутствует токен')
-
-    const res = await fetch(`${this.baseUrl}/v2/sm9/users/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: this.getAuthorizationHeader(token),
-      },
-    })
-
-    if (res.status === 400) {
-      throw new Error('Токен не передан или передан не в том формате')
-    }
-    if (res.status === 401) {
-      throw new Error('Переданный токен некорректен')
-    }
   }
 
   async signIn(values) {
@@ -233,7 +219,10 @@ class DogFoodApi {
           authorization: this.getAuthorizationHeader(token),
         },
       })
-        .then((res) => res.json()),
+        // eslint-disable-next-line arrow-body-style
+        .then((res) => {
+          return res.json()
+        }),
     ))
   }
 
